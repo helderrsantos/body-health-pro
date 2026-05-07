@@ -14,7 +14,7 @@ export function ClientRegistrationPage() {
             type="button"
             variant="ghost"
             onClick={() => navigate('/admin')}
-            className="sm:self-start p-2 h-12 w-12 hover:bg-opacity-20 shrink-0 flex justify-start"
+            className="sm:self-start p-2 h-10 w-12 hover:bg-opacity-20 shrink-0 flex justify-start"
           >
              <span className="text-[#a9ff2e] text-2xl group-hover:translate-x-1 transition-transform ">
                 ←

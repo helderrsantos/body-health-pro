@@ -135,7 +135,7 @@ export function ClientDetailPage() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <Button variant="ghost" onClick={() => navigate('/admin')} className="text-[#a9ff2e] flex justify-start h-12">
+          <Button variant="ghost" onClick={() => navigate('/admin')} className="text-[#a9ff2e] flex justify-start h-10">
             ← Voltar
           </Button>
           <div className="text-center flex-1">
@@ -154,7 +154,7 @@ export function ClientDetailPage() {
               Dados do Cliente
             </h2>
             {!isEditing ? (
-              <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(true)} className='h-12'>
+              <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(true)} className='h-10'>
                 Editar Dados
               </Button>
             ) : null}
@@ -217,12 +217,14 @@ export function ClientDetailPage() {
                   isLoading={isSaving}
                   loadingText="Salvando..."
                   showLoadingText
+                  className='h-10'
                 >
                   Salvar
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
+                   className='h-10'
                   onClick={() => {
                     setIsEditing(false)
                     setSaveError(null)

@@ -198,7 +198,7 @@ export function EvaluationHistory({
                       size="sm"
                       variant="outline"
                       onClick={() => onEdit(avaliacao)}
-                      className="h-12"
+                      className="h-10"
                     >
                       <Edit2 className="w-4 h-4 mr-1" />
                       Editar
@@ -211,7 +211,7 @@ export function EvaluationHistory({
                       disabled={isDeleting && deletingId === avaliacao.id}
                       isLoading={isDeleting && deletingId === avaliacao.id}
                       showLoadingText={false}
-                      className="h-12"
+                      className="h-10"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
@@ -238,7 +238,7 @@ export function EvaluationHistory({
                 size="sm"
                 onClick={handleGeneratePDF}
                 disabled={selectedIds.size === 0}
-                className="w-full sm:flex-1 h-12"
+                className="w-full sm:flex-1 h-10"
               >
                 <FileText className="w-4 h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">Gerar PDF</span>
@@ -250,7 +250,7 @@ export function EvaluationHistory({
                 variant="outline"
                 onClick={handleCompareEvaluations}
                 disabled={selectedIds.size !== 2}
-                className="w-full sm:flex-1 h-12"
+                className="w-full sm:flex-1 h-10"
                 title={
                   selectedIds.size !== 2 ? 'Selecione exatamente 2 avaliações para comparar' : undefined
                 }

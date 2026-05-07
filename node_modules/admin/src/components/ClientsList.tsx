@@ -76,7 +76,7 @@ function ClientCardItem({
         <Button
           type="button"
           variant="destructive"
-          className="h-12"
+          className="h-10"
           onClick={(e) => {
             e.stopPropagation()
             onDelete()
@@ -125,8 +125,8 @@ export function ClientsList({ refreshToken }: Readonly<ClientsListProps>) {
           onChange={(event) => setQueryInput(event.target.value)}
           className="w-full"
         />
-        <Button type="submit" className="h-12 w-full sm:w-auto">Buscar</Button>
-        <Button type="button" variant="outline" onClick={handleClearSearch} className="h-12 w-full sm:w-auto">
+        <Button type="submit" className="h-10 w-full sm:w-auto">Buscar</Button>
+        <Button type="button" variant="outline" onClick={handleClearSearch} className="h-10 w-full sm:w-auto">
           Limpar busca
         </Button>
       </form>
@@ -158,7 +158,7 @@ export function ClientsList({ refreshToken }: Readonly<ClientsListProps>) {
             <Button
               type="button"
               variant="outline"
-              className="h-12 px-2 sm:px-4 text-xs sm:text-sm"
+              className="h-10 px-2 sm:px-4 text-xs sm:text-sm"
               onClick={handlePreviousPage}
               disabled={page <= 1}
             >
@@ -170,7 +170,7 @@ export function ClientsList({ refreshToken }: Readonly<ClientsListProps>) {
             <Button
               type="button"
               variant="outline"
-              className="h-12 px-2 sm:px-4 text-xs sm:text-sm"
+              className="h-10 px-2 sm:px-4 text-xs sm:text-sm"
               onClick={handleNextPage}
               disabled={page >= totalPages}
             >

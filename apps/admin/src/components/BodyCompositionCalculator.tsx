@@ -279,11 +279,11 @@ export function BodyCompositionCalculator({
             isLoading={isSavingAvaliacao}
             loadingText="Salvando..."
             showLoadingText
-            className='h-12'
+            className='h-10'
           >
             Calcular e Salvar
           </Button>
-          <Button type="button" variant="outline" onClick={handleClear} className='h-12'>
+          <Button type="button" variant="outline" onClick={handleClear} className='h-10'>
             Limpar
           </Button>
         </div>

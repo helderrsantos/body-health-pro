@@ -101,7 +101,7 @@ export function InputWrapper({ children, className, invalid, disabled }: Readonl
   return (
     <div
       className={cn(
-        "relative flex min-h-12 w-full items-center gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm transition-colors",
+        "relative flex min-h-10 w-full items-center gap-2 rounded-md border border-input bg-background px-4 py-3 text-sm transition-colors",
         "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/30",
         "aria-[invalid=true]:border-destructive aria-[invalid=true]:ring-3 aria-[invalid=true]:ring-destructive/20",
         "aria-disabled:cursor-not-allowed aria-disabled:opacity-60",

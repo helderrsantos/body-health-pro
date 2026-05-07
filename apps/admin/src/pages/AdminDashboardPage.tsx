@@ -20,7 +20,7 @@ export function AdminDashboardPage() {
             Gerenciar clientes e suas avaliações de composição corporal.
           </p>
           <div className="flex gap-3 mt-3">
-            <Button type="button" variant="outline" onClick={() => void logout()} className="h-12">
+            <Button type="button" variant="outline" onClick={() => void logout()} className="h-10">
               Sair
             </Button>
           </div>

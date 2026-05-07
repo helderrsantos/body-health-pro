@@ -70,7 +70,7 @@ export function ClientRegistrationForm({ onClientCreated }: Readonly<ClientRegis
             isLoading={isSubmitting || isCreating}
             loadingText="Salvando..."
             showLoadingText
-            className="h-12 flex-1"
+            className="h-10 flex-1"
           >
             Cadastrar cliente
           </Button>

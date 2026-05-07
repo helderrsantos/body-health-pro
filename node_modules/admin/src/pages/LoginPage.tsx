@@ -142,10 +142,10 @@ export function LoginPage() {
               ) : null}
 
               <div className="col-span-2 flex flex-col gap-4 sm:gap-4 mt-2">
-                <Button type="submit" isLoading={isSubmitting} loadingText="Entrando..." showLoadingText className="w-full h-12">
+                <Button type="submit" isLoading={isSubmitting} loadingText="Entrando..." showLoadingText className="w-full h-10">
                   Entrar
                 </Button>
-                <Button type="button" variant="outline" onClick={() => void handleGoogleSignIn()} className="w-full h-12">
+                <Button type="button" variant="outline" onClick={() => void handleGoogleSignIn()} className="w-full h-10">
                   Continuar com Google
                 </Button>
               </div>
@@ -241,7 +241,7 @@ export function LoginPage() {
               ) : null}
 
               <div className="col-span-2 flex flex-col gap-3 mt-2">
-                <Button type="submit" isLoading={isSubmitting} loadingText="Criando..." showLoadingText className="w-full h-12">
+                <Button type="submit" isLoading={isSubmitting} loadingText="Criando..." showLoadingText className="w-full h-10">
                   Criar Conta
                 </Button>
               </div>
