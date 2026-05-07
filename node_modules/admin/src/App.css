@@ -1,0 +1,132 @@
+/* App.css - Global Custom Styles for Complex Effects */
+
+html {
+  scrollbar-gutter: stable;
+}
+
+.collapsible-content {
+  overflow: hidden;
+}
+
+.collapsible-content[data-state='open'] {
+  animation: collapsible-down 260ms ease-out;
+}
+
+.collapsible-content[data-state='closed'] {
+  animation: collapsible-up 220ms ease-in;
+}
+
+@keyframes collapsible-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes collapsible-up {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+  }
+
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+/* Bebas Neue font adjustments */
+.font-bebas {
+  letter-spacing: -0.02em; /* Bebas Neue looks better with tighter letter spacing */
+}
+
+/* Complex gradients and shadows that can't be done cleanly with Tailwind arbitrary values */
+.card {
+  background: linear-gradient(180deg, rgba(6, 12, 8, 0.96), rgba(3, 8, 5, 0.94));
+  border: 1px solid rgba(169, 255, 46, 0.42);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 0 0 1px rgba(169, 255, 46, 0.14) inset,
+    0 26px 60px rgba(0, 0, 0, 0.65),
+    0 0 46px rgba(169, 255, 46, 0.26);
+  padding: 1.75rem;
+  overflow: hidden;
+  width: min(920px, 100%);
+}
+
+/* Input field styling with focus effects */
+.field-input {
+  border-color: rgb(169 255 46 / 0.5);
+}
+
+.field-input:focus {
+  box-shadow: 0 0 0 4px rgba(169, 255, 46, 0.2);
+  outline: 2px solid rgba(169, 255, 46, 0.95);
+  outline-offset: 1px;
+}
+
+.field-input:invalid {
+  border-color: #ff4f4f;
+  background: rgba(45, 10, 10, 0.65);
+}
+
+/* Client item card styling */
+.clients-item {
+  box-shadow: 0 0 20px rgba(169, 255, 46, 0.09);
+  border-color: rgba(169, 255, 46, 0.26);
+}
+
+.todos h2 {
+  margin: 0 0 10px;
+  color: #173a2b;
+}
+
+.todos ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.todos li {
+  margin-bottom: 6px;
+}
+
+.todos-error {
+  color: #b62924;
+}
+
+@media (max-width: 760px) {
+  .card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-form {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .clients-search {
+    flex-direction: column;
+  }
+
+  .clients-pagination {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button {
+    width: 100%;
+  }
+}
