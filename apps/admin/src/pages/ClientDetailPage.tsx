@@ -114,6 +114,11 @@ export function ClientDetailPage() {
     calculatorSection?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  function handleCompareAvaliacoes(avaliacaoIds: number[]) {
+    if (!numericClientId || avaliacaoIds.length !== 2) return
+    navigate(`/admin/cliente/${numericClientId}/comparativo?ids=${avaliacaoIds.join(',')}`)
+  }
+
   if (!numericClientId) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -257,6 +262,7 @@ export function ClientDetailPage() {
               avaliacoes={avaliacoes}
               onEdit={handleEditAvaliacao}
               onDelete={handleDeleteAvaliacao}
+              onCompare={handleCompareAvaliacoes}
               isDeleting={isDeleting}
               deletingId={deletingAvaliacaoId ?? undefined}
             />

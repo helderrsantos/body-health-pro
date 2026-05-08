@@ -4,6 +4,7 @@ import { RequireRole } from '@/components/auth/RequireRole'
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
 import { ClientDetailPage } from '@/pages/ClientDetailPage'
+import { EvaluationComparisonPage } from '@/pages/EvaluationComparisonPage'
 import { ClientRegistrationPage } from '@/pages/ClientRegistrationPage'
 import { LoginPage } from '@/pages/LoginPage'
 import './App.css'
@@ -39,6 +40,16 @@ function App() {
           <RequireAuth>
             <RequireRole role="admin">
               <ClientDetailPage />
+            </RequireRole>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/cliente/:clienteId/comparativo"
+        element={
+          <RequireAuth>
+            <RequireRole role="admin">
+              <EvaluationComparisonPage />
             </RequireRole>
           </RequireAuth>
         }

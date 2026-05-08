@@ -1,0 +1,38 @@
+node_modules
+
+# Environment files (all apps/packages)
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+!*.env.example
+!**/.env.example
+!**/*.env.example
+
+# Local-only config overrides
+*.local
+.envrc
+.direnv/
+
+# Secrets and credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+id_rsa
+id_rsa.pub
+*.ovpn
+*.kubeconfig
+*secret*
+*secrets*
+
+# Service/account credentials
+service-account*.json
+firebase-adminsdk*.json
+supabase/.temp/
+supabase/config.toml.local

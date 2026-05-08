@@ -9,6 +9,7 @@ interface EvaluationHistoryProps {
   avaliacoes: Avaliacao[]
   onEdit: (avaliacao: Avaliacao) => void
   onDelete: (avaliacaoId: number) => void
+  onCompare?: (avaliacaoIds: number[]) => void
   isDeleting?: boolean
   deletingId?: number
 }
@@ -34,6 +35,7 @@ export function EvaluationHistory({
   avaliacoes,
   onEdit,
   onDelete,
+  onCompare,
   isDeleting = false,
   deletingId,
 }: Readonly<EvaluationHistoryProps>) {
@@ -68,9 +70,7 @@ export function EvaluationHistory({
 
   function handleCompareEvaluations() {
     if (selectedIds.size !== 2) return
-    // TODO: Implementar comparativo
-    console.log('Comparar avaliações:', Array.from(selectedIds))
-    alert('Funcionalidade de comparativo será implementada em breve')
+    onCompare?.(Array.from(selectedIds))
   }
 
   if (avaliacoes.length === 0) {
