@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ClientsList } from '@/components/ClientsList'
-import { Button } from '@/components/ui/button'
+import { HomeUserMenu } from '@/components/home/HomeUserMenu'
 import { useAuth } from '@/hooks/useAuth'
 import { Plus, Users } from 'lucide-react'
 
@@ -19,11 +19,7 @@ export function AdminDashboardPage() {
           <p className="mt-2 text-gray-400 max-w-prose text-sm">
             Gerenciar clientes e suas avaliações de composição corporal.
           </p>
-          <div className="flex gap-3 mt-3">
-            <Button type="button" variant="outline" onClick={() => void logout()} className="h-10">
-              Sair
-            </Button>
-          </div>
+          <HomeUserMenu onOpenData={() => navigate('/admin/account')} onLogout={logout} />
         </header>
 
         {/* Action Cards */}

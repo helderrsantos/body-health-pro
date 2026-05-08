@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth } from '@/components/auth/RequireAuth'
 import { RequireRole } from '@/components/auth/RequireRole'
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage'
+import { AccountDataPage } from '@/pages/AccountDataPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
 import { ClientDetailPage } from '@/pages/ClientDetailPage'
 import { EvaluationComparisonPage } from '@/pages/EvaluationComparisonPage'
@@ -30,6 +31,16 @@ function App() {
           <RequireAuth>
             <RequireRole role="admin">
               <ClientRegistrationPage />
+            </RequireRole>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/admin/account"
+        element={
+          <RequireAuth>
+            <RequireRole role="admin">
+              <AccountDataPage />
             </RequireRole>
           </RequireAuth>
         }

@@ -25,6 +25,7 @@ interface AuthContextValue {
   signIn: (email: string, password: string) => Promise<void>
   signInGoogle: () => Promise<void>
   logout: () => Promise<void>
+  reloadProfile: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -88,8 +89,9 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
       signIn,
       signInGoogle,
       logout,
+      reloadProfile: loadProfile,
     }),
-    [isLoading, profile, signIn, signInGoogle, logout],
+    [isLoading, profile, signIn, signInGoogle, logout, loadProfile],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
