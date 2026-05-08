@@ -24,7 +24,7 @@ export function ClientRegistrationForm({ onClientCreated }: Readonly<ClientRegis
     defaultValues: {
       nome: '',
       dataNascimento: '',
-      sexo: undefined,
+      sexo: '',
     },
   })
 
@@ -56,10 +56,10 @@ export function ClientRegistrationForm({ onClientCreated }: Readonly<ClientRegis
           type="date"
         />
 
-        <SelectField control={control} name="sexo" label="Sexo">
-            <option value="">Selecione uma opção</option>
-            <option value="masculino">Masculino</option>
-            <option value="feminino">Feminino</option>
+        <SelectField control={control} name="sexo" label="Sexo" className='bg-black p-2 rounded-md text-white' >
+            <option  value="">Selecione uma opção</option>
+            <option className='bg-black' value="masculino">Masculino</option>
+            <option className='bg-black' value="feminino">Feminino</option>
         </SelectField>
 
         {errorMessage ? <small className="text-red-500 text-xs">{errorMessage}</small> : null}

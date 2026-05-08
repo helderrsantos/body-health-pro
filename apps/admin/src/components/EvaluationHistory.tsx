@@ -39,6 +39,7 @@ export function EvaluationHistory({
   isDeleting = false,
   deletingId,
 }: Readonly<EvaluationHistoryProps>) {
+  const MAX_COMPARE_SELECTION = 4
   const [expandedMap, setExpandedMap] = useState<ExpandedStateMap>({})
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
 
@@ -55,6 +56,9 @@ export function EvaluationHistory({
       if (newSet.has(avaliacaoId)) {
         newSet.delete(avaliacaoId)
       } else {
+        if (newSet.size >= MAX_COMPARE_SELECTION) {
+          return prev
+        }
         newSet.add(avaliacaoId)
       }
       return newSet
@@ -69,7 +73,7 @@ export function EvaluationHistory({
   }
 
   function handleCompareEvaluations() {
-    if (selectedIds.size !== 2) return
+    if (selectedIds.size < 2 || selectedIds.size > MAX_COMPARE_SELECTION) return
     onCompare?.(Array.from(selectedIds))
   }
 
@@ -190,6 +194,7 @@ export function EvaluationHistory({
                   {(avaliacao.ombro ||
                     avaliacao.torax ||
                     avaliacao.cintura ||
+                    avaliacao.abdomen ||
                     avaliacao.quadril ||
                     avaliacao.coxaDireita ||
                     avaliacao.coxaEsquerda ||
@@ -220,6 +225,12 @@ export function EvaluationHistory({
                           <div>
                             <p className="text-gray-400 text-xs">Cintura</p>
                             <p className="text-[#d8ffe8] font-semibold">{avaliacao.cintura.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.abdomen && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Abdomen</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.abdomen.toFixed(1)} cm</p>
                           </div>
                         )}
                         {avaliacao.quadril && (
@@ -342,8 +353,8 @@ export function EvaluationHistory({
           <CardContent className="p-0">
             <p className="text-xs sm:text-sm text-gray-400 mb-3 sm:mb-4">
               {selectedIds.size === 0
-                ? 'Selecione avaliações acima para acessar as ações'
-                : `${selectedIds.size} avaliação(ões) selecionada(s)`}
+                ? 'Selecione de 2 a 4 avaliações para abrir o dashboard comparativo'
+                : `${selectedIds.size} avaliação(ões) selecionada(s) - máximo ${MAX_COMPARE_SELECTION}`}
             </p>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Button
@@ -362,10 +373,12 @@ export function EvaluationHistory({
                 size="sm"
                 variant="outline"
                 onClick={handleCompareEvaluations}
-                disabled={selectedIds.size !== 2}
+                disabled={selectedIds.size < 2 || selectedIds.size > MAX_COMPARE_SELECTION}
                 className="w-full sm:flex-1 h-10"
                 title={
-                  selectedIds.size !== 2 ? 'Selecione exatamente 2 avaliações para comparar' : undefined
+                  selectedIds.size < 2 || selectedIds.size > MAX_COMPARE_SELECTION
+                    ? 'Selecione de 2 a 4 avaliações para comparar'
+                    : undefined
                 }
               >
                 <BarChart3 className="w-4 h-4 mr-1 sm:mr-2" />

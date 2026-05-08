@@ -44,6 +44,7 @@ export const composicaoCorporalSchema = z.object({
   ombro: decimalOpcional('Ombro', 500),
   torax: decimalOpcional('Torax', 500),
   cintura: decimalOpcional('Cintura', 500),
+  abdomen: decimalOpcional('Abdomen', 500),
   quadril: decimalOpcional('Quadril', 500),
   coxaDireita: decimalOpcional('Coxa direita', 500),
   coxaEsquerda: decimalOpcional('Coxa esquerda', 500),

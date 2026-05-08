@@ -43,6 +43,7 @@ export interface AvaliacaoData {
   ombro?: number
   torax?: number
   cintura?: number
+  abdomen?: number
   quadril?: number
   coxaDireita?: number
   coxaEsquerda?: number
@@ -92,6 +93,7 @@ export async function createAvaliacao(data: AvaliacaoData): Promise<Avaliacao> {
         ombro: data.ombro ?? null,
         torax: data.torax ?? null,
         cintura: data.cintura ?? null,
+        abdomen: data.abdomen ?? null,
         quadril: data.quadril ?? null,
         coxa_direita: data.coxaDireita ?? null,
         coxa_esquerda: data.coxaEsquerda ?? null,
@@ -132,6 +134,7 @@ export async function createAvaliacao(data: AvaliacaoData): Promise<Avaliacao> {
     ombro: result.ombro ?? undefined,
     torax: result.torax ?? undefined,
     cintura: result.cintura ?? undefined,
+    abdomen: result.abdomen ?? undefined,
     quadril: result.quadril ?? undefined,
     coxaDireita: result.coxa_direita ?? undefined,
     coxaEsquerda: result.coxa_esquerda ?? undefined,
@@ -177,6 +180,7 @@ export async function updateAvaliacao(
       ombro: data.ombro ?? null,
       torax: data.torax ?? null,
       cintura: data.cintura ?? null,
+      abdomen: data.abdomen ?? null,
       quadril: data.quadril ?? null,
       coxa_direita: data.coxaDireita ?? null,
       coxa_esquerda: data.coxaEsquerda ?? null,
@@ -218,6 +222,7 @@ export async function updateAvaliacao(
     ombro: result.ombro ?? undefined,
     torax: result.torax ?? undefined,
     cintura: result.cintura ?? undefined,
+    abdomen: result.abdomen ?? undefined,
     quadril: result.quadril ?? undefined,
     coxaDireita: result.coxa_direita ?? undefined,
     coxaEsquerda: result.coxa_esquerda ?? undefined,
@@ -270,6 +275,7 @@ export async function getAvaliacoesByCliente(clienteId: number): Promise<Avaliac
     ombro: row.ombro ?? undefined,
     torax: row.torax ?? undefined,
     cintura: row.cintura ?? undefined,
+    abdomen: row.abdomen ?? undefined,
     quadril: row.quadril ?? undefined,
     coxaDireita: row.coxa_direita ?? undefined,
     coxaEsquerda: row.coxa_esquerda ?? undefined,
@@ -327,6 +333,7 @@ export async function getLatestAvaliacaoByCliente(clienteId: number): Promise<Av
     ombro: data.ombro ?? undefined,
     torax: data.torax ?? undefined,
     cintura: data.cintura ?? undefined,
+    abdomen: data.abdomen ?? undefined,
     quadril: data.quadril ?? undefined,
     coxaDireita: data.coxa_direita ?? undefined,
     coxaEsquerda: data.coxa_esquerda ?? undefined,

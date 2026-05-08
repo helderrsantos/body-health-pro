@@ -39,6 +39,7 @@ const CAMPOS_MEDIDAS_ORDEM: Array<
   'ombro',
   'torax',
   'cintura',
+  'abdomen',
   'quadril',
   'coxaDireita',
   'coxaEsquerda',
@@ -61,6 +62,7 @@ const CAMPOS_DOBRAS_ORDEM: Array<
     | 'ombro'
     | 'torax'
     | 'cintura'
+    | 'abdomen'
     | 'quadril'
     | 'coxaDireita'
     | 'coxaEsquerda'
@@ -79,6 +81,7 @@ const LABELS_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
   ombro: 'Ombro',
   torax: 'Torax',
   cintura: 'Cintura',
+  abdomen: 'Abdomen',
   quadril: 'Quadril',
   coxaDireita: 'Coxa D',
   coxaEsquerda: 'Coxa E',
@@ -96,6 +99,7 @@ const PLACEHOLDER_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string>
   ombro: 'cm',
   torax: 'cm',
   cintura: 'cm',
+  abdomen: 'cm',
   quadril: 'cm',
   coxaDireita: 'cm',
   coxaEsquerda: 'cm',
@@ -149,6 +153,7 @@ export function BodyCompositionCalculator({
       ombro: '',
       torax: '',
       cintura: '',
+      abdomen: '',
       quadril: '',
       coxaDireita: '',
       coxaEsquerda: '',
@@ -183,6 +188,7 @@ export function BodyCompositionCalculator({
         ombro: toOptionalString(editingAvaliacao.ombro),
         torax: toOptionalString(editingAvaliacao.torax),
         cintura: toOptionalString(editingAvaliacao.cintura),
+        abdomen: toOptionalString(editingAvaliacao.abdomen),
         quadril: toOptionalString(editingAvaliacao.quadril),
         coxaDireita: toOptionalString(editingAvaliacao.coxaDireita),
         coxaEsquerda: toOptionalString(editingAvaliacao.coxaEsquerda),
@@ -278,6 +284,7 @@ export function BodyCompositionCalculator({
           ombro: values.ombro,
           torax: values.torax,
           cintura: values.cintura,
+          abdomen: values.abdomen,
           quadril: values.quadril,
           coxaDireita: values.coxaDireita,
           coxaEsquerda: values.coxaEsquerda,

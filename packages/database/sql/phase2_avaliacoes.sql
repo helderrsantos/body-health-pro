@@ -19,6 +19,8 @@ create table if not exists public.avaliacoes (
   -- Client data at time of assessment
   altura decimal(5, 1) not null check (altura > 0 and altura < 300),
   peso decimal(6, 2) not null check (peso > 0),
+  cintura decimal(6, 2),
+  abdomen decimal(6, 2),
   sexo text not null check (sexo in ('masculino', 'feminino')),
   
   -- Calculated results
@@ -36,6 +38,7 @@ create table if not exists public.avaliacoes (
 -- Indexes for common queries
 create index if not exists idx_avaliacoes_tenant_id on public.avaliacoes(tenant_id);
 create index if not exists idx_avaliacoes_cliente_id on public.avaliacoes(cliente_id);
+create index if not exists idx_avaliacoes_cintura on public.avaliacoes(cintura);
 create index if not exists idx_avaliacoes_data_avaliacao on public.avaliacoes(data_avaliacao);
 create index if not exists idx_avaliacoes_criado_por on public.avaliacoes(criado_por);
 create index if not exists idx_avaliacoes_cliente_data 

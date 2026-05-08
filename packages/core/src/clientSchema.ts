@@ -12,6 +12,8 @@ export type ClientFieldKey =
   | 'triceps'
   | 'altura'
   | 'peso'
+  | 'cintura'
+  | 'abdomen'
   | 'sexo'
 
 export type FieldType = 'decimal' | 'integer' | 'select'
@@ -89,14 +91,28 @@ export const clientSchema: Record<ClientFieldKey, ClientFieldDefinition> = {
     placeholder: 'Ex.: 72.4',
     validate: (value) => validation.positiveDecimal(value, 'Peso corporal'),
   },
+  cintura: {
+    label: 'Cintura (cm)',
+    type: 'decimal',
+    step: '0.1',
+    placeholder: 'Ex.: 79.5',
+    validate: (value) => validation.positiveDecimal(value, 'Cintura'),
+  },
+  abdomen: {
+    label: 'Abdomen (cm)',
+    type: 'decimal',
+    step: '0.1',
+    placeholder: 'Ex.: 82.0',
+    validate: (value) => validation.positiveDecimal(value, 'Abdomen'),
+  },
   sexo: {
-    label: 'Sexo biologico',
+    label: 'Sexo',
     type: 'select',
     placeholder: 'Selecione',
     options: [
       { value: 'masculino', label: 'Masculino' },
       { value: 'feminino', label: 'Feminino' },
     ],
-    validate: (value) => validation.selectRequired(value, 'Sexo biologico'),
+    validate: (value) => validation.selectRequired(value, 'Sexo'),
   },
 }

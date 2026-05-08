@@ -115,7 +115,7 @@ export function ClientDetailPage() {
   }
 
   function handleCompareAvaliacoes(avaliacaoIds: number[]) {
-    if (!numericClientId || avaliacaoIds.length !== 2) return
+    if (!numericClientId || avaliacaoIds.length < 2 || avaliacaoIds.length > 4) return
     navigate(`/admin/cliente/${numericClientId}/comparativo?ids=${avaliacaoIds.join(',')}`)
   }
 
