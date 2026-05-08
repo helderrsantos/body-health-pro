@@ -9,7 +9,7 @@
     "dev:admin": "npm run dev -w admin",
     "dev:client": "npm run dev -w client",
     "dev:site": "npm run dev -w site",
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\""
