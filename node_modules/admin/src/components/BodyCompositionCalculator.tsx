@@ -21,19 +21,93 @@ interface BodyCompositionCalculatorProps {
   onAvaliacaoSaved?: () => void
 }
 
-const CAMPOS_ORDEM: Array<
-  Exclude<keyof FormularioComposicaoCorporalValores, 'dataAvaliacao'>
+const CAMPOS_MEDIDAS_ORDEM: Array<
+  Exclude<
+    keyof FormularioComposicaoCorporalValores,
+    | 'dataAvaliacao'
+    | 'peso'
+    | 'altura'
+    | 'triceps'
+    | 'axilarMedia'
+    | 'subescapular'
+    | 'peitoral'
+    | 'abdominal'
+    | 'suprailiaca'
+    | 'coxa'
+  >
 > = [
-  'peso',
-  'altura',
-  'triceps',
-  'subescapular',
-  'peitoral',
-  'axilarMedia',
-  'suprailiaca',
-  'abdominal',
-  'coxa',
+  'ombro',
+  'torax',
+  'cintura',
+  'quadril',
+  'coxaDireita',
+  'coxaEsquerda',
+  'panturrilhaDireita',
+  'panturrilhaEsquerda',
+  'bracoDireito',
+  'bracoEsquerdo',
+  'antebracoDireito',
+  'antebracoEsquerdo',
+  'punhoDireito',
+  'punhoEsquerdo',
 ]
+
+const CAMPOS_DOBRAS_ORDEM: Array<
+  Exclude<
+    keyof FormularioComposicaoCorporalValores,
+    | 'dataAvaliacao'
+    | 'peso'
+    | 'altura'
+    | 'ombro'
+    | 'torax'
+    | 'cintura'
+    | 'quadril'
+    | 'coxaDireita'
+    | 'coxaEsquerda'
+    | 'panturrilhaDireita'
+    | 'panturrilhaEsquerda'
+    | 'bracoDireito'
+    | 'bracoEsquerdo'
+    | 'antebracoDireito'
+    | 'antebracoEsquerdo'
+    | 'punhoDireito'
+    | 'punhoEsquerdo'
+  >
+> = ['triceps', 'subescapular', 'peitoral', 'axilarMedia', 'suprailiaca', 'abdominal', 'coxa']
+
+const LABELS_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
+  ombro: 'Ombro',
+  torax: 'Torax',
+  cintura: 'Cintura',
+  quadril: 'Quadril',
+  coxaDireita: 'Coxa D',
+  coxaEsquerda: 'Coxa E',
+  panturrilhaDireita: 'Panturrilha D',
+  panturrilhaEsquerda: 'Panturrilha E',
+  bracoDireito: 'Braço D',
+  bracoEsquerdo: 'Braço E',
+  antebracoDireito: 'Antebraco D',
+  antebracoEsquerdo: 'Antebraco E',
+  punhoDireito: 'Punho D',
+  punhoEsquerdo: 'Punho E',
+}
+
+const PLACEHOLDER_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
+  ombro: 'cm',
+  torax: 'cm',
+  cintura: 'cm',
+  quadril: 'cm',
+  coxaDireita: 'cm',
+  coxaEsquerda: 'cm',
+  panturrilhaDireita: 'cm',
+  panturrilhaEsquerda: 'cm',
+  bracoDireito: 'cm',
+  bracoEsquerdo: 'cm',
+  antebracoDireito: 'cm',
+  antebracoEsquerdo: 'cm',
+  punhoDireito: 'cm',
+  punhoEsquerdo: 'cm',
+}
 
 export function BodyCompositionCalculator({
   clienteId,
@@ -72,15 +146,33 @@ export function BodyCompositionCalculator({
       abdominal: '',
       suprailiaca: '',
       coxa: '',
+      ombro: '',
+      torax: '',
+      cintura: '',
+      quadril: '',
+      coxaDireita: '',
+      coxaEsquerda: '',
+      panturrilhaDireita: '',
+      panturrilhaEsquerda: '',
+      bracoDireito: '',
+      bracoEsquerdo: '',
+      antebracoDireito: '',
+      antebracoEsquerdo: '',
+      punhoDireito: '',
+      punhoEsquerdo: '',
     },
   })
+
+  function toOptionalString(value?: number) {
+    return value == null ? '' : value.toString()
+  }
 
   useEffect(() => {
     if (editingAvaliacao) {
       reset({
         dataAvaliacao: editingAvaliacao.dataAvaliacao || new Date().toISOString().split('T')[0],
         peso: editingAvaliacao.peso.toString(),
-        altura: '', // altura não é armazenado nas avaliações
+        altura: toOptionalString(editingAvaliacao.altura),
         triceps: editingAvaliacao.triceps.toString(),
         axilarMedia: editingAvaliacao.axilarMedia.toString(),
         subescapular: editingAvaliacao.subescapular.toString(),
@@ -88,6 +180,20 @@ export function BodyCompositionCalculator({
         abdominal: editingAvaliacao.abdominal.toString(),
         suprailiaca: editingAvaliacao.suprailiaca.toString(),
         coxa: editingAvaliacao.coxa.toString(),
+        ombro: toOptionalString(editingAvaliacao.ombro),
+        torax: toOptionalString(editingAvaliacao.torax),
+        cintura: toOptionalString(editingAvaliacao.cintura),
+        quadril: toOptionalString(editingAvaliacao.quadril),
+        coxaDireita: toOptionalString(editingAvaliacao.coxaDireita),
+        coxaEsquerda: toOptionalString(editingAvaliacao.coxaEsquerda),
+        panturrilhaDireita: toOptionalString(editingAvaliacao.panturrilhaDireita),
+        panturrilhaEsquerda: toOptionalString(editingAvaliacao.panturrilhaEsquerda),
+        bracoDireito: toOptionalString(editingAvaliacao.bracoDireito),
+        bracoEsquerdo: toOptionalString(editingAvaliacao.bracoEsquerdo),
+        antebracoDireito: toOptionalString(editingAvaliacao.antebracoDireito),
+        antebracoEsquerdo: toOptionalString(editingAvaliacao.antebracoEsquerdo),
+        punhoDireito: toOptionalString(editingAvaliacao.punhoDireito),
+        punhoEsquerdo: toOptionalString(editingAvaliacao.punhoEsquerdo),
       })
     }
   }, [editingAvaliacao, reset])
@@ -105,19 +211,6 @@ export function BodyCompositionCalculator({
 
   async function onSubmit(values: FormularioComposicaoCorporalDados) {
     const sexoCalculadora: BodyCompositionSex = clienteSexo === 'feminino' ? 'feminino' : 'masculino'
-
-    // Log values for debugging
-    console.log('Valores do formulário:', {
-      peso: values.peso,
-      altura: values.altura,
-      triceps: values.triceps,
-      peitoral: values.peitoral,
-      abdominal: values.abdominal,
-      coxa: values.coxa,
-      axilarMedia: values.axilarMedia,
-      subescapular: values.subescapular,
-      suprailiaca: values.suprailiaca,
-    })
 
     const calculo = calculateBodyComposition({
       peso: values.peso,
@@ -138,8 +231,7 @@ export function BodyCompositionCalculator({
       massaGordaKg: calculo.massaGordaKg.toDecimalPlaces(2).toFixed(2),
     }
 
-    // Log calculated values
-    console.log('Resultados calculados:', novoResultado)
+
 
     // Validate calculated values before saving
     const massaMagraNum = Number.parseFloat(novoResultado.massaMagraKg)
@@ -147,17 +239,14 @@ export function BodyCompositionCalculator({
     const percentualGorduraNum = Number.parseFloat(novoResultado.percentualGordura)
 
     if (!Number.isFinite(massaMagraNum) || massaMagraNum > 9999.99) {
-      console.error('Massa magra inválida:', massaMagraNum)
       alert(`Erro: Massa magra calculada (${massaMagraNum}) é inválida. Verifique os dados inseridos (especialmente altura e peso).`)
       return
     }
     if (!Number.isFinite(massaGorduraNum) || massaGorduraNum > 9999.99) {
-      console.error('Massa gordura inválida:', massaGorduraNum)
       alert(`Erro: Massa de gordura calculada (${massaGorduraNum}) é inválida. Verifique os dados inseridos.`)
       return
     }
     if (!Number.isFinite(percentualGorduraNum) || percentualGorduraNum > 999.99) {
-      console.error('Percentual gordura inválido:', percentualGorduraNum)
       alert(`Erro: Percentual de gordura calculado (${percentualGorduraNum}%) é inválido. Verifique os dados inseridos.`)
       return
     }
@@ -180,11 +269,26 @@ export function BodyCompositionCalculator({
           abdominal: values.abdominal,
           suprailiaca: values.suprailiaca,
           coxa: values.coxa,
+          altura: values.altura,
           sexo: (clienteSexo || 'masculino') as 'masculino' | 'feminino',
           percentualGordura: Number.parseFloat(novoResultado.percentualGordura),
           massaMagraKg: Number.parseFloat(novoResultado.massaMagraKg),
           massaGorduraKg: Number.parseFloat(novoResultado.massaGordaKg),
           dataAvaliacao: values.dataAvaliacao,
+          ombro: values.ombro,
+          torax: values.torax,
+          cintura: values.cintura,
+          quadril: values.quadril,
+          coxaDireita: values.coxaDireita,
+          coxaEsquerda: values.coxaEsquerda,
+          panturrilhaDireita: values.panturrilhaDireita,
+          panturrilhaEsquerda: values.panturrilhaEsquerda,
+          bracoDireito: values.bracoDireito,
+          bracoEsquerdo: values.bracoEsquerdo,
+          antebracoDireito: values.antebracoDireito,
+          antebracoEsquerdo: values.antebracoEsquerdo,
+          punhoDireito: values.punhoDireito,
+          punhoEsquerdo: values.punhoEsquerdo,
         }
 
         // Final validation before sending
@@ -211,7 +315,6 @@ export function BodyCompositionCalculator({
         }
         onAvaliacaoSaved?.()
       } catch (error) {
-        console.error('Erro ao salvar avaliação:', error)
         const errorMessage = error instanceof Error ? error.message : 'Erro ao salvar avaliação. Tente novamente.'
         alert(errorMessage)
       } finally {
@@ -254,7 +357,7 @@ export function BodyCompositionCalculator({
           containerClassName="col-span-1 md:col-span-2"
         />
 
-        {CAMPOS_ORDEM.map((campo) => {
+        {(['peso', 'altura'] as const).map((campo) => {
           const definicaoCampo = clientSchema[campo]
 
           return (
@@ -271,6 +374,50 @@ export function BodyCompositionCalculator({
             />
           )
         })}
+
+        <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-[#d8ffe8]">Medidas (opcional)</h3>
+            <div className="grid grid-cols-1 gap-3">
+              {CAMPOS_MEDIDAS_ORDEM.map((campo) => (
+                <NumberInputField<
+                  FormularioComposicaoCorporalValores,
+                  undefined,
+                  FormularioComposicaoCorporalDados
+                >
+                  key={campo}
+                  control={control}
+                  name={campo}
+                  label={LABELS_MEDIDAS[campo]}
+                  placeholder={PLACEHOLDER_MEDIDAS[campo]}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-[#d8ffe8]">Dobras cutâneas</h3>
+            <div className="grid grid-cols-1 gap-3">
+              {CAMPOS_DOBRAS_ORDEM.map((campo) => {
+                const definicaoCampo = clientSchema[campo]
+
+                return (
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    key={campo}
+                    control={control}
+                    name={campo}
+                    label={definicaoCampo.label}
+                    placeholder={definicaoCampo.placeholder}
+                  />
+                )
+              })}
+            </div>
+          </div>
+        </div>
 
         <div className="col-span-1 md:col-span-2 flex flex-col md:flex-row gap-2 md:gap-3 mt-2">
           <Button

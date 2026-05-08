@@ -80,7 +80,7 @@ create policy cliente_view_own_avaliacoes on public.avaliacoes
 create or replace function public.get_latest_avaliacao(cliente_id_param bigint)
 returns public.avaliacoes
 language sql
-security definer
+stable
 set search_path = public
 as $$
   select *
@@ -103,7 +103,7 @@ returns table (
   dias_desde_anterior int
 )
 language sql
-security definer
+stable
 set search_path = public
 as $$
   with avaliacao_data as (

@@ -135,49 +135,162 @@ export function EvaluationHistory({
               {/* Expanded View */}
               {isExpanded && (
                 <CardContent className="border-t border-[rgba(169,255,46,0.2)] bg-[rgba(0,0,0,0.3)]">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 text-sm">
-                    {/* Left Column */}
-                    <div className="space-y-2">
-                      <div>
-                        <p className="text-gray-400 text-xs">Peso</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.peso.toFixed(2)} kg</p>
+                  <div className="mb-4 pb-4 border-b border-[rgba(169,255,46,0.2)]">
+                    <p className="text-[#a9ff2e] text-xs font-semibold mb-3 uppercase">Dobras Cutâneas (mm)</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-sm">
+                      {/* Left Column */}
+                      <div className="space-y-2">
+                        <div>
+                          <p className="text-gray-400 text-xs">Peso</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.peso.toFixed(2)} kg</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Peitoral</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.peitoral.toFixed(1)} mm</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Abdominal</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.abdominal.toFixed(1)} mm</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Coxa</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.coxa.toFixed(1)} mm</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Peitoral</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.peitoral.toFixed(1)} mm</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Abdominal</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.abdominal.toFixed(1)} mm</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Coxa</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.coxa.toFixed(1)} mm</p>
-                      </div>
-                    </div>
 
-                    {/* Right Column */}
-                    <div className="space-y-2">
-                      <div>
-                        <p className="text-gray-400 text-xs">Axilar Média</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.axilarMedia.toFixed(1)} mm</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Subescapular</p>
-                        <p className="text-[#d8ffe8] font-semibold">
-                          {avaliacao.subescapular.toFixed(1)} mm
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Suprailíaca</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.suprailiaca.toFixed(1)} mm</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-400 text-xs">Tríceps</p>
-                        <p className="text-[#d8ffe8] font-semibold">{avaliacao.triceps.toFixed(1)} mm</p>
+                      {/* Right Column */}
+                      <div className="space-y-2">
+                        <div>
+                          <p className="text-gray-400 text-xs">Altura</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.altura ? `${avaliacao.altura.toFixed(1)} cm` : 'N/A'}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Axilar Média</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.axilarMedia.toFixed(1)} mm</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Subescapular</p>
+                          <p className="text-[#d8ffe8] font-semibold">
+                            {avaliacao.subescapular.toFixed(1)} mm
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Suprailíaca</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.suprailiaca.toFixed(1)} mm</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-400 text-xs">Tríceps</p>
+                          <p className="text-[#d8ffe8] font-semibold">{avaliacao.triceps.toFixed(1)} mm</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Medidas em cm */}
+                  {(avaliacao.ombro ||
+                    avaliacao.torax ||
+                    avaliacao.cintura ||
+                    avaliacao.quadril ||
+                    avaliacao.coxaDireita ||
+                    avaliacao.coxaEsquerda ||
+                    avaliacao.panturrilhaDireita ||
+                    avaliacao.panturrilhaEsquerda ||
+                    avaliacao.bracoDireito ||
+                    avaliacao.bracoEsquerdo ||
+                    avaliacao.antebracoDireito ||
+                    avaliacao.antebracoEsquerdo ||
+                    avaliacao.punhoDireito ||
+                    avaliacao.punhoEsquerdo) && (
+                    <div className="mb-4 pb-4 border-b border-[rgba(169,255,46,0.2)]">
+                      <p className="text-[#a9ff2e] text-xs font-semibold mb-3 uppercase">Medidas Antropométricas (cm)</p>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                        {avaliacao.ombro && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Ombro</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.ombro.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.torax && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Torax</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.torax.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.cintura && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Cintura</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.cintura.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.quadril && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Quadril</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.quadril.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.coxaDireita && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Coxa D</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.coxaDireita.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.coxaEsquerda && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Coxa E</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.coxaEsquerda.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.panturrilhaDireita && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Panturrilha D</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.panturrilhaDireita.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.panturrilhaEsquerda && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Panturrilha E</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.panturrilhaEsquerda.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.bracoDireito && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Braço D</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.bracoDireito.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.bracoEsquerdo && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Braço E</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.bracoEsquerdo.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.antebracoDireito && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Antebraço D</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.antebracoDireito.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.antebracoEsquerdo && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Antebraço E</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.antebracoEsquerdo.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.punhoDireito && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Punho D</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.punhoDireito.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                        {avaliacao.punhoEsquerdo && (
+                          <div>
+                            <p className="text-gray-400 text-xs">Punho E</p>
+                            <p className="text-[#d8ffe8] font-semibold">{avaliacao.punhoEsquerdo.toFixed(1)} cm</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Results */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-3 mb-4">

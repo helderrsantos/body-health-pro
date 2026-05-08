@@ -116,7 +116,6 @@ export async function ensureProfileExists(userId: string): Promise<UserProfile> 
 
     // Use RPC to bootstrap profile (bypasses RLS)
     const { data, error } = await supabase.rpc('bootstrap_profile', {
-      user_id: userId,
       nome: nomeAdmin,
       empresa_nome: nomeTenant,
     })

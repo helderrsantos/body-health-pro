@@ -9,7 +9,7 @@ function throwAvaliacaoError(context: string, error: { code?: string; message: s
 
   if (error.code === 'PGRST204') {
     throw new Error(
-      'Estrutura da tabela avaliacoes divergente do app (coluna ausente no banco). Verifique as migracoes aplicadas no Supabase.',
+      "Estrutura da tabela avaliacoes divergente do app (coluna ausente no banco). Verifique as migracoes aplicadas no Supabase, incluindo packages/database/sql/phase3_avaliacoes_medidas.sql.",
     )
   }
 
@@ -33,12 +33,27 @@ export interface AvaliacaoData {
   subescapular: number
   suprailiaca: number
   triceps: number
+  altura?: number
   peso: number
   sexo: 'masculino' | 'feminino'
   percentualGordura: number
   massaMagraKg: number
   massaGorduraKg: number
   dataAvaliacao?: string // ISO date, defaults to today
+  ombro?: number
+  torax?: number
+  cintura?: number
+  quadril?: number
+  coxaDireita?: number
+  coxaEsquerda?: number
+  panturrilhaDireita?: number
+  panturrilhaEsquerda?: number
+  bracoDireito?: number
+  bracoEsquerdo?: number
+  antebracoDireito?: number
+  antebracoEsquerdo?: number
+  punhoDireito?: number
+  punhoEsquerdo?: number
 }
 
 export interface Avaliacao extends AvaliacaoData {
@@ -67,12 +82,27 @@ export async function createAvaliacao(data: AvaliacaoData): Promise<Avaliacao> {
         subescapular: data.subescapular,
         suprailiaca: data.suprailiaca,
         triceps: data.triceps,
+        altura: data.altura ?? null,
         peso: data.peso,
         sexo: data.sexo,
         percentual_gordura: data.percentualGordura,
         massa_magra_kg: data.massaMagraKg,
         massa_gordura_kg: data.massaGorduraKg,
         data_avaliacao: data.dataAvaliacao || new Date().toISOString().split('T')[0],
+        ombro: data.ombro ?? null,
+        torax: data.torax ?? null,
+        cintura: data.cintura ?? null,
+        quadril: data.quadril ?? null,
+        coxa_direita: data.coxaDireita ?? null,
+        coxa_esquerda: data.coxaEsquerda ?? null,
+        panturrilha_direita: data.panturrilhaDireita ?? null,
+        panturrilha_esquerda: data.panturrilhaEsquerda ?? null,
+        braco_direito: data.bracoDireito ?? null,
+        braco_esquerdo: data.bracoEsquerdo ?? null,
+        antebraco_direito: data.antebracoDireito ?? null,
+        antebraco_esquerdo: data.antebracoEsquerdo ?? null,
+        punho_direito: data.punhoDireito ?? null,
+        punho_esquerdo: data.punhoEsquerdo ?? null,
       },
     ])
     .select()
@@ -93,11 +123,26 @@ export async function createAvaliacao(data: AvaliacaoData): Promise<Avaliacao> {
     subescapular: result.subescapular,
     suprailiaca: result.suprailiaca,
     triceps: result.triceps,
+    altura: result.altura ?? undefined,
     peso: result.peso,
     sexo: result.sexo,
     percentualGordura: result.percentual_gordura,
     massaMagraKg: result.massa_magra_kg,
     massaGorduraKg: result.massa_gordura_kg,
+    ombro: result.ombro ?? undefined,
+    torax: result.torax ?? undefined,
+    cintura: result.cintura ?? undefined,
+    quadril: result.quadril ?? undefined,
+    coxaDireita: result.coxa_direita ?? undefined,
+    coxaEsquerda: result.coxa_esquerda ?? undefined,
+    panturrilhaDireita: result.panturrilha_direita ?? undefined,
+    panturrilhaEsquerda: result.panturrilha_esquerda ?? undefined,
+    bracoDireito: result.braco_direito ?? undefined,
+    bracoEsquerdo: result.braco_esquerdo ?? undefined,
+    antebracoDireito: result.antebraco_direito ?? undefined,
+    antebracoEsquerdo: result.antebraco_esquerdo ?? undefined,
+    punhoDireito: result.punho_direito ?? undefined,
+    punhoEsquerdo: result.punho_esquerdo ?? undefined,
     criadoPor: result.criado_por,
     createdAt: result.created_at,
     updatedAt: result.updated_at,
@@ -122,12 +167,27 @@ export async function updateAvaliacao(
       subescapular: data.subescapular,
       suprailiaca: data.suprailiaca,
       triceps: data.triceps,
+      altura: data.altura ?? null,
       peso: data.peso,
       sexo: data.sexo,
       percentual_gordura: data.percentualGordura,
       massa_magra_kg: data.massaMagraKg,
       massa_gordura_kg: data.massaGorduraKg,
       data_avaliacao: data.dataAvaliacao || new Date().toISOString().split('T')[0],
+      ombro: data.ombro ?? null,
+      torax: data.torax ?? null,
+      cintura: data.cintura ?? null,
+      quadril: data.quadril ?? null,
+      coxa_direita: data.coxaDireita ?? null,
+      coxa_esquerda: data.coxaEsquerda ?? null,
+      panturrilha_direita: data.panturrilhaDireita ?? null,
+      panturrilha_esquerda: data.panturrilhaEsquerda ?? null,
+      braco_direito: data.bracoDireito ?? null,
+      braco_esquerdo: data.bracoEsquerdo ?? null,
+      antebraco_direito: data.antebracoDireito ?? null,
+      antebraco_esquerdo: data.antebracoEsquerdo ?? null,
+      punho_direito: data.punhoDireito ?? null,
+      punho_esquerdo: data.punhoEsquerdo ?? null,
       updated_at: new Date().toISOString(),
     })
     .eq('id', avaliacaoId)
@@ -149,11 +209,26 @@ export async function updateAvaliacao(
     subescapular: result.subescapular,
     suprailiaca: result.suprailiaca,
     triceps: result.triceps,
+    altura: result.altura ?? undefined,
     peso: result.peso,
     sexo: result.sexo,
     percentualGordura: result.percentual_gordura,
     massaMagraKg: result.massa_magra_kg,
     massaGorduraKg: result.massa_gordura_kg,
+    ombro: result.ombro ?? undefined,
+    torax: result.torax ?? undefined,
+    cintura: result.cintura ?? undefined,
+    quadril: result.quadril ?? undefined,
+    coxaDireita: result.coxa_direita ?? undefined,
+    coxaEsquerda: result.coxa_esquerda ?? undefined,
+    panturrilhaDireita: result.panturrilha_direita ?? undefined,
+    panturrilhaEsquerda: result.panturrilha_esquerda ?? undefined,
+    bracoDireito: result.braco_direito ?? undefined,
+    bracoEsquerdo: result.braco_esquerdo ?? undefined,
+    antebracoDireito: result.antebraco_direito ?? undefined,
+    antebracoEsquerdo: result.antebraco_esquerdo ?? undefined,
+    punhoDireito: result.punho_direito ?? undefined,
+    punhoEsquerdo: result.punho_esquerdo ?? undefined,
     criadoPor: result.criado_por,
     createdAt: result.created_at,
     updatedAt: result.updated_at,
@@ -186,11 +261,26 @@ export async function getAvaliacoesByCliente(clienteId: number): Promise<Avaliac
     subescapular: row.subescapular,
     suprailiaca: row.suprailiaca,
     triceps: row.triceps,
+    altura: row.altura ?? undefined,
     peso: row.peso,
     sexo: row.sexo,
     percentualGordura: row.percentual_gordura,
     massaMagraKg: row.massa_magra_kg,
     massaGorduraKg: row.massa_gordura_kg,
+    ombro: row.ombro ?? undefined,
+    torax: row.torax ?? undefined,
+    cintura: row.cintura ?? undefined,
+    quadril: row.quadril ?? undefined,
+    coxaDireita: row.coxa_direita ?? undefined,
+    coxaEsquerda: row.coxa_esquerda ?? undefined,
+    panturrilhaDireita: row.panturrilha_direita ?? undefined,
+    panturrilhaEsquerda: row.panturrilha_esquerda ?? undefined,
+    bracoDireito: row.braco_direito ?? undefined,
+    bracoEsquerdo: row.braco_esquerdo ?? undefined,
+    antebracoDireito: row.antebraco_direito ?? undefined,
+    antebracoEsquerdo: row.antebraco_esquerdo ?? undefined,
+    punhoDireito: row.punho_direito ?? undefined,
+    punhoEsquerdo: row.punho_esquerdo ?? undefined,
     criadoPor: row.criado_por,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -228,11 +318,26 @@ export async function getLatestAvaliacaoByCliente(clienteId: number): Promise<Av
     subescapular: data.subescapular,
     suprailiaca: data.suprailiaca,
     triceps: data.triceps,
+    altura: data.altura ?? undefined,
     peso: data.peso,
     sexo: data.sexo,
     percentualGordura: data.percentual_gordura,
     massaMagraKg: data.massa_magra_kg,
     massaGorduraKg: data.massa_gordura_kg,
+    ombro: data.ombro ?? undefined,
+    torax: data.torax ?? undefined,
+    cintura: data.cintura ?? undefined,
+    quadril: data.quadril ?? undefined,
+    coxaDireita: data.coxa_direita ?? undefined,
+    coxaEsquerda: data.coxa_esquerda ?? undefined,
+    panturrilhaDireita: data.panturrilha_direita ?? undefined,
+    panturrilhaEsquerda: data.panturrilha_esquerda ?? undefined,
+    bracoDireito: data.braco_direito ?? undefined,
+    bracoEsquerdo: data.braco_esquerdo ?? undefined,
+    antebracoDireito: data.antebraco_direito ?? undefined,
+    antebracoEsquerdo: data.antebraco_esquerdo ?? undefined,
+    punhoDireito: data.punho_direito ?? undefined,
+    punhoEsquerdo: data.punho_esquerdo ?? undefined,
     criadoPor: data.criado_por,
     createdAt: data.created_at,
     updatedAt: data.updated_at,

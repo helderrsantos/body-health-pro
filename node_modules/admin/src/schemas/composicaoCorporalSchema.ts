@@ -10,6 +10,19 @@ function decimalPositivo(campo: string) {
     .refine((valor) => Number.isFinite(valor) && valor > 0, `${campo} deve ser maior que zero.`)
 }
 
+function decimalOpcional(campo: string, maximo = 500) {
+  return z
+    .string()
+    .transform((valor) => valor.trim().replace(',', '.'))
+    .refine((valor) => valor.length === 0 || /^\d+(\.\d+)?$/.test(valor), `${campo} deve ser um numero valido.`)
+    .transform((valor) => (valor.length === 0 ? undefined : Number(valor)))
+    .refine(
+      (valor) => valor === undefined || (Number.isFinite(valor) && valor > 0),
+      `${campo} deve ser maior que zero.`,
+    )
+    .refine((valor) => valor === undefined || valor <= maximo, `${campo} não pode ser maior que ${maximo}.`)
+}
+
 export const composicaoCorporalSchema = z.object({
   dataAvaliacao: z
     .string()
@@ -28,6 +41,20 @@ export const composicaoCorporalSchema = z.object({
     .refine((valor) => valor <= 500, 'Suprailíaca não pode ser maior que 500 mm'),
   triceps: decimalPositivo('Triceps')
     .refine((valor) => valor <= 500, 'Tríceps não pode ser maior que 500 mm'),
+  ombro: decimalOpcional('Ombro', 500),
+  torax: decimalOpcional('Torax', 500),
+  cintura: decimalOpcional('Cintura', 500),
+  quadril: decimalOpcional('Quadril', 500),
+  coxaDireita: decimalOpcional('Coxa direita', 500),
+  coxaEsquerda: decimalOpcional('Coxa esquerda', 500),
+  panturrilhaDireita: decimalOpcional('Panturrilha direita', 500),
+  panturrilhaEsquerda: decimalOpcional('Panturrilha esquerda', 500),
+  bracoDireito: decimalOpcional('Braço direito', 500),
+  bracoEsquerdo: decimalOpcional('Braço esquerdo', 500),
+  antebracoDireito: decimalOpcional('Antebraco direito', 500),
+  antebracoEsquerdo: decimalOpcional('Antebraco esquerdo', 500),
+  punhoDireito: decimalOpcional('Punho direito', 500),
+  punhoEsquerdo: decimalOpcional('Punho esquerdo', 500),
   altura: decimalPositivo('Altura')
     .refine((valor) => valor >= 50 && valor <= 250, 'Altura deve estar entre 50 cm e 250 cm'),
   peso: decimalPositivo('Peso corporal')

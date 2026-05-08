@@ -293,7 +293,6 @@ export function ClientDetailPage() {
             editingAvaliacao={editingAvaliacao}
             onAvaliacaoSaved={() => {
               setEditingAvaliacao(null)
-              console.log('Avaliação salva com sucesso')
             }}
           />
         </div>

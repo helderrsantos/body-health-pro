@@ -61,7 +61,7 @@ function ClientCardItem({
             <p className="text-gray-400 text-xs">Última Avaliação</p>
             <p className="text-[#ff7b7b] font-semibold">
               {latestAvaliacao.dataAvaliacao
-                ? new Date(latestAvaliacao.dataAvaliacao).toLocaleDateString('pt-BR')
+                ? formatDateBR(latestAvaliacao.dataAvaliacao)
                 : 'N/A'}
             </p>
           </div>
