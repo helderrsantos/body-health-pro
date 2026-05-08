@@ -143,3 +143,22 @@ body {
     @apply font-sans;
   }
 }
+
+/* Background Lightning Responsive Adjustments */
+@media (max-width: 640px) {
+  main svg[aria-hidden='true'] g {
+    opacity: 0.5 !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  main svg[aria-hidden='true'] g {
+    opacity: 0.65 !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  main svg[aria-hidden='true'] g {
+    opacity: 0.75 !important;
+  }
+}

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ClientsList } from '@/components/ClientsList'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { HomeUserMenu } from '@/components/home/HomeUserMenu'
 import { useAuth } from '@/hooks/useAuth'
 import { Plus, Users } from 'lucide-react'
@@ -9,8 +10,9 @@ export function AdminDashboardPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="min-h-screen px-4 py-8 ">
-      <section className="max-w-[800px] mx-auto">
+    <main className="relative min-h-screen px-4 py-8 overflow-hidden">
+      <BackgroundLightning />
+      <section className="relative max-w-[800px] mx-auto z-10">
         <header className="mb-8">
           <h1 className="m-0 text-2xl sm:text-3xl font-bebas font-semibold text-[#eafff1] tracking-widest">
             Olá {profile?.nome ?? 'Admin'}

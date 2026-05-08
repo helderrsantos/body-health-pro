@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { BodyCompositionCalculator } from '@/components/BodyCompositionCalculator'
 import { EvaluationHistory } from '@/components/EvaluationHistory'
 import { Button } from '@/components/ui/button'
@@ -136,8 +137,9 @@ export function ClientDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0e0a] via-[#0f1410] to-[#0a0e0a] p-3 sm:p-4 md:p-6">
-      <div className="max-w-2xl mx-auto">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#0a0e0a] via-[#0f1410] to-[#0a0e0a] p-3 sm:p-4 md:p-6 overflow-hidden">
+      <BackgroundLightning />
+      <div className="max-w-2xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
           <Button variant="ghost" onClick={() => navigate('/admin')} className="text-[#a9ff2e] flex justify-start h-10">

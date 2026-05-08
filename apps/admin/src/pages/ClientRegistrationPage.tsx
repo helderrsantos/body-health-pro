@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { ClientRegistrationForm } from '@/components/ClientRegistrationForm'
 import { Button } from '@/components/ui/button'
 
@@ -7,8 +8,9 @@ export function ClientRegistrationPage() {
   const navigate = useNavigate()
 
   return (
-    <main className="min-h-screen px-4 py-6 sm:py-8">
-      <section className="card w-full max-w-[920px] mx-auto">
+    <main className="relative min-h-screen px-4 py-6 sm:py-8 overflow-hidden">
+      <BackgroundLightning />
+      <section className="card w-full max-w-[920px] mx-auto relative z-10">
         <header className="mb-8 flex flex-col sm:flex-row gap-4 sm:items-start">
           <Button
             type="button"

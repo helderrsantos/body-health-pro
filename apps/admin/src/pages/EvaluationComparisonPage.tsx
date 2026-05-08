@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { AlertTriangle, ArrowDown, ArrowUp, Scale, Sparkles, Target, Trophy } from 'lucide-react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Line, Column } from '@ant-design/plots'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { useAvaliacoes } from '@/hooks/useAvaliacoes'
@@ -414,8 +415,9 @@ export function EvaluationComparisonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_0%_0%,rgba(169,255,46,0.16),transparent_40%),radial-gradient(circle_at_100%_0%,rgba(70,255,215,0.08),transparent_35%),linear-gradient(180deg,#080d09_0%,#0f1410_100%)] p-3 sm:p-4 md:p-6">
-      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-5">
+    <div className="relative min-h-screen bg-[radial-gradient(circle_at_0%_0%,rgba(169,255,46,0.16),transparent_40%),radial-gradient(circle_at_100%_0%,rgba(70,255,215,0.08),transparent_35%),linear-gradient(180deg,#080d09_0%,#0f1410_100%)] p-3 sm:p-4 md:p-6 overflow-hidden">
+      <BackgroundLightning />
+      <div className="max-w-6xl mx-auto space-y-4 sm:space-y-5 relative z-10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <Button
             variant="ghost"

@@ -1,5 +1,6 @@
 import { useState, type FormEvent as ReactFormEvent } from 'react'
 import { Navigate } from 'react-router-dom'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/useAuth'
@@ -95,8 +96,9 @@ export function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen px-4 py-8 grid place-items-center">
-      <section className="card w-full max-w-[460px]">
+    <main className="relative min-h-screen px-4 py-8 grid place-items-center overflow-hidden">
+      <BackgroundLightning />
+      <section className="card w-full max-w-[460px] relative z-10">
         <header className="mb-4">
           <h1 className="m-0 text-3xl font-bebas font-semibold text-[#eafff1] tracking-widest uppercase">
             Body Health Pro
