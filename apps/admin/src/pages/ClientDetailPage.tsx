@@ -17,6 +17,7 @@ interface ClientDetail {
   data_nascimento: string
   sexo: 'masculino' | 'feminino'
   telefone?: string
+  email?: string
 }
 
 export function ClientDetailPage() {
@@ -42,7 +43,7 @@ export function ClientDetailPage() {
       if (!numericClientId) return null
       const { data, error } = await supabase
         .from('clientes')
-        .select('id, nome, data_nascimento, sexo, telefone')
+        .select('id, nome, data_nascimento, sexo, telefone, email')
         .eq('id', numericClientId)
         .single()
 
@@ -160,35 +161,14 @@ export function ClientDetailPage() {
             <h2 className="m-0 font-bebas font-medium tracking-tight text-lg sm:text-xl text-[#d8ffe8]">
               Dados do Cliente
             </h2>
-            {!isEditing ? (
+            {isEditing ? null : (
               <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(true)} className='h-10'>
                 Editar Dados
               </Button>
-            ) : null}
+            )}
           </div>
 
-          {!isEditing ? (
-            <div className="space-y-2 text-xs sm:text-sm text-gray-300">
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Nome:</span>
-                <span className="text-[#d8ffe8]">{cliente?.nome}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Nascimento:</span>
-                <span className="text-[#d8ffe8]">{formatDateBR(cliente?.data_nascimento)}</span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Sexo:</span>
-                <span className="text-[#d8ffe8]">{cliente?.sexo}</span>
-              </div>
-              {cliente?.telefone && (
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                  <span>Telefone:</span>
-                  <span className="text-[#d8ffe8]">{cliente.telefone}</span>
-                </div>
-              )}
-            </div>
-          ) : (
+          {isEditing ? (
             <div className="space-y-3">
               <Input
                 type="text"
@@ -248,6 +228,27 @@ export function ClientDetailPage() {
                   Cancelar
                 </Button>
               </div>
+            </div>
+          ) : (
+            <div className="space-y-2 text-xs sm:text-sm text-gray-300">
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+                <span>Nome:</span>
+                <span className="text-[#d8ffe8]">{cliente?.nome}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+                <span>Nascimento:</span>
+                <span className="text-[#d8ffe8]">{formatDateBR(cliente?.data_nascimento)}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+                <span>Sexo:</span>
+                <span className="text-[#d8ffe8]">{cliente?.sexo}</span>
+              </div>
+              {cliente?.telefone && (
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+                  <span>Telefone:</span>
+                  <span className="text-[#d8ffe8]">{cliente.telefone}</span>
+                </div>
+              )}
             </div>
           )}
 
