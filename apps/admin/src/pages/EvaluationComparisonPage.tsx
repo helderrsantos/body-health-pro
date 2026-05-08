@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AlertTriangle, ArrowDown, ArrowUp, Scale } from 'lucide-react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Line, Column } from '@ant-design/plots'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { useAvaliacoes } from '@/hooks/useAvaliacoes'
@@ -139,6 +140,43 @@ export function EvaluationComparisonPage() {
     ]
   }, [ordered])
 
+  // Build chart data for evolution metrics
+  const chartData = useMemo(() => {
+    if (!ordered) return []
+    const [prev, next] = ordered
+    const dateA = formatDateBR(prev.dataAvaliacao)
+    const dateB = formatDateBR(next.dataAvaliacao)
+    
+    return [
+      { date: dateA, type: 'Gordura %', value: prev.percentualGordura ?? 0 },
+      { date: dateA, type: 'Massa Magra (kg)', value: prev.massaMagraKg ?? 0 },
+      { date: dateA, type: 'Peso (kg)', value: prev.peso ?? 0 },
+      { date: dateB, type: 'Gordura %', value: next.percentualGordura ?? 0 },
+      { date: dateB, type: 'Massa Magra (kg)', value: next.massaMagraKg ?? 0 },
+      { date: dateB, type: 'Peso (kg)', value: next.peso ?? 0 },
+    ]
+  }, [ordered])
+
+  // Build bar chart data for comparison
+  const barData = useMemo(() => {
+    if (!ordered) return []
+    const [prev, next] = ordered
+    return [
+      { metric: 'Gordura %', type: 'Anterior', value: prev.percentualGordura ?? 0 },
+      { metric: 'Gordura %', type: 'Atual', value: next.percentualGordura ?? 0 },
+      { metric: 'Massa Magra', type: 'Anterior', value: prev.massaMagraKg ?? 0 },
+      { metric: 'Massa Magra', type: 'Atual', value: next.massaMagraKg ?? 0 },
+      { metric: 'Massa Gordura', type: 'Anterior', value: prev.massaGorduraKg ?? 0 },
+      { metric: 'Massa Gordura', type: 'Atual', value: next.massaGorduraKg ?? 0 },
+      { metric: 'Peso', type: 'Anterior', value: prev.peso ?? 0 },
+      { metric: 'Peso', type: 'Atual', value: next.peso ?? 0 },
+      { metric: 'Cintura (cm)', type: 'Anterior', value: prev.cintura ?? 0 },
+      { metric: 'Cintura (cm)', type: 'Atual', value: next.cintura ?? 0 },
+      { metric: 'Torax (cm)', type: 'Anterior', value: prev.torax ?? 0 },
+      { metric: 'Torax (cm)', type: 'Atual', value: next.torax ?? 0 },
+    ]
+  }, [ordered])
+
   const criticalPoints = useMemo(() => {
     if (!ordered) return []
     const [prev, next] = ordered
@@ -257,6 +295,58 @@ export function EvaluationComparisonPage() {
                 )}
               </CardContent>
             </Card>
+
+            {chartData && chartData.length > 0 && (
+              <>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Evoluçao - Metricas Principais</h2>
+                  </CardHeader>
+                  <CardContent>
+                    <div style={{ height: '300px' }}>
+                      <Line
+                        data={chartData}
+                        xField="date"
+                        yField="value"
+                        seriesField="type"
+                        smooth
+                        animation={{ appear: { animation: 'path-in', duration: 1000 } }}
+                        color={['#a9ff2e', '#d8ffe8', '#00ff88']}
+                        point={{ size: 5, shape: 'circle' }}
+                        lineStyle={{ lineWidth: 2 }}
+                        label={{ autoHide: true }}
+                        tooltip={{ showTitle: true }}
+                        legend={{ position: 'bottom' as const, layout: 'horizontal' as const }}
+                        theme="dark"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="pb-2">
+                    <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Comparacao - Anterior vs Atual</h2>
+                  </CardHeader>
+                  <CardContent>
+                    <div style={{ height: '300px' }}>
+                      <Column
+                        data={barData}
+                        xField="metric"
+                        yField="value"
+                        seriesField="type"
+                        isGroup
+                        animation={{ appear: { animation: 'scale-in-y', duration: 500 } }}
+                        color={['#a9ff2e', '#ff9a9a']}
+                        label={{ position: 'top' as const, style: { fill: '#d8ffe8' } }}
+                        tooltip={{ showTitle: true }}
+                        legend={{ position: 'bottom' as const, layout: 'horizontal' as const }}
+                        theme="dark"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </>
+            )}
 
             <Card>
               <CardHeader className="pb-2">
