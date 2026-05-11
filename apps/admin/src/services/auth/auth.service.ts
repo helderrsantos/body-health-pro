@@ -59,16 +59,32 @@ export async function signInWithGoogle() {
 }
 
 export async function exchangeCodeForSession() {
-  const code = new URL(globalThis.location.href).searchParams.get('code')
+  // Verificar se há erro no callback
+  const urlParams = new URL(globalThis.location.href).searchParams
+  const errorParam = urlParams.get('error')
+  const errorDescription = urlParams.get('error_description')
 
-  if (!code) {
-    throw new Error('Authorization code não encontrado na URL.')
+  if (errorParam) {
+    throw new Error(`Erro OAuth: ${errorParam}. ${errorDescription || ''}`)
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code)
+  const code = urlParams.get('code')
 
-  if (error) {
-    throw new Error(error.message)
+  if (code) {
+    // Se houver código, fazer exchange
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+
+    if (error) {
+      throw new Error(error.message)
+    }
+  } else {
+    // Se não houver código, tentar obter sessão direto (pode estar no hash ou cookie)
+    const { data, error } = await supabase.auth.getSession()
+
+    if (error || !data.session) {
+      console.error('URL params:', Object.fromEntries(urlParams.entries()))
+      throw new Error('Nenhum código de autorização encontrado. Verifique se os Redirect URLs estão configurados corretamente no Supabase.')
+    }
   }
 }
 
