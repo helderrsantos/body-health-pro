@@ -12,16 +12,16 @@ type SubmitEventLike = { preventDefault: () => void }
 export function LoginPage() {
   const { signIn, signInGoogle, isAuthenticated, isLoading } = useAuth()
   const [mode, setMode] = useState<AuthMode>('login')
-  
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
+
   const [signupEmail, setSignupEmail] = useState('')
   const [signupPassword, setSignupPassword] = useState('')
   const [signupPasswordConfirm, setSignupPasswordConfirm] = useState('')
   const [nomeAdmin, setNomeAdmin] = useState('')
   const [nomeOrganizacao, setNomeOrganizacao] = useState('')
-  
+
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -32,12 +32,16 @@ export function LoginPage() {
 
   async function handleGoogleSignIn() {
     setError(null)
+    setIsSubmitting(true)
 
     try {
       await signInGoogle()
     } catch (submitError) {
-      const message = submitError instanceof Error ? submitError.message : 'Erro no login com Google.'
+      const message =
+        submitError instanceof Error ? submitError.message : 'Erro no login com Google.'
+
       setError(message)
+      setIsSubmitting(false)
     }
   }
 
@@ -73,17 +77,15 @@ export function LoginPage() {
       }
 
       await signUpAdmin(signupEmail, signupPassword, nomeAdmin, nomeOrganizacao)
-      
-      setSuccessMessage(
-        'Cadastro realizado com sucesso! Verifique seu email e faça login.'
-      )
-      
+
+      setSuccessMessage('Cadastro realizado com sucesso! Verifique seu email e faça login.')
+
       setSignupEmail('')
       setSignupPassword('')
       setSignupPasswordConfirm('')
       setNomeAdmin('')
       setNomeOrganizacao('')
-      
+
       setTimeout(() => {
         setMode('login')
         setSuccessMessage(null)
@@ -138,17 +140,27 @@ export function LoginPage() {
                 />
               </label>
 
-              {error ? (
-                <small className="col-span-2 text-red-500 text-xs">
-                  {error}
-                </small>
-              ) : null}
+              {error ? <small className="col-span-2 text-red-500 text-xs">{error}</small> : null}
 
               <div className="col-span-2 flex flex-col gap-4 sm:gap-4 mt-2">
-                <Button type="submit" isLoading={isSubmitting} loadingText="Entrando..." showLoadingText className="w-full h-10">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  loadingText="Entrando..."
+                  showLoadingText
+                  className="w-full h-10"
+                >
                   Entrar
                 </Button>
-                <Button type="button" variant="outline" onClick={() => void handleGoogleSignIn()} className="w-full h-10">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => void handleGoogleSignIn()}
+                  isLoading={isSubmitting}
+                  loadingText="Redirecionando..."
+                  showLoadingText
+                  className="w-full h-10"
+                >
                   Continuar com Google
                 </Button>
               </div>
@@ -231,20 +243,20 @@ export function LoginPage() {
                 />
               </label>
 
-              {error ? (
-                <small className="col-span-2 text-red-500 text-xs">
-                  {error}
-                </small>
-              ) : null}
+              {error ? <small className="col-span-2 text-red-500 text-xs">{error}</small> : null}
 
               {successMessage ? (
-                <small className="col-span-2 text-[#a9ff2e]">
-                  {successMessage}
-                </small>
+                <small className="col-span-2 text-[#a9ff2e]">{successMessage}</small>
               ) : null}
 
               <div className="col-span-2 flex flex-col gap-3 mt-2">
-                <Button type="submit" isLoading={isSubmitting} loadingText="Criando..." showLoadingText className="w-full h-10">
+                <Button
+                  type="submit"
+                  isLoading={isSubmitting}
+                  loadingText="Criando..."
+                  showLoadingText
+                  className="w-full h-10"
+                >
                   Criar Conta
                 </Button>
               </div>
