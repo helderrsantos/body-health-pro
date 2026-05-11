@@ -49,7 +49,7 @@ export async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${globalThis.location.origin}/auth/callback`,
+      redirectTo: 'https://body-health-pro-admin.vercel.app/auth/callback',
     },
   })
 
@@ -59,7 +59,13 @@ export async function signInWithGoogle() {
 }
 
 export async function exchangeCodeForSession() {
-  const { error } = await supabase.auth.exchangeCodeForSession(globalThis.location.href)
+  const code = new URL(globalThis.location.href).searchParams.get('code')
+
+  if (!code) {
+    throw new Error('Authorization code não encontrado na URL.')
+  }
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code)
 
   if (error) {
     throw new Error(error.message)
