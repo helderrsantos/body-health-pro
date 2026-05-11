@@ -68,23 +68,16 @@ export async function exchangeCodeForSession() {
     throw new Error(`Erro OAuth: ${errorParam}. ${errorDescription || ''}`)
   }
 
-  const code = urlParams.get('code')
+  // Deixar o Supabase processar automaticamente o PKCE flow
+  // O code_verifier e code já estão no localStorage/URL
+  const { data, error } = await supabase.auth.getSession()
 
-  if (code) {
-    // Se houver código, fazer exchange
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+  if (error) {
+    throw new Error(error.message)
+  }
 
-    if (error) {
-      throw new Error(error.message)
-    }
-  } else {
-    // Se não houver código, tentar obter sessão direto (pode estar no hash ou cookie)
-    const { data, error } = await supabase.auth.getSession()
-
-    if (error || !data.session) {
-      console.error('URL params:', Object.fromEntries(urlParams.entries()))
-      throw new Error('Nenhum código de autorização encontrado. Verifique se os Redirect URLs estão configurados corretamente no Supabase.')
-    }
+  if (!data.session) {
+    throw new Error('Nenhuma sessão ativa encontrada. Tente fazer login novamente.')
   }
 }
 
