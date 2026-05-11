@@ -206,15 +206,15 @@ export function BodyCompositionCalculator({
     }
   }, [editingAvaliacao, reset])
 
-  useEffect(() => {
-    if (editingAvaliacao) {
-      setResultado({
+  const resultadoEdicao: ResultadoComposicaoCorporal | null = editingAvaliacao
+    ? {
         percentualGordura: editingAvaliacao.percentualGordura.toFixed(2),
         massaMagraKg: editingAvaliacao.massaMagraKg.toFixed(2),
         massaGordaKg: editingAvaliacao.massaGorduraKg.toFixed(2),
-      })
-    }
-  }, [editingAvaliacao])
+      }
+    : null
+
+  const resultadoExibicao = resultado ?? resultadoEdicao
 
   async function onSubmit(values: FormularioComposicaoCorporalDados) {
     const sexoCalculadora: BodyCompositionSex = clienteSexo === 'feminino' ? 'feminino' : 'masculino'
@@ -558,7 +558,7 @@ export function BodyCompositionCalculator({
         </div>
       </form>
 
-      {resultado ? (
+      {resultadoExibicao ? (
         <section className="mt-6 border-t border-[rgba(169,255,46,0.26)] pt-5" aria-live="polite">
           <h2 className="m-0 mb-4 font-bebas font-medium tracking-tight text-[#d8ffe8]">
             Resultados da Avaliação
@@ -567,15 +567,15 @@ export function BodyCompositionCalculator({
           <div className="flex flex-col gap-3 mb-4">
             <div className="flex items-center justify-between rounded-2xl p-3 bg-[rgba(9,16,12,0.86)] text-[#d4f8e2]">
               <strong className="text-sm">Percentual de Gordura Corporal</strong>
-              <span className="text-xl font-extrabold">{resultado.percentualGordura}%</span>
+              <span className="text-xl font-extrabold">{resultadoExibicao.percentualGordura}%</span>
             </div>
             <div className="flex items-center justify-between rounded-2xl p-3 bg-[rgba(169,255,46,0.2)] text-[#dbff8b]">
               <strong className="text-sm">Massa Magra</strong>
-              <span className="text-xl font-extrabold">{resultado.massaMagraKg} kg</span>
+              <span className="text-xl font-extrabold">{resultadoExibicao.massaMagraKg} kg</span>
             </div>
             <div className="flex items-center justify-between rounded-2xl p-3 bg-[rgba(78,14,14,0.62)] text-[#ff7b7b]">
               <strong className="text-sm">Massa de Gordura</strong>
-              <span className="text-xl font-extrabold">{resultado.massaGordaKg} kg</span>
+              <span className="text-xl font-extrabold">{resultadoExibicao.massaGordaKg} kg</span>
             </div>
           </div>
 
@@ -590,24 +590,24 @@ export function BodyCompositionCalculator({
                   <span>Gordura:</span>
                   <span
                     className={
-                      parseFloat(resultado.percentualGordura) < latestAvaliacao.percentualGordura
+                      Number.parseFloat(resultadoExibicao.percentualGordura) < latestAvaliacao.percentualGordura
                         ? 'text-green-400'
                         : 'text-red-400'
                     }
                   >
-                    {(Number.parseFloat(resultado.percentualGordura) - latestAvaliacao.percentualGordura).toFixed(2)}%
+                    {(Number.parseFloat(resultadoExibicao.percentualGordura) - latestAvaliacao.percentualGordura).toFixed(2)}%
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Massa Magra:</span>
                   <span
                     className={
-                      parseFloat(resultado.massaMagraKg) > latestAvaliacao.massaMagraKg
+                      Number.parseFloat(resultadoExibicao.massaMagraKg) > latestAvaliacao.massaMagraKg
                         ? 'text-green-400'
                         : 'text-red-400'
                     }
                   >
-                    {(Number.parseFloat(resultado.massaMagraKg) - latestAvaliacao.massaMagraKg).toFixed(2)} kg
+                    {(Number.parseFloat(resultadoExibicao.massaMagraKg) - latestAvaliacao.massaMagraKg).toFixed(2)} kg
                   </span>
                 </div>
               </div>

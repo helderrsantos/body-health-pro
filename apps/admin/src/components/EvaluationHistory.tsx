@@ -748,7 +748,7 @@ async function renderComparativePdf(
   const pesoData = selectedAvaliacoes.map((avaliacao) => avaliacao.peso)
 
   try {
-    const chartGordura = await createChartImage('line', datesLabels, gorduraData, 'Evolução Gordura %', '#a9ff2e')
+    const chartGordura = await createChartImage('bar', datesLabels, gorduraData, 'Evolução Gordura %', '#a9ff2e')
     doc.addImage(chartGordura, 'PNG', margin, yPosition, contentWidth, 50)
     yPosition += 55
 
@@ -757,7 +757,7 @@ async function renderComparativePdf(
     canvas2a.height = 350
 
     const chart2a = new Chart(canvas2a, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: datesLabels,
         datasets: [
@@ -765,10 +765,10 @@ async function renderComparativePdf(
             label: 'Massa Magra (kg)',
             data: massaMagraData,
             borderColor: '#4ade80',
-            backgroundColor: 'rgba(74, 222, 128, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
+            backgroundColor: 'rgba(74, 222, 128, 0.75)',
+            borderWidth: 1,
+            borderRadius: 8,
+            maxBarThickness: 32,
           },
         ],
       },
@@ -796,7 +796,7 @@ async function renderComparativePdf(
     canvas2b.height = 350
 
     const chart2b = new Chart(canvas2b, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: datesLabels,
         datasets: [
@@ -804,10 +804,10 @@ async function renderComparativePdf(
             label: 'Massa Gorda (kg)',
             data: massaGorduraData,
             borderColor: '#ff6b6b',
-            backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
+            backgroundColor: 'rgba(255, 107, 107, 0.75)',
+            borderWidth: 1,
+            borderRadius: 8,
+            maxBarThickness: 32,
           },
         ],
       },
@@ -1542,7 +1542,7 @@ export function EvaluationHistory({
 
         try {
           // Gráfico 1: Gordura
-          const chartGordura = await createChartImage('line', datesLabels, gorduraData, 'Evolução Gordura %', '#a9ff2e')
+          const chartGordura = await createChartImage('bar', datesLabels, gorduraData, 'Evolução Gordura %', '#a9ff2e')
           doc.addImage(chartGordura, 'PNG', margin, yPosition, contentWidth, 50)
           yPosition += 55
 
@@ -1552,7 +1552,7 @@ export function EvaluationHistory({
           canvas2a.height = 350
 
           new Chart(canvas2a, {
-            type: 'line',
+            type: 'bar',
             data: {
               labels: datesLabels,
               datasets: [
@@ -1560,10 +1560,10 @@ export function EvaluationHistory({
                   label: 'Massa Magra (kg)',
                   data: massaMagraData,
                   borderColor: '#4ade80',
-                  backgroundColor: 'rgba(74, 222, 128, 0.1)',
-                  borderWidth: 3,
-                  fill: true,
-                  tension: 0.4,
+                  backgroundColor: 'rgba(74, 222, 128, 0.75)',
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  maxBarThickness: 32,
                 },
               ],
             },
@@ -1591,7 +1591,7 @@ export function EvaluationHistory({
           canvas2b.height = 350
 
           new Chart(canvas2b, {
-            type: 'line',
+            type: 'bar',
             data: {
               labels: datesLabels,
               datasets: [
@@ -1599,10 +1599,10 @@ export function EvaluationHistory({
                   label: 'Massa Gorda (kg)',
                   data: massaGorduraData,
                   borderColor: '#ff6b6b',
-                  backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                  borderWidth: 3,
-                  fill: true,
-                  tension: 0.4,
+                  backgroundColor: 'rgba(255, 107, 107, 0.75)',
+                  borderWidth: 1,
+                  borderRadius: 8,
+                  maxBarThickness: 32,
                 },
               ],
             },
