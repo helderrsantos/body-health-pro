@@ -10,6 +10,12 @@ import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
 
 Chart.register(...registerables)
 
+/** Extended jsPDF type with autoTable plugin methods and properties */
+type jsPDFWithAutoTable = jsPDF & {
+  autoTable: (options: Record<string, unknown>) => void
+  lastAutoTable: { finalY: number }
+}
+
 interface EvaluationHistoryProps {
   avaliacoes: Avaliacao[]
   onEdit: (avaliacao: Avaliacao) => void
@@ -148,7 +154,7 @@ export function EvaluationHistory({
                     grid: { color: '#ddd' },
                   },
                 },
-              } as any,
+              } as const,
             })
 
             setTimeout(() => {
@@ -240,7 +246,7 @@ export function EvaluationHistory({
                 padding: 15,
               },
             },
-          } as any,
+          } as const,
         })
 
         await new Promise((resolve) => setTimeout(resolve, 500))
@@ -354,7 +360,7 @@ export function EvaluationHistory({
               },
               x: { ticks: { color: '#666', font: { size: 11 } }, grid: { display: false } },
             },
-          } as any,
+          } as const,
         })
 
         await new Promise((resolve) => setTimeout(resolve, 500))
@@ -401,7 +407,7 @@ export function EvaluationHistory({
           ['Massa Gorda', `${avaliacao.massaGorduraKg.toFixed(2)} kg`, 'IMC', avaliacao.altura ? `${(avaliacao.peso / ((avaliacao.altura / 100) ** 2)).toFixed(2)}` : 'N/A'],
         ]
 
-        ;(doc as any).autoTable({
+        ;(doc as jsPDFWithAutoTable).autoTable({
           head: [['Métrica', 'Valor', 'Métrica', 'Valor']],
           body: tableData1,
           startY: yPosition,
@@ -422,7 +428,7 @@ export function EvaluationHistory({
           },
         })
 
-        yPosition = (doc as any).lastAutoTable.finalY + 12
+        yPosition = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 12
 
         // Seção 2: Dobras Cutâneas
         doc.setFontSize(11)
@@ -437,7 +443,7 @@ export function EvaluationHistory({
           ['Coxa', avaliacao.coxa.toFixed(1), '', '', '', ''],
         ]
 
-        ;(doc as any).autoTable({
+        ;(doc as jsPDFWithAutoTable).autoTable({
           head: [['Local', 'Valor', 'Local', 'Valor', 'Local', 'Valor']],
           body: tableData2,
           startY: yPosition,
@@ -458,7 +464,7 @@ export function EvaluationHistory({
           },
         })
 
-        yPosition = (doc as any).lastAutoTable.finalY + 12
+        yPosition = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 12
 
         // Seção 3: Medidas Antropométricas
         const medidasSimples = [
@@ -496,7 +502,7 @@ export function EvaluationHistory({
               ])
             }
 
-            ;(doc as any).autoTable({
+            ;(doc as jsPDFWithAutoTable).autoTable({
               head: [['Medida', 'Valor', 'Medida', 'Valor']],
               body: tableDataSimples,
               startY: yPosition,
@@ -517,7 +523,7 @@ export function EvaluationHistory({
               },
             })
             
-            yPosition = (doc as any).lastAutoTable.finalY + 6
+            yPosition = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 6
           }
 
           // Tabela com medidas pares (direita/esquerda)
@@ -528,7 +534,7 @@ export function EvaluationHistory({
               m[2]
             ])
 
-            ;(doc as any).autoTable({
+            ;(doc as jsPDFWithAutoTable).autoTable({
               head: [['Medida', 'Direita', 'Esquerda']],
               body: tableDataPares,
               startY: yPosition,
@@ -637,7 +643,7 @@ export function EvaluationHistory({
                 y: { beginAtZero: true, ticks: { color: '#666', font: { size: 10 } }, grid: { color: '#e0e0e0' } },
                 x: { ticks: { color: '#666', font: { size: 10 } }, grid: { display: false } },
               },
-            } as any,
+            } as const,
           })
 
           await new Promise((resolve) => setTimeout(resolve, 400))
@@ -676,7 +682,7 @@ export function EvaluationHistory({
                 y: { beginAtZero: true, ticks: { color: '#666', font: { size: 10 } }, grid: { color: '#e0e0e0' } },
                 x: { ticks: { color: '#666', font: { size: 10 } }, grid: { display: false } },
               },
-            } as any,
+            } as const,
           })
 
           await new Promise((resolve) => setTimeout(resolve, 400))
@@ -730,7 +736,7 @@ export function EvaluationHistory({
                   padding: 12,
                 },
               },
-            } as any,
+            } as const,
           })
 
           await new Promise((resolve) => setTimeout(resolve, 500))
@@ -768,7 +774,7 @@ export function EvaluationHistory({
             (avaliacao.altura ? (avaliacao.peso / ((avaliacao.altura / 100) ** 2)).toFixed(2) : 'N/A'),
           ])
 
-          ;(doc as any).autoTable({
+          ;(doc as jsPDFWithAutoTable).autoTable({
             head: [['Data', 'Peso (kg)', 'Gordura %', 'M. Magra (kg)', 'M. Gorda (kg)', 'Altura (cm)', 'IMC']],
             body: tableData,
             startY: yPosition,
@@ -789,7 +795,7 @@ export function EvaluationHistory({
             },
           })
 
-          yPosition = (doc as any).lastAutoTable.finalY + 10
+          yPosition = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 10
 
           // Tabela de dobras cutâneas
           if (yPosition > pageHeight - 80) {
@@ -814,7 +820,7 @@ export function EvaluationHistory({
             avaliacao.triceps.toFixed(1),
           ])
 
-          ;(doc as any).autoTable({
+          ;(doc as jsPDFWithAutoTable).autoTable({
             head: [['Data', 'Peitoral', 'Abdominal', 'Coxa', 'Axilar', 'Subesc.', 'Suprailíaca', 'Tríceps']],
             body: dobraTableData,
             startY: yPosition,
@@ -835,7 +841,7 @@ export function EvaluationHistory({
             },
           })
 
-          yPosition = (doc as any).lastAutoTable.finalY + 10
+          yPosition = (doc as jsPDFWithAutoTable).lastAutoTable.finalY + 10
 
           // Resumo de evolução com mais detalhes
           if (yPosition < pageHeight - 80) {
