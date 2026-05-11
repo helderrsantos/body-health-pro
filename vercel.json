@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd apps/admin && npm run build",
+  "buildCommand": "npm -w admin run build",
   "outputDirectory": "apps/admin/dist",
   "framework": "vite"
 }
