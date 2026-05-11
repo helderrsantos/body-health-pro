@@ -21,38 +21,6 @@ interface BodyCompositionCalculatorProps {
   onAvaliacaoSaved?: () => void
 }
 
-const CAMPOS_MEDIDAS_ORDEM: Array<
-  Exclude<
-    keyof FormularioComposicaoCorporalValores,
-    | 'dataAvaliacao'
-    | 'peso'
-    | 'altura'
-    | 'triceps'
-    | 'axilarMedia'
-    | 'subescapular'
-    | 'peitoral'
-    | 'abdominal'
-    | 'suprailiaca'
-    | 'coxa'
-  >
-> = [
-  'ombro',
-  'torax',
-  'cintura',
-  'abdomen',
-  'quadril',
-  'coxaDireita',
-  'coxaEsquerda',
-  'panturrilhaDireita',
-  'panturrilhaEsquerda',
-  'bracoDireito',
-  'bracoEsquerdo',
-  'antebracoDireito',
-  'antebracoEsquerdo',
-  'punhoDireito',
-  'punhoEsquerdo',
-]
-
 const CAMPOS_DOBRAS_ORDEM: Array<
   Exclude<
     keyof FormularioComposicaoCorporalValores,
@@ -77,7 +45,24 @@ const CAMPOS_DOBRAS_ORDEM: Array<
   >
 > = ['triceps', 'subescapular', 'peitoral', 'axilarMedia', 'suprailiaca', 'abdominal', 'coxa']
 
-const LABELS_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
+const LABELS_MEDIDAS: Record<
+  | 'ombro'
+  | 'torax'
+  | 'cintura'
+  | 'abdomen'
+  | 'quadril'
+  | 'coxaDireita'
+  | 'coxaEsquerda'
+  | 'panturrilhaDireita'
+  | 'panturrilhaEsquerda'
+  | 'bracoDireito'
+  | 'bracoEsquerdo'
+  | 'antebracoDireito'
+  | 'antebracoEsquerdo'
+  | 'punhoDireito'
+  | 'punhoEsquerdo',
+  string
+> = {
   ombro: 'Ombro',
   torax: 'Torax',
   cintura: 'Cintura',
@@ -95,7 +80,24 @@ const LABELS_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
   punhoEsquerdo: 'Punho E',
 }
 
-const PLACEHOLDER_MEDIDAS: Record<(typeof CAMPOS_MEDIDAS_ORDEM)[number], string> = {
+const PLACEHOLDER_MEDIDAS: Record<
+  | 'ombro'
+  | 'torax'
+  | 'cintura'
+  | 'abdomen'
+  | 'quadril'
+  | 'coxaDireita'
+  | 'coxaEsquerda'
+  | 'panturrilhaDireita'
+  | 'panturrilhaEsquerda'
+  | 'bracoDireito'
+  | 'bracoEsquerdo'
+  | 'antebracoDireito'
+  | 'antebracoEsquerdo'
+  | 'punhoDireito'
+  | 'punhoEsquerdo',
+  string
+> = {
   ombro: 'cm',
   torax: 'cm',
   cintura: 'cm',
@@ -386,7 +388,8 @@ export function BodyCompositionCalculator({
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-[#d8ffe8]">Medidas (opcional)</h3>
             <div className="grid grid-cols-1 gap-3">
-              {CAMPOS_MEDIDAS_ORDEM.map((campo) => (
+              {/* Campos simples */}
+              {(['ombro', 'torax', 'cintura', 'abdomen', 'quadril'] as const).map((campo) => (
                 <NumberInputField<
                   FormularioComposicaoCorporalValores,
                   undefined,
@@ -399,6 +402,129 @@ export function BodyCompositionCalculator({
                   placeholder={PLACEHOLDER_MEDIDAS[campo]}
                 />
               ))}
+              
+              {/* Campos pares (lado-a-lado) */}
+              <div className="space-y-2 pt-2">
+                {/* Coxa */}
+                <div className="grid grid-cols-2 gap-1">
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="coxaDireita"
+                    label={LABELS_MEDIDAS.coxaDireita}
+                    placeholder={PLACEHOLDER_MEDIDAS.coxaDireita}
+                  />
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="coxaEsquerda"
+                    label={LABELS_MEDIDAS.coxaEsquerda}
+                    placeholder={PLACEHOLDER_MEDIDAS.coxaEsquerda}
+                  />
+                </div>
+
+                {/* Panturrilha */}
+                <div className="grid grid-cols-2 gap-1">
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="panturrilhaDireita"
+                    label={LABELS_MEDIDAS.panturrilhaDireita}
+                    placeholder={PLACEHOLDER_MEDIDAS.panturrilhaDireita}
+                  />
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="panturrilhaEsquerda"
+                    label={LABELS_MEDIDAS.panturrilhaEsquerda}
+                    placeholder={PLACEHOLDER_MEDIDAS.panturrilhaEsquerda}
+                  />
+                </div>
+
+                {/* Braço */}
+                <div className="grid grid-cols-2 gap-1">
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="bracoDireito"
+                    label={LABELS_MEDIDAS.bracoDireito}
+                    placeholder={PLACEHOLDER_MEDIDAS.bracoDireito}
+                  />
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="bracoEsquerdo"
+                    label={LABELS_MEDIDAS.bracoEsquerdo}
+                    placeholder={PLACEHOLDER_MEDIDAS.bracoEsquerdo}
+                  />
+                </div>
+
+                {/* Antebraço */}
+                <div className="grid grid-cols-2 gap-1">
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="antebracoDireito"
+                    label={LABELS_MEDIDAS.antebracoDireito}
+                    placeholder={PLACEHOLDER_MEDIDAS.antebracoDireito}
+                  />
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="antebracoEsquerdo"
+                    label={LABELS_MEDIDAS.antebracoEsquerdo}
+                    placeholder={PLACEHOLDER_MEDIDAS.antebracoEsquerdo}
+                  />
+                </div>
+
+                {/* Punho */}
+                <div className="grid grid-cols-2 gap-1">
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="punhoDireito"
+                    label={LABELS_MEDIDAS.punhoDireito}
+                    placeholder={PLACEHOLDER_MEDIDAS.punhoDireito}
+                  />
+                  <NumberInputField<
+                    FormularioComposicaoCorporalValores,
+                    undefined,
+                    FormularioComposicaoCorporalDados
+                  >
+                    control={control}
+                    name="punhoEsquerdo"
+                    label={LABELS_MEDIDAS.punhoEsquerdo}
+                    placeholder={PLACEHOLDER_MEDIDAS.punhoEsquerdo}
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

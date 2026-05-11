@@ -81,6 +81,32 @@ begin
 end;
 $$;
 
+create or replace function public.validate_profile_email()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  -- Em INSERT não existe OLD; em UPDATE só valida se mudou.
+  if new.email is not null and (
+    tg_op = 'INSERT'
+    or (tg_op = 'UPDATE' and old.email is distinct from new.email)
+  ) then
+    if not exists (
+      select 1
+      from auth.users
+      where id = new.id
+        and (email = new.email or raw_user_meta_data->>'email' = new.email)
+    ) then
+      raise notice 'Aviso: Email % não corresponde ao email do auth.users', new.email;
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
 -- =============================================================================
 -- 3. REVOGAR ACESSO ANÔNIMO A TODAS AS FUNÇÕES
 -- =============================================================================

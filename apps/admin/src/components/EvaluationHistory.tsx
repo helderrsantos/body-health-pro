@@ -461,7 +461,7 @@ export function EvaluationHistory({
         yPosition = (doc as any).lastAutoTable.finalY + 12
 
         // Seção 3: Medidas Antropométricas
-        const medidas = [
+        const medidasSimples = [
           avaliacao.ombro && ['Ombro', avaliacao.ombro.toFixed(1)],
           avaliacao.torax && ['Tórax', avaliacao.torax.toFixed(1)],
           avaliacao.cintura && ['Cintura', avaliacao.cintura.toFixed(1)],
@@ -469,43 +469,86 @@ export function EvaluationHistory({
           avaliacao.quadril && ['Quadril', avaliacao.quadril.toFixed(1)],
         ].filter(Boolean) as string[][]
 
-        if (medidas.length > 0 && yPosition < pageHeight - 60) {
-          doc.setFontSize(11)
+        const medidasPares = [
+          avaliacao.coxaDireita && avaliacao.coxaEsquerda && ['Coxa', avaliacao.coxaDireita.toFixed(1), avaliacao.coxaEsquerda.toFixed(1)],
+          avaliacao.panturrilhaDireita && avaliacao.panturrilhaEsquerda && ['Panturrilha', avaliacao.panturrilhaDireita.toFixed(1), avaliacao.panturrilhaEsquerda.toFixed(1)],
+          avaliacao.bracoDireito && avaliacao.bracoEsquerdo && ['Braço', avaliacao.bracoDireito.toFixed(1), avaliacao.bracoEsquerdo.toFixed(1)],
+          avaliacao.antebracoDireito && avaliacao.antebracoEsquerdo && ['Antebraço', avaliacao.antebracoDireito.toFixed(1), avaliacao.antebracoEsquerdo.toFixed(1)],
+          avaliacao.punhoDireito && avaliacao.punhoEsquerdo && ['Punho', avaliacao.punhoDireito.toFixed(1), avaliacao.punhoEsquerdo.toFixed(1)],
+        ].filter(Boolean) as (string | number)[][]
+
+        if ((medidasSimples.length > 0 || medidasPares.length > 0) && yPosition < pageHeight - 60) {
+          doc.setFontSize(10)
           doc.setFont('helvetica', 'bold')
           doc.setTextColor(25, 25, 25)
           doc.text('MEDIDAS ANTROPOMÉTRICAS (cm)', margin, yPosition)
-          yPosition += 6
+          yPosition += 5
 
-          const tableData3 = []
-          for (let i = 0; i < medidas.length; i += 2) {
-            tableData3.push([
-              medidas[i][0],
-              medidas[i][1],
-              medidas[i + 1] ? medidas[i + 1][0] : '',
-              medidas[i + 1] ? medidas[i + 1][1] : '',
-            ])
+          // Tabela com medidas simples (lado a lado)
+          if (medidasSimples.length > 0) {
+            const tableDataSimples = []
+            for (let i = 0; i < medidasSimples.length; i += 2) {
+              tableDataSimples.push([
+                medidasSimples[i][0],
+                medidasSimples[i][1],
+                medidasSimples[i + 1] ? medidasSimples[i + 1][0] : '',
+                medidasSimples[i + 1] ? medidasSimples[i + 1][1] : '',
+              ])
+            }
+
+            ;(doc as any).autoTable({
+              head: [['Medida', 'Valor', 'Medida', 'Valor']],
+              body: tableDataSimples,
+              startY: yPosition,
+              margin: margin,
+              tableWidth: contentWidth,
+              theme: 'grid',
+              headStyles: {
+                fillColor: [169, 255, 46],
+                textColor: [0, 0, 0],
+                fontStyle: 'bold',
+                fontSize: 8.5,
+              },
+              bodyStyles: {
+                fontSize: 8,
+              },
+              alternateRowStyles: {
+                fillColor: [248, 250, 252],
+              },
+            })
+            
+            yPosition = (doc as any).lastAutoTable.finalY + 6
           }
 
-          ;(doc as any).autoTable({
-            head: [['Medida', 'Valor (cm)', 'Medida', 'Valor (cm)']],
-            body: tableData3,
-            startY: yPosition,
-            margin: margin,
-            tableWidth: contentWidth,
-            theme: 'grid',
-            headStyles: {
-              fillColor: [169, 255, 46],
-              textColor: [0, 0, 0],
-              fontStyle: 'bold',
-              fontSize: 10,
-            },
-            bodyStyles: {
-              fontSize: 9,
-            },
-            alternateRowStyles: {
-              fillColor: [248, 250, 252],
-            },
-          })
+          // Tabela com medidas pares (direita/esquerda)
+          if (medidasPares.length > 0) {
+            const tableDataPares = medidasPares.map(m => [
+              m[0],
+              m[1],
+              m[2]
+            ])
+
+            ;(doc as any).autoTable({
+              head: [['Medida', 'Direita', 'Esquerda']],
+              body: tableDataPares,
+              startY: yPosition,
+              margin: margin,
+              tableWidth: contentWidth,
+              theme: 'grid',
+              headStyles: {
+                fillColor: [169, 255, 46],
+                textColor: [0, 0, 0],
+                fontStyle: 'bold',
+                fontSize: 8.5,
+              },
+              bodyStyles: {
+                fontSize: 8,
+              },
+              alternateRowStyles: {
+                fillColor: [248, 250, 252],
+              },
+            })
+          }
         }
       } else {
         // Comparativo com múltiplas avaliações
@@ -754,7 +797,7 @@ export function EvaluationHistory({
             yPosition = margin
           }
 
-          doc.setFontSize(11)
+          doc.setFontSize(10)
           doc.setFont('helvetica', 'bold')
           doc.setTextColor(169, 255, 46)
           doc.text('DOBRAS CUTÂNEAS (mm)', margin, yPosition)

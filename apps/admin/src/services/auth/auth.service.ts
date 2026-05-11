@@ -27,6 +27,12 @@ export async function signUpAdmin(
   })
 
   if (signUpError) {
+    if (signUpError.message === 'Database error saving new user') {
+      throw new Error(
+        'Erro de banco ao criar usuario. Aplique o hotfix SQL em packages/database/sql/hotfix_signup_500.sql no Supabase e tente novamente.',
+      )
+    }
+
     throw new Error(signUpError.message)
   }
 }

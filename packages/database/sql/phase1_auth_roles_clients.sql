@@ -563,8 +563,11 @@ security definer
 set search_path = public
 as $$
 begin
-  -- Apenas validar se email foi alterado e não é NULL
-  if new.email is not null and (old.id is null or old.email != new.email) then
+  -- Em INSERT não existe OLD; em UPDATE só valida se mudou.
+  if new.email is not null and (
+    tg_op = 'INSERT'
+    or (tg_op = 'UPDATE' and old.email is distinct from new.email)
+  ) then
     -- Verificar se email pertence ao usuário no auth
     if not exists (
       select 1 from auth.users 
