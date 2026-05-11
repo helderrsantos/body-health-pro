@@ -1,5 +1,6 @@
 {
-  "buildCommand": "npm -w admin run build",
-  "outputDirectory": "apps/admin/dist",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rootDirectory": "apps/admin",
   "framework": "vite"
 }
