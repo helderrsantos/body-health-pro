@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase'
 
-export interface AccessData {
+interface AccessData {
   email: string | null
   emailConfirmedAt: string | null
   createdAt: string | null
@@ -8,12 +8,12 @@ export interface AccessData {
   providers: string[]
 }
 
-export interface ProfileUpdateInput {
+interface ProfileUpdateInput {
   nome: string
   email: string
 }
 
-export interface ProfileUpdateResult {
+interface ProfileUpdateResult {
   emailUpdateRequiresConfirmation: boolean
 }
 
@@ -62,7 +62,7 @@ export async function updateProfileData(input: ProfileUpdateInput): Promise<Prof
   }
 
   if (!user?.id) {
-    throw new Error('Usuario nao autenticado.')
+    throw new Error('Usuário não autenticado.')
   }
 
   const currentEmail = user.email?.trim().toLowerCase() ?? ''

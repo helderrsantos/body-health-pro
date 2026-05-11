@@ -1,9 +1,10 @@
-import { useState, type FormEvent as ReactFormEvent } from 'react'
+import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deleteClientById, listClients } from '@/services/clients/clients.service'
 import type { ClientRow, ClientsListResult } from '@/types/client'
 
 const PAGE_SIZE = 5
+type SubmitEventLike = { preventDefault: () => void }
 
 interface UseClientsListParams {
   refreshToken: number
@@ -65,7 +66,7 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
     },
   })
 
-  function handleSearch(event: ReactFormEvent<HTMLFormElement>) {
+  function handleSearch(event: SubmitEventLike) {
     event.preventDefault()
     setPage(1)
     setQuery(queryInput)
@@ -87,7 +88,7 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
 
   function handleDelete(client: ClientRow) {
     const confirmation = globalThis.confirm(
-      `Deseja realmente deletar o cliente '${client.nome}'? Esta acao nao pode ser desfeita.`,
+      `Deseja realmente deletar o cliente '${client.nome}'? Esta ação não pode ser desfeita.`,
     )
 
     if (!confirmation) {

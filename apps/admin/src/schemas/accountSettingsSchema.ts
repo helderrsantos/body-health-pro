@@ -23,7 +23,7 @@ export const passwordSettingsSchema = z
     confirmPassword: z.string(),
   })
   .refine((value) => value.newPassword === value.confirmPassword, {
-    message: 'A confirmacao de senha nao confere.',
+    message: 'A confirmação de senha não confere.',
     path: ['confirmPassword'],
   })
 

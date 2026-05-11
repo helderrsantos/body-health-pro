@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useCallback,
@@ -37,8 +36,6 @@ async function resolveProfile() {
     return null
   }
 
-  // Use ensureProfileExists to create profile if it doesn't exist
-  // This acts as a fallback if the SQL trigger didn't run
   return ensureProfileExists(session.user.id)
 }
 
@@ -101,7 +98,7 @@ export function useAuth() {
   const context = useContext(AuthContext)
 
   if (!context) {
-    throw new Error('useAuth deve ser usado dentro de AuthProvider')
+    throw new Error('useAuth deve ser usado dentro de AuthProvider.')
   }
 
   return context

@@ -1,14 +1,24 @@
+import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth } from '@/components/auth/RequireAuth'
 import { RequireRole } from '@/components/auth/RequireRole'
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage'
-import { AccountDataPage } from '@/pages/AccountDataPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
-import { ClientDetailPage } from '@/pages/ClientDetailPage'
-import { EvaluationComparisonPage } from '@/pages/EvaluationComparisonPage'
-import { ClientRegistrationPage } from '@/pages/ClientRegistrationPage'
 import { LoginPage } from '@/pages/LoginPage'
 import './App.css'
+
+const AccountDataPage = lazy(() =>
+  import('@/pages/AccountDataPage').then((module) => ({ default: module.AccountDataPage })),
+)
+const ClientDetailPage = lazy(() =>
+  import('@/pages/ClientDetailPage').then((module) => ({ default: module.ClientDetailPage })),
+)
+const ClientRegistrationPage = lazy(() =>
+  import('@/pages/ClientRegistrationPage').then((module) => ({ default: module.ClientRegistrationPage })),
+)
+const EvaluationComparisonPage = lazy(() =>
+  import('@/pages/EvaluationComparisonPage').then((module) => ({ default: module.EvaluationComparisonPage })),
+)
 
 function App() {
   return (
@@ -30,7 +40,9 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <ClientRegistrationPage />
+              <Suspense fallback={<p>Carregando...</p>}>
+                <ClientRegistrationPage />
+              </Suspense>
             </RequireRole>
           </RequireAuth>
         }
@@ -40,7 +52,9 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <AccountDataPage />
+              <Suspense fallback={<p>Carregando...</p>}>
+                <AccountDataPage />
+              </Suspense>
             </RequireRole>
           </RequireAuth>
         }
@@ -50,7 +64,9 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <ClientDetailPage />
+              <Suspense fallback={<p>Carregando...</p>}>
+                <ClientDetailPage />
+              </Suspense>
             </RequireRole>
           </RequireAuth>
         }
@@ -60,12 +76,14 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <EvaluationComparisonPage />
+              <Suspense fallback={<p>Carregando comparativo...</p>}>
+                <EvaluationComparisonPage />
+              </Suspense>
             </RequireRole>
           </RequireAuth>
         }
       />
-      <Route path="/unauthorized" element={<p>Acesso nao autorizado para este perfil.</p>} />
+      <Route path="/unauthorized" element={<p>Acesso não autorizado para este perfil.</p>} />
       <Route path="*" element={<Navigate to="/admin" replace />} />
     </Routes>
   )

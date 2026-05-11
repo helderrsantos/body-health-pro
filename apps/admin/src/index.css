@@ -143,8 +143,6 @@ body {
     @apply font-sans;
   }
 }
-
-/* Background Lightning Responsive Adjustments */
 @media (max-width: 640px) {
   main svg[aria-hidden='true'] g {
     opacity: 0.5 !important;

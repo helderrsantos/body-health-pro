@@ -13,7 +13,7 @@ import { Controller, type Control, type FieldValues, type UseControllerProps } f
 import { FieldShell } from '@/components/ui/field-shell'
 import { cn } from "@/lib/utils"
 
-export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "ref"> {
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "ref"> {
   className?: string
 }
 
@@ -54,8 +54,6 @@ const handleNumericInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
   if (allowedControlKeys.includes(event.key)) {
     return
   }
-
-  // Allow digits, decimal point (.), comma (,), and minus sign (-)
   if (!/^[\d.,-]$/.test(event.key)) {
     event.preventDefault()
   }
@@ -90,14 +88,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input"
 
-export interface InputWrapperProps {
+interface InputWrapperProps {
   children: ReactNode
   className?: string
   invalid?: boolean
   disabled?: boolean
 }
 
-export function InputWrapper({ children, className, invalid, disabled }: Readonly<InputWrapperProps>) {
+function InputWrapper({ children, className, invalid, disabled }: Readonly<InputWrapperProps>) {
   return (
     <div
       className={cn(
@@ -171,7 +169,7 @@ function NumberInputField<
   ...props
 }: NumberInputFieldProps<TFieldValues, TContext, TTransformedValues>) {
   const isMobile = useMemo(() => {
-    if (typeof globalThis.window === 'undefined') {
+    if (globalThis.window === undefined) {
       return false
     }
 

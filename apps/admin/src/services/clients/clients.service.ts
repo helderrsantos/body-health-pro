@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase'
 import type { ClientRegistrationFormValues, ClientRow, ClientsListResult } from '@/types/client'
 import { CLIENTS_ROUTES } from '@/services/clients/clients.routes'
 
-export interface ListClientsParams {
+interface ListClientsParams {
   page: number
   query: string
   pageSize: number
@@ -54,7 +54,7 @@ export async function listClients({ page, query, pageSize }: Readonly<ListClient
 
   if (error) {
     if (error.code === 'PGRST205' || error.code === '42P01') {
-      throw new Error("Tabela 'clientes' nao encontrada no Supabase.")
+      throw new Error("Tabela 'clientes' não encontrada no Supabase.")
     }
 
     throw new Error(error.message)
@@ -94,7 +94,7 @@ export async function deleteClientById(clientId: number) {
   }
 
   if (!data || data.length === 0) {
-    throw new Error('Nao foi possivel deletar. Verifique permissoes RLS para delete.')
+    throw new Error('Não foi possível deletar. Verifique permissões RLS para delete.')
   }
 
   return clientId

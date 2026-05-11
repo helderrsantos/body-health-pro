@@ -84,7 +84,7 @@ export async function getSession() {
   return data.session
 }
 
-export async function getProfileByUserId(userId: string) {
+async function getProfileByUserId(userId: string) {
   const { data, error } = await supabase
     .from('profiles')
     .select('id,nome,role,tenant_id')
@@ -107,10 +107,8 @@ export async function getProfileByUserId(userId: string) {
 
 export async function ensureProfileExists(userId: string): Promise<UserProfile> {
   try {
-    // Try to get existing profile
     return await getProfileByUserId(userId)
   } catch {
-    // Profile doesn't exist, create it via RPC (security definer function)
     const session = await getSession()
     if (!session?.user?.email) {
       throw new Error('Session not found')
@@ -119,8 +117,6 @@ export async function ensureProfileExists(userId: string): Promise<UserProfile> 
     const user = session.user
     const nomeAdmin = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario'
     const nomeTenant = user.user_metadata?.company_name || `Tenant ${user.id?.slice(0, 8)}`
-
-    // Use RPC to bootstrap profile (bypasses RLS)
     const { data, error } = await supabase.rpc('bootstrap_profile', {
       nome: nomeAdmin,
       empresa_nome: nomeTenant,
@@ -135,8 +131,6 @@ export async function ensureProfileExists(userId: string): Promise<UserProfile> 
     }
 
     const result = data[0] as { profile_id: string; tenant_id: string }
-
-    // Return created profile
     return {
       id: result.profile_id,
       nome: nomeAdmin,

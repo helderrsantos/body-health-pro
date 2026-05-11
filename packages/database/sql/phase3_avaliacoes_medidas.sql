@@ -1,5 +1,3 @@
--- Phase 3: optional anthropometric measurements in avaliacoes
--- Execute after phase2_avaliacoes.sql
 
 alter table public.avaliacoes
   add column if not exists altura decimal(5, 1),

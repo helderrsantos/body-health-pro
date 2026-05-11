@@ -25,11 +25,11 @@ function parsePositiveDecimal(value: string): Decimal | null {
 export const validation = {
   positiveDecimal(value: string, label: string): string | null {
     if (value.trim() === '') {
-      return `${label} e obrigatorio.`
+      return `${label} é obrigatório.`
     }
 
     if (!parsePositiveDecimal(value)) {
-      return `${label} deve ser um numero positivo.`
+      return `${label} deve ser um número positivo.`
     }
 
     return null
@@ -37,7 +37,7 @@ export const validation = {
 
   positiveInteger(value: string, label: string): string | null {
     if (value.trim() === '') {
-      return `${label} e obrigatorio.`
+      return `${label} é obrigatório.`
     }
 
     const parsed = parsePositiveDecimal(value)
@@ -51,7 +51,7 @@ export const validation = {
 
   selectRequired(value: string, label: string): string | null {
     if (value.trim() === '') {
-      return `${label} e obrigatorio.`
+      return `${label} é obrigatório.`
     }
 
     return null

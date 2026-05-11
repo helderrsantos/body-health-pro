@@ -11,7 +11,7 @@ export const clientRegistrationSchema = z.object({
     .string()
     .transform((value) => value.trim())
     .refine((value) => z.iso.date().safeParse(value).success, 'Data de nascimento invalida.')
-    .refine((value) => value <= TODAY, 'Data de nascimento nao pode ser futura.'),
+    .refine((value) => value <= TODAY, 'Data de nascimento não pode ser futura.'),
   sexo: z.preprocess(
     (value) => (typeof value === 'string' ? value : ''),
     z.string().min(1, 'Selecione o sexo').pipe(z.enum(['masculino', 'feminino'])),

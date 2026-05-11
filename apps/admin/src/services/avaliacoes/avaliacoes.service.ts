@@ -3,19 +3,25 @@ import { supabase } from '@/lib/supabase'
 function throwAvaliacaoError(context: string, error: { code?: string; message: string }): never {
   if (error.code === 'PGRST205' || error.code === '42P01') {
     throw new Error(
-      "Tabela 'public.avaliacoes' nao encontrada. Execute o SQL em packages/database/sql/phase2_avaliacoes.sql no Supabase SQL Editor.",
+      "Tabela 'public.avaliacoes' não encontrada. Execute o SQL em packages/database/sql/phase2_avaliacoes.sql no Supabase SQL Editor.",
     )
   }
 
   if (error.code === 'PGRST204') {
     throw new Error(
-      "Estrutura da tabela avaliacoes divergente do app (coluna ausente no banco). Verifique as migracoes aplicadas no Supabase, incluindo packages/database/sql/phase3_avaliacoes_medidas.sql.",
+      "Estrutura da tabela avaliações divergente do app (coluna ausente no banco). Verifique as migrações aplicadas no Supabase, incluindo packages/database/sql/phase3_avaliacoes_medidas.sql.",
     )
   }
 
   if (error.code === '22003') {
     throw new Error(
       'Um dos valores inseridos é muito grande para o campo (overflow numérico). Verifique especialmente: dobras cutâneas (máx 500mm), peso (máx 9999.99kg), percentual gordura (máx 999.99%). Se os valores parecerem corretos, a altura ou peso podem estar em unidade incorreta.',
+    )
+  }
+
+  if (error.code === '42501') {
+    throw new Error(
+      'Bloqueado pelo RLS em public.avaliacoes. Confira se: (1) seu usuário possui profile com role admin, (2) tenant_id do usuário é igual ao tenant_id enviado no insert, e (3) o SQL de fase2 foi aplicado com a policy admin_manage_avaliacoes.',
     )
   }
 
@@ -307,7 +313,6 @@ export async function getLatestAvaliacaoByCliente(clienteId: number): Promise<Av
     .single()
 
   if (error && error.code !== 'PGRST116') {
-    // PGRST116 = no rows returned, which is OK
     throwAvaliacaoError('Erro ao buscar última avaliação', error)
   }
 

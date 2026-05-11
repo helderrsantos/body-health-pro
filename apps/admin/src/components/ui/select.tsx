@@ -17,7 +17,7 @@ type SelectFieldProps<
     containerClassName?: string
   }
 
-export function Select({ className, children, ...props }: Readonly<SelectProps>) {
+function Select({ className, children, ...props }: Readonly<SelectProps>) {
   return (
     <select className={cn('w-full flex-1 border-0 bg-transparent px-0 py-0 text-base outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed md:text-sm', className)} {...props}>
       {children}

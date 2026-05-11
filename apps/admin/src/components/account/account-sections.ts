@@ -2,7 +2,7 @@ import { CreditCard, KeyRound, ShieldUser, UserRound } from 'lucide-react'
 
 export type AccountSectionId = 'access' | 'profile' | 'password' | 'billing'
 
-export interface AccountSectionDefinition {
+interface AccountSectionDefinition {
   id: AccountSectionId
   title: string
   description: string

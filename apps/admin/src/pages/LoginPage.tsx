@@ -1,4 +1,4 @@
-import { useState, type FormEvent as ReactFormEvent } from 'react'
+import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { Button } from '@/components/ui/button'
@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { signUpAdmin } from '@/services/auth/auth.service'
 
 type AuthMode = 'login' | 'signup'
+type SubmitEventLike = { preventDefault: () => void }
 
 export function LoginPage() {
   const { signIn, signInGoogle, isAuthenticated, isLoading } = useAuth()
@@ -19,7 +20,7 @@ export function LoginPage() {
   const [signupPassword, setSignupPassword] = useState('')
   const [signupPasswordConfirm, setSignupPasswordConfirm] = useState('')
   const [nomeAdmin, setNomeAdmin] = useState('')
-  const [nomeTenant, setNomeTenant] = useState('')
+  const [nomeOrganizacao, setNomeOrganizacao] = useState('')
   
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -44,7 +45,7 @@ export function LoginPage() {
     return <p>Carregando...</p>
   }
 
-  async function handleLoginSubmit(event: ReactFormEvent<HTMLFormElement>) {
+  async function handleLoginSubmit(event: SubmitEventLike) {
     event.preventDefault()
     setError(null)
     setSuccessMessage(null)
@@ -60,7 +61,7 @@ export function LoginPage() {
     }
   }
 
-  async function handleSignupSubmit(event: ReactFormEvent<HTMLFormElement>) {
+  async function handleSignupSubmit(event: SubmitEventLike) {
     event.preventDefault()
     setError(null)
     setSuccessMessage(null)
@@ -71,7 +72,7 @@ export function LoginPage() {
         throw new Error('As senhas não conferem.')
       }
 
-      await signUpAdmin(signupEmail, signupPassword, nomeAdmin, nomeTenant)
+      await signUpAdmin(signupEmail, signupPassword, nomeAdmin, nomeOrganizacao)
       
       setSuccessMessage(
         'Cadastro realizado com sucesso! Verifique seu email e faça login.'
@@ -81,7 +82,7 @@ export function LoginPage() {
       setSignupPassword('')
       setSignupPasswordConfirm('')
       setNomeAdmin('')
-      setNomeTenant('')
+      setNomeOrganizacao('')
       
       setTimeout(() => {
         setMode('login')
@@ -183,11 +184,11 @@ export function LoginPage() {
               </label>
 
               <label className="field col-span-2 flex flex-col gap-2">
-                <span className="font-semibold text-[#a9ff2e]">Nome da Empresa/Tenant</span>
+                <span className="font-semibold text-[#a9ff2e]">Nome da Organização</span>
                 <Input
                   type="text"
-                  value={nomeTenant}
-                  onChange={(event) => setNomeTenant(event.target.value)}
+                  value={nomeOrganizacao}
+                  onChange={(event) => setNomeOrganizacao(event.target.value)}
                   placeholder="Ex: Body Health Studio"
                   required
                   className="border border-[rgb(169_255_46_/_0.5)]"

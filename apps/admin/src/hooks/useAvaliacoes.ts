@@ -18,7 +18,6 @@ interface UseAvaliacoesOptions {
  * Hook to manage avaliacoes (assessments) for a client
  */
 export function useAvaliacoes({ clienteId, enabled = true }: UseAvaliacoesOptions) {
-  // Fetch all avaliacoes for this client
   const {
     data: avaliacoes = [],
     isLoading: isLoadingAvaliacoes,
@@ -29,8 +28,6 @@ export function useAvaliacoes({ clienteId, enabled = true }: UseAvaliacoesOption
     queryFn: () => (clienteId ? getAvaliacoesByCliente(clienteId) : Promise.resolve([])),
     enabled: enabled && !!clienteId,
   })
-
-  // Fetch latest avaliacao for this client
   const {
     data: latestAvaliacao = null,
     isLoading: isLoadingLatest,
@@ -40,16 +37,12 @@ export function useAvaliacoes({ clienteId, enabled = true }: UseAvaliacoesOption
     queryFn: () => (clienteId ? getLatestAvaliacaoByCliente(clienteId) : Promise.resolve(null)),
     enabled: enabled && !!clienteId,
   })
-
-  // Create avaliacao mutation
   const createMutation = useMutation({
     mutationFn: (data: AvaliacaoData) => createAvaliacao(data),
     onSuccess: () => {
       refetchAvaliacoes()
     },
   })
-
-  // Update avaliacao mutation
   const updateMutation = useMutation({
     mutationFn: (data: { id: number; data: Omit<AvaliacaoData, 'clienteId'> }) =>
       updateAvaliacao(data.id, data.data),
@@ -57,16 +50,12 @@ export function useAvaliacoes({ clienteId, enabled = true }: UseAvaliacoesOption
       refetchAvaliacoes()
     },
   })
-
-  // Delete avaliacao mutation
   const deleteMutation = useMutation({
     mutationFn: (avaliacaoId: number) => deleteAvaliacao(avaliacaoId),
     onSuccess: () => {
       refetchAvaliacoes()
     },
   })
-
-  // Calculate evolution stats
   const evolutionStats = useMemo(() => {
     if (avaliacoes.length < 2) return null
 
@@ -90,26 +79,17 @@ export function useAvaliacoes({ clienteId, enabled = true }: UseAvaliacoesOption
   }, [avaliacoes])
 
   return {
-    // Data
     avaliacoes,
     latestAvaliacao,
     evolutionStats,
-
-    // Loading states
     isLoading: isLoadingAvaliacoes || isLoadingLatest,
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,
-
-    // Errors
     error: avaliacoesError || latestError || createMutation.error || updateMutation.error || deleteMutation.error,
-
-    // Mutations
     createAvaliacao: createMutation.mutateAsync,
     updateAvaliacao: updateMutation.mutateAsync,
     deleteAvaliacao: deleteMutation.mutateAsync,
-
-    // Refetch
     refetch: refetchAvaliacoes,
   }
 }

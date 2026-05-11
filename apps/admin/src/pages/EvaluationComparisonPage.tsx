@@ -2,7 +2,16 @@ import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AlertTriangle, ArrowDown, ArrowUp, Scale, Sparkles, Target, Trophy } from 'lucide-react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Line, Column } from '@ant-design/plots'
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
@@ -25,16 +34,27 @@ interface MetricRow {
   values: Array<number | undefined>
 }
 
-interface ChartPoint {
+interface BodyChartPoint {
   date: string
-  metric: string
-  value: number
+  gordura: number
+  massaMagra: number
+  massaGordura: number
+  peso: number
+}
+
+interface MeasureChartPoint {
+  date: string
+  cintura?: number
+  abdomen?: number
+  quadril?: number
+  torax?: number
+  ombro?: number
 }
 
 interface ComparePoint {
   metric: string
-  period: string
-  value: number
+  primeira: number
+  ultima: number
 }
 
 interface GoalProgress {
@@ -133,7 +153,7 @@ export function EvaluationComparisonPage() {
 
   const dataLoaded = ordered.length === selectedIds.length
   const first = ordered[0]
-  const last = ordered[ordered.length - 1]
+  const last = ordered.at(-1)
 
   const daysBetween = useMemo(() => {
     if (!first || !last) return 0
@@ -173,51 +193,41 @@ export function EvaluationComparisonPage() {
     ]
   }, [daysBetween, first, last, ordered.length])
 
-  const bodyChartData = useMemo<ChartPoint[]>(() => {
+  const bodyChartData = useMemo<BodyChartPoint[]>(() => {
     if (!ordered.length) return []
 
-    const rows: ChartPoint[] = []
-    for (const item of ordered) {
-      const date = formatDateBR(item.dataAvaliacao)
-      rows.push({ date, metric: 'Gordura %', value: item.percentualGordura })
-      rows.push({ date, metric: 'Massa Magra (kg)', value: item.massaMagraKg })
-      rows.push({ date, metric: 'Massa Gordura (kg)', value: item.massaGorduraKg })
-      rows.push({ date, metric: 'Peso (kg)', value: item.peso })
-    }
-    return rows
+    return ordered.map((item) => ({
+      date: formatDateBR(item.dataAvaliacao),
+      gordura: item.percentualGordura,
+      massaMagra: item.massaMagraKg,
+      massaGordura: item.massaGorduraKg,
+      peso: item.peso,
+    }))
   }, [ordered])
 
-  const measureChartData = useMemo<ChartPoint[]>(() => {
+  const measureChartData = useMemo<MeasureChartPoint[]>(() => {
     if (!ordered.length) return []
 
-    const rows: ChartPoint[] = []
-    for (const item of ordered) {
-      const date = formatDateBR(item.dataAvaliacao)
-      if (item.cintura != null) rows.push({ date, metric: 'Cintura (cm)', value: item.cintura })
-      if (item.abdomen != null) rows.push({ date, metric: 'Abdomen (cm)', value: item.abdomen })
-      if (item.quadril != null) rows.push({ date, metric: 'Quadril (cm)', value: item.quadril })
-      if (item.torax != null) rows.push({ date, metric: 'Torax (cm)', value: item.torax })
-      if (item.ombro != null) rows.push({ date, metric: 'Ombro (cm)', value: item.ombro })
-    }
-    return rows
+    return ordered.map((item) => ({
+      date: formatDateBR(item.dataAvaliacao),
+      cintura: item.cintura,
+      abdomen: item.abdomen,
+      quadril: item.quadril,
+      torax: item.torax,
+      ombro: item.ombro,
+    }))
   }, [ordered])
 
   const comparisonBars = useMemo<ComparePoint[]>(() => {
     if (!first || !last) return []
 
     return [
-      { metric: 'Gordura %', period: 'Primeira', value: first.percentualGordura },
-      { metric: 'Gordura %', period: 'Ultima', value: last.percentualGordura },
-      { metric: 'Massa Magra', period: 'Primeira', value: first.massaMagraKg },
-      { metric: 'Massa Magra', period: 'Ultima', value: last.massaMagraKg },
-      { metric: 'Massa Gordura', period: 'Primeira', value: first.massaGorduraKg },
-      { metric: 'Massa Gordura', period: 'Ultima', value: last.massaGorduraKg },
-      { metric: 'Peso', period: 'Primeira', value: first.peso },
-      { metric: 'Peso', period: 'Ultima', value: last.peso },
-      { metric: 'Cintura', period: 'Primeira', value: first.cintura ?? 0 },
-      { metric: 'Cintura', period: 'Ultima', value: last.cintura ?? 0 },
-      { metric: 'Abdomen', period: 'Primeira', value: first.abdomen ?? 0 },
-      { metric: 'Abdomen', period: 'Ultima', value: last.abdomen ?? 0 },
+      { metric: 'Gordura %', primeira: first.percentualGordura, ultima: last.percentualGordura },
+      { metric: 'Massa Magra', primeira: first.massaMagraKg, ultima: last.massaMagraKg },
+      { metric: 'Massa Gordura', primeira: first.massaGorduraKg, ultima: last.massaGorduraKg },
+      { metric: 'Peso', primeira: first.peso, ultima: last.peso },
+      { metric: 'Cintura', primeira: first.cintura ?? 0, ultima: last.cintura ?? 0 },
+      { metric: 'Abdomen', primeira: first.abdomen ?? 0, ultima: last.abdomen ?? 0 },
     ]
   }, [first, last])
 
@@ -409,7 +419,7 @@ export function EvaluationComparisonPage() {
   if (!numericClientId) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-400">Cliente nao encontrado.</p>
+        <p className="text-red-400">Cliente não encontrado.</p>
       </div>
     )
   }
@@ -459,14 +469,14 @@ export function EvaluationComparisonPage() {
 
         {!validSelection && (
           <Card className="p-5">
-            <p className="text-red-300 text-sm">Selecione de 2 a 4 avaliacoes no historico para abrir o comparativo.</p>
+            <p className="text-red-300 text-sm">Selecione de 2 a 4 avaliações no histórico para abrir o comparativo.</p>
           </Card>
         )}
 
         {validSelection && !dataLoaded && !isLoading && (
           <Card className="p-5">
             <p className="text-red-300 text-sm">
-              Nao foi possivel carregar todas as avaliacoes selecionadas. Tente novamente pelo historico.
+              Não foi possível carregar todas as avaliações selecionadas. Tente novamente pelo histórico.
             </p>
           </Card>
         )}
@@ -557,19 +567,19 @@ export function EvaluationComparisonPage() {
                 </CardHeader>
                 <CardContent>
                   <div style={{ height: '320px' }}>
-                    <Line
-                      data={bodyChartData}
-                      xField="date"
-                      yField="value"
-                      seriesField="metric"
-                      smooth
-                      point={{ size: 5, shape: 'circle' }}
-                      color={['#a9ff2e', '#d8ffe8', '#59ffd2', '#ffdf8a']}
-                      lineStyle={{ lineWidth: 2 }}
-                      legend={{ position: 'bottom' as const, layout: 'horizontal' as const }}
-                      tooltip={{ showTitle: true }}
-                      theme="dark"
-                    />
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={bodyChartData} margin={{ top: 8, right: 8, left: 0, bottom: 8 }} barCategoryGap="18%" barGap={4}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.12)" />
+                        <XAxis dataKey="date" stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                        <YAxis stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="gordura" name="Gordura %" fill="#a9ff2e" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="massaMagra" name="Massa Magra (kg)" fill="#d8ffe8" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="massaGordura" name="Massa Gordura (kg)" fill="#59ffd2" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="peso" name="Peso (kg)" fill="#ffdf8a" radius={[6, 6, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
@@ -608,22 +618,23 @@ export function EvaluationComparisonPage() {
                 </CardHeader>
                 <CardContent>
                   {measureChartData.length === 0 ? (
-                    <p className="text-sm text-gray-300">Nao ha medidas em cm suficientes para montar este grafico.</p>
+                    <p className="text-sm text-gray-300">Não há medidas em cm suficientes para montar este gráfico.</p>
                   ) : (
                     <div style={{ height: '320px' }}>
-                      <Line
-                        data={measureChartData}
-                        xField="date"
-                        yField="value"
-                        seriesField="metric"
-                        smooth
-                        point={{ size: 5, shape: 'circle' }}
-                        color={['#4dff9d', '#45d2ff', '#ffc76b', '#f398ff']}
-                        lineStyle={{ lineWidth: 2 }}
-                        legend={{ position: 'bottom' as const, layout: 'horizontal' as const }}
-                        tooltip={{ showTitle: true }}
-                        theme="dark"
-                      />
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={measureChartData} margin={{ top: 8, right: 8, left: 0, bottom: 8 }} barCategoryGap="18%" barGap={4}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.12)" />
+                          <XAxis dataKey="date" stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                          <YAxis stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="cintura" name="Cintura (cm)" fill="#4dff9d" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="abdomen" name="Abdomen (cm)" fill="#45d2ff" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="quadril" name="Quadril (cm)" fill="#ffc76b" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="torax" name="Torax (cm)" fill="#f398ff" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="ombro" name="Ombro (cm)" fill="#9ad6ff" radius={[6, 6, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
                   )}
                 </CardContent>
@@ -635,17 +646,17 @@ export function EvaluationComparisonPage() {
                 </CardHeader>
                 <CardContent>
                   <div style={{ height: '320px' }}>
-                    <Column
-                      data={comparisonBars}
-                      xField="metric"
-                      yField="value"
-                      seriesField="period"
-                      isGroup
-                      color={['#5ce3ff', '#a9ff2e']}
-                      legend={{ position: 'bottom' as const, layout: 'horizontal' as const }}
-                      tooltip={{ showTitle: true }}
-                      theme="dark"
-                    />
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={comparisonBars} margin={{ top: 8, right: 8, left: 0, bottom: 8 }} barCategoryGap="18%" barGap={4}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.12)" />
+                        <XAxis dataKey="metric" stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                        <YAxis stroke="#c4d0c8" tick={{ fontSize: 12 }} />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="primeira" name="Primeira" fill="#5ce3ff" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="ultima" name="Ultima" fill="#a9ff2e" radius={[8, 8, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
@@ -671,17 +682,15 @@ export function EvaluationComparisonPage() {
                     <tbody>
                       {metricRows.map((row) => {
                         const firstValue = row.values[0]
-                        const lastValue = row.values[row.values.length - 1]
+                        const lastValue = row.values.at(-1)
                         const trend = getTrend(firstValue, lastValue)
                         const trendText = getTrendText(trend, row.improveWhen)
-                        const trendIcon =
-                          trend === 'up' ? (
-                            <ArrowUp className="h-4 w-4" />
-                          ) : trend === 'down' ? (
-                            <ArrowDown className="h-4 w-4" />
-                          ) : (
-                            <Scale className="h-4 w-4" />
-                          )
+                        let trendIcon = <Scale className="h-4 w-4" />
+                        if (trend === 'up') {
+                          trendIcon = <ArrowUp className="h-4 w-4" />
+                        } else if (trend === 'down') {
+                          trendIcon = <ArrowDown className="h-4 w-4" />
+                        }
 
                         return (
                           <tr key={row.label} className="border-b border-[rgba(255,255,255,0.06)]">

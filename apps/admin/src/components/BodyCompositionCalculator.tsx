@@ -208,7 +208,6 @@ export function BodyCompositionCalculator({
 
   useEffect(() => {
     if (editingAvaliacao) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResultado({
         percentualGordura: editingAvaliacao.percentualGordura.toFixed(2),
         massaMagraKg: editingAvaliacao.massaMagraKg.toFixed(2),
@@ -238,10 +237,6 @@ export function BodyCompositionCalculator({
       massaMagraKg: calculo.massaMagraKg.toDecimalPlaces(2).toFixed(2),
       massaGordaKg: calculo.massaGordaKg.toDecimalPlaces(2).toFixed(2),
     }
-
-
-
-    // Validate calculated values before saving
     const massaMagraNum = Number.parseFloat(novoResultado.massaMagraKg)
     const massaGorduraNum = Number.parseFloat(novoResultado.massaGordaKg)
     const percentualGorduraNum = Number.parseFloat(novoResultado.percentualGordura)
@@ -260,8 +255,6 @@ export function BodyCompositionCalculator({
     }
 
     setResultado(novoResultado)
-
-    // Save to database if cliente is selected
     if (clienteId && profile) {
       setIsSavingAvaliacao(true)
       try {
@@ -299,8 +292,6 @@ export function BodyCompositionCalculator({
           punhoDireito: values.punhoDireito,
           punhoEsquerdo: values.punhoEsquerdo,
         }
-
-        // Final validation before sending
         if (!Number.isFinite(avaliacaoData.peso) || avaliacaoData.peso > 9999.99) {
           throw new Error('Peso inválido para salvar')
         }
@@ -336,8 +327,6 @@ export function BodyCompositionCalculator({
     reset()
     setResultado(null)
   }
-
-  // Show message if no client selected
   if (!clienteId) {
     return (
       <section className="mt-6 border-t border-[rgba(169,255,46,0.26)] pt-5">

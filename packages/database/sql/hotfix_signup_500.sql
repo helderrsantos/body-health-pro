@@ -1,5 +1,3 @@
--- Hotfix: /signup returning "Database error saving new user"
--- Execute this script in Supabase SQL Editor.
 
 create or replace function public.validate_profile_email()
 returns trigger
@@ -8,8 +6,6 @@ security definer
 set search_path = public
 as $$
 begin
-  -- OLD is not available during INSERT. Validate directly on INSERT,
-  -- and only validate changed email on UPDATE.
   if new.email is not null and (
     tg_op = 'INSERT'
     or (tg_op = 'UPDATE' and old.email is distinct from new.email)
@@ -45,7 +41,6 @@ declare
   tenant_nome text;
   user_email text;
 begin
-  -- Never break Auth signup due to profile bootstrap issues.
   begin
     user_email := coalesce(
       nullif(trim(new.raw_user_meta_data->>'email'), ''),
@@ -86,8 +81,6 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_auth_user();
-
--- Optional smoke test helper: show trigger/function currently active.
 select
   t.tgname as trigger_name,
   p.proname as function_name

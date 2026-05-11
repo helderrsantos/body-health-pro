@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
@@ -57,17 +57,6 @@ export function ClientDetailPage() {
     clienteId: numericClientId ?? undefined,
   })
 
-  useEffect(() => {
-    if (cliente) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFormData({
-        nome: cliente.nome,
-        dataNascimento: cliente.data_nascimento,
-        sexo: cliente.sexo,
-      })
-    }
-  }, [cliente])
-
   async function handleSaveClient() {
     if (!numericClientId) return
 
@@ -87,7 +76,7 @@ export function ClientDetailPage() {
     setIsSaving(false)
 
     if (error) {
-      setSaveError('Nao foi possivel atualizar os dados do cliente.')
+      setSaveError('Não foi possível atualizar os dados do cliente.')
       return
     }
 
@@ -124,7 +113,7 @@ export function ClientDetailPage() {
   if (!numericClientId) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-red-400">Cliente não encontrado</p>
+        <p className="text-red-400">Cliente não encontrado.</p>
       </div>
     )
   }
@@ -172,18 +161,18 @@ export function ClientDetailPage() {
             <div className="space-y-3">
               <Input
                 type="text"
-                value={formData.nome}
+                value={formData.nome || cliente?.nome || ''}
                 onChange={(event) => setFormData((prev) => ({ ...prev, nome: event.target.value }))}
                 placeholder="Nome completo"
               />
               <Input
                 type="date"
-                value={formData.dataNascimento}
+                value={formData.dataNascimento || cliente?.data_nascimento || ''}
                 onChange={(event) => setFormData((prev) => ({ ...prev, dataNascimento: event.target.value }))}
               />
               <select
                 className="w-full rounded-xl border border-[rgba(169,255,46,0.2)] bg-[rgba(9,16,12,0.86)] px-3 py-2 text-sm text-[#d8ffe8]"
-                value={formData.sexo}
+                value={formData.sexo || cliente?.sexo || 'masculino'}
                 onChange={(event) =>
                   setFormData((prev) => ({
                     ...prev,
@@ -216,13 +205,11 @@ export function ClientDetailPage() {
                     setIsEditing(false)
                     setSaveError(null)
                     setSaveMessage(null)
-                    if (cliente) {
-                      setFormData({
-                        nome: cliente.nome,
-                        dataNascimento: cliente.data_nascimento,
-                        sexo: cliente.sexo,
-                      })
-                    }
+                    setFormData({
+                      nome: '',
+                      dataNascimento: '',
+                      sexo: 'masculino',
+                    })
                   }}
                 >
                   Cancelar
@@ -231,15 +218,15 @@ export function ClientDetailPage() {
             </div>
           ) : (
             <div className="space-y-2 text-xs sm:text-sm text-gray-300">
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
                 <span>Nome:</span>
                 <span className="text-[#d8ffe8]">{cliente?.nome}</span>
               </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
                 <span>Nascimento:</span>
                 <span className="text-[#d8ffe8]">{formatDateBR(cliente?.data_nascimento)}</span>
               </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
+              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
                 <span>Sexo:</span>
                 <span className="text-[#d8ffe8]">{cliente?.sexo}</span>
               </div>

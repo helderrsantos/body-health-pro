@@ -10,8 +10,6 @@ export function AuthCallbackPage() {
     void (async () => {
       try {
         await exchangeCodeForSession()
-        
-        // Wait a bit for profile to be created by trigger or ensure it exists
         const session = await getSession()
         if (session?.user?.id) {
           await ensureProfileExists(session.user.id)

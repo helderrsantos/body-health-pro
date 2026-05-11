@@ -90,7 +90,7 @@ export function AccountDataPage() {
     return (
       <Card>
         <CardContent className="py-6 text-sm text-red-400">
-          Nao foi possivel carregar os dados de acesso.
+          Não foi possível carregar os dados de acesso.
         </CardContent>
       </Card>
     )

@@ -6,7 +6,7 @@ export function RequireAuth({ children }: Readonly<{ children: ReactElement }>) 
   const { isAuthenticated, isLoading } = useAuth()
 
   if (isLoading) {
-    return <p>Carregando sessao...</p>
+    return <p>Carregando sessão...</p>
   }
 
   if (!isAuthenticated) {

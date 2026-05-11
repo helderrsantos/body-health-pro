@@ -1,9 +1,8 @@
 export function calculateAge(dateOfBirth: Date | string, referenceDate = new Date()): number {
-  const birthDate =
-    dateOfBirth instanceof Date ? new Date(dateOfBirth.getTime()) : new Date(dateOfBirth)
+  const birthDate = new Date(dateOfBirth)
 
   if (Number.isNaN(birthDate.getTime())) {
-    throw new Error('Data de nascimento invalida.')
+    throw new TypeError('Data de nascimento inválida.')
   }
 
   let age = referenceDate.getFullYear() - birthDate.getFullYear()
@@ -14,7 +13,7 @@ export function calculateAge(dateOfBirth: Date | string, referenceDate = new Dat
   }
 
   if (age < 0) {
-    throw new Error('Data de nascimento no futuro nao e permitida.')
+    throw new Error('Data de nascimento no futuro não é permitida.')
   }
 
   return age

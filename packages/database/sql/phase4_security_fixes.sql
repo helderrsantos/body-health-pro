@@ -1,23 +1,6 @@
--- Phase 4: Security fixes for existing database
--- Addresses all Supabase linter warnings without dropping tables/data
--- Execute no SQL Editor do Supabase
-
--- =============================================================================
--- 1. REMOVER FUNÇÕES ANTIGAS (versões legadas ainda presentes no DB)
--- =============================================================================
-
--- Overload antigo de bootstrap_profile com user_id como parâmetro
 drop function if exists public.bootstrap_profile(uuid, text, text) cascade;
-
--- Função de trigger legada
 drop function if exists public.confirm_user_email() cascade;
-
--- Função de trigger legada substituída por set_cliente_defaults
 drop function if exists public.set_cliente_tenant_and_created_by() cascade;
-
--- =============================================================================
--- 2. ADICIONAR set search_path AOS TRIGGERS SEM ELE
--- =============================================================================
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -88,7 +71,6 @@ security definer
 set search_path = public
 as $$
 begin
-  -- Em INSERT não existe OLD; em UPDATE só valida se mudou.
   if new.email is not null and (
     tg_op = 'INSERT'
     or (tg_op = 'UPDATE' and old.email is distinct from new.email)
@@ -107,16 +89,8 @@ begin
 end;
 $$;
 
--- =============================================================================
--- 3. REVOGAR ACESSO ANÔNIMO A TODAS AS FUNÇÕES
--- =============================================================================
-
 revoke execute on all functions in schema public from anon;
 revoke execute on all functions in schema public from public;
-
--- =============================================================================
--- 4. REVOGAR FUNÇÕES DE TRIGGER DO ROLE AUTHENTICATED (não devem ser chamadas via RPC)
--- =============================================================================
 
 revoke execute on function public.audit_log_trigger() from authenticated;
 revoke execute on function public.handle_new_auth_user() from authenticated;
@@ -125,19 +99,10 @@ revoke execute on function public.set_updated_at() from authenticated;
 revoke execute on function public.set_tenant_defaults() from authenticated;
 revoke execute on function public.set_cliente_defaults() from authenticated;
 
--- =============================================================================
--- 5. CORRIGIR POLÍTICA RLS security_log_insert_policy (with check true → restringe ao próprio user)
--- =============================================================================
-
 drop policy if exists security_log_insert_policy on public.security_log;
 create policy security_log_insert_policy on public.security_log
   for insert to authenticated
   with check (user_id = (select auth.uid()));
-
--- =============================================================================
--- 6. CONVERTER FUNÇÕES DE APP PARA SECURITY INVOKER
---    (RLS nas tabelas subjacentes já protege, não precisam de security definer)
--- =============================================================================
 
 create or replace function public.soft_delete_cliente(
   p_cliente_id bigint
@@ -231,8 +196,6 @@ as $$
   where t.id = public.current_tenant_id()
   group by t.id;
 $$;
-
--- Funções de avaliação (phase 2)
 create or replace function public.get_latest_avaliacao(cliente_id_param bigint)
 returns public.avaliacoes
 language sql
@@ -246,32 +209,4 @@ as $$
   limit 1;
 $$;
 
--- =============================================================================
--- 7. REVOGAR log_security_event DE authenticated
---    (chamada apenas internamente por funções security definer, não via RPC direto)
--- =============================================================================
-
 revoke execute on function public.log_security_event(text, jsonb) from authenticated;
-
--- =============================================================================
--- AVISOS RESTANTES (INTENCIONAIS - NÃO CORRIGIR)
--- =============================================================================
---
--- As funções abaixo continuarão a gerar warnings no linter do Supabase.
--- Isso é esperado e CORRETO para esta arquitetura:
---
--- 1. bootstrap_profile(nome, empresa_nome, empresa_cnpj)
---    Precisa de SECURITY DEFINER para criar tenant+profile de um usuário recém-cadastrado
---    que ainda não tem RLS configurado. Não pode ser SECURITY INVOKER.
---
--- 2. get_current_user_info() / is_admin() / current_tenant_id()
---    São helpers de RLS usados nas políticas de todas as tabelas.
---    O PostgreSQL avalia policies no contexto do role `authenticated`, que PRECISA
---    ter EXECUTE nessas funções. Revogar quebra o RLS com "permission denied".
---    Converter para SECURITY INVOKER causaria recursão infinita (função consulta
---    `profiles`, que tem RLS que chama a função).
---
--- 3. auth_leaked_password_protection
---    Não é SQL — habilitar no Supabase Dashboard:
---    Authentication → Settings → Password Security → Leaked Password Protection
--- =============================================================================

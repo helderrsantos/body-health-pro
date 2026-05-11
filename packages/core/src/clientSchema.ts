@@ -50,7 +50,7 @@ export const clientSchema: Record<ClientFieldKey, ClientFieldDefinition> = {
     validate: (value) => validation.positiveDecimal(value, 'Coxa'),
   },
   axilarMedia: {
-    label: 'Axilar Media (mm)',
+    label: 'Axilar Média (mm)',
     type: 'decimal',
     step: '0.1',
     placeholder: 'Ex.: 11.0',
@@ -64,14 +64,14 @@ export const clientSchema: Record<ClientFieldKey, ClientFieldDefinition> = {
     validate: (value) => validation.positiveDecimal(value, 'Subescapular'),
   },
   suprailiaca: {
-    label: 'Suprailiaca (mm)',
+    label: 'Suprailiáca (mm)',
     type: 'decimal',
     step: '0.1',
     placeholder: 'Ex.: 13.6',
     validate: (value) => validation.positiveDecimal(value, 'Suprailiaca'),
   },
   triceps: {
-    label: 'Triceps (mm)',
+    label: 'Tríceps (mm)',
     type: 'decimal',
     step: '0.1',
     placeholder: 'Ex.: 10.8',
@@ -108,7 +108,7 @@ export const clientSchema: Record<ClientFieldKey, ClientFieldDefinition> = {
   sexo: {
     label: 'Sexo',
     type: 'select',
-    placeholder: 'Selecione',
+    placeholder: 'Selecione.',
     options: [
       { value: 'masculino', label: 'Masculino' },
       { value: 'feminino', label: 'Feminino' },

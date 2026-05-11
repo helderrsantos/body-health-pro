@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button-variants"
 
-export interface ButtonProps extends ButtonPrimitive.Props, VariantProps<typeof buttonVariants> {
+interface ButtonProps extends ButtonPrimitive.Props, VariantProps<typeof buttonVariants> {
   isLoading?: boolean
   loadingText?: string
   showLoadingText?: boolean
@@ -21,7 +21,7 @@ function Button({
   children,
   disabled,
   ...props
-}: ButtonProps) {
+}: Readonly<ButtonProps>) {
   return (
     <ButtonPrimitive
       data-slot="button"
