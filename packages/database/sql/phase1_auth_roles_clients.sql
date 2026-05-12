@@ -200,15 +200,19 @@ begin
     end if;
     
   elsif TG_OP = 'UPDATE' then
-    if tg_table_name = 'clientes' and new.deleted_at is not null and old.deleted_at is null then
+    v_old_data := to_jsonb(old);
+    v_new_data := to_jsonb(new);
+    v_record_id := new.id::text;
+
+    -- Evita erro "record new has no field deleted_at" em tabelas sem esse campo.
+    if tg_table_name = 'clientes'
+      and (v_new_data ? 'deleted_at')
+      and (v_new_data ->> 'deleted_at') is not null
+      and (v_old_data ->> 'deleted_at') is null then
       v_operation := 'SOFT_DELETE';
     else
       v_operation := 'UPDATE';
     end if;
-    
-    v_old_data := to_jsonb(old);
-    v_new_data := to_jsonb(new);
-    v_record_id := new.id::text;
     
     if tg_table_name = 'profiles' then
       v_tenant_id := new.tenant_id;
