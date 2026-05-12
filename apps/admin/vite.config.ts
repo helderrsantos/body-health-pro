@@ -46,7 +46,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+      includeAssets: ['new-image.png', 'apple-touch-icon.png'],
       manifest: {
         id: '/',
         name: 'Body Health Pro',
