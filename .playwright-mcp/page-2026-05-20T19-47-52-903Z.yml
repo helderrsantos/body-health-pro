@@ -1,0 +1,59 @@
+- main [ref=e83]:
+  - img
+  - generic [ref=e84]:
+    - generic [ref=e85]:
+      - heading "Olá Helder Santos, seja bem-vindo ao Body Health Pro" [level=1] [ref=e86]
+      - paragraph [ref=e87]: Gerenciar clientes e suas avaliações de composição corporal.
+      - navigation "Menu principal do usuario" [ref=e88]:
+        - button "Dados" [ref=e89]:
+          - img
+          - text: Dados
+        - button "Sair" [ref=e90]:
+          - img
+          - text: Sair
+    - generic [ref=e91]:
+      - button "Cadastrar Novo Cliente Adicionar um novo cliente ao sistema →" [ref=e92] [cursor=pointer]:
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - img [ref=e96]
+            - generic [ref=e97]:
+              - heading "Cadastrar Novo Cliente" [level=2] [ref=e98]
+              - paragraph [ref=e99]: Adicionar um novo cliente ao sistema
+          - generic [ref=e100]: →
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - img [ref=e104]
+          - generic [ref=e109]:
+            - heading "Lista de Clientes" [level=2] [ref=e110]
+            - paragraph [ref=e111]: Ver e gerenciar todos os clientes cadastrados
+        - region "Clientes Cadastrados" [ref=e112]:
+          - heading "Clientes Cadastrados" [level=2] [ref=e113]
+          - generic [ref=e114]:
+            - textbox "Buscar por nome" [ref=e115]
+            - button "Buscar" [ref=e116]
+            - button "Limpar busca" [ref=e117]
+          - list [ref=e118]:
+            - 'button "Cliente Screenshot QA Sexo: masculino | Data nascimento: 20/05/1990 Total de Avaliações 0 Nenhuma Avaliação Deletar" [ref=e119] [cursor=pointer]':
+              - generic [ref=e120]:
+                - strong [ref=e121]: Cliente Screenshot QA
+                - paragraph [ref=e122]: "Sexo: masculino | Data nascimento: 20/05/1990"
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - paragraph [ref=e125]: Total de Avaliações
+                  - paragraph [ref=e126]: "0"
+                - paragraph [ref=e128]: Nenhuma Avaliação
+              - button "Deletar" [ref=e130]
+            - 'button "Helder Santos Sexo: masculino | Data nascimento: 11/05/2026 Total de Avaliações 0 Nenhuma Avaliação Deletar" [ref=e131] [cursor=pointer]':
+              - generic [ref=e132]:
+                - strong [ref=e133]: Helder Santos
+                - paragraph [ref=e134]: "Sexo: masculino | Data nascimento: 11/05/2026"
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - paragraph [ref=e137]: Total de Avaliações
+                  - paragraph [ref=e138]: "0"
+                - paragraph [ref=e140]: Nenhuma Avaliação
+              - button "Deletar" [ref=e142]
+          - generic [ref=e143]:
+            - button "Anterior" [disabled]
+            - generic [ref=e144]: Pagina 1 de 1
+            - button "Proxima" [disabled]

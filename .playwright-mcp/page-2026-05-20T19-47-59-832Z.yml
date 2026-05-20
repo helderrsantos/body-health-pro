@@ -1,0 +1,25 @@
+- main [ref=e145]:
+  - img
+  - generic [ref=e146]:
+    - generic [ref=e147]:
+      - button "←" [ref=e148]:
+        - generic [ref=e149]: ←
+      - generic [ref=e150]:
+        - heading "Cadastrar Novo Cliente" [level=1] [ref=e151]
+        - paragraph [ref=e152]: Preencha os dados iniciais do cliente para criar seu prontuário.
+    - region [ref=e153]:
+      - generic [ref=e154]:
+        - generic [ref=e155]:
+          - generic [ref=e156]: Nome completo
+          - textbox "Nome completo" [ref=e158]:
+            - /placeholder: "Ex.: Maria da Silva"
+        - generic [ref=e159]:
+          - generic [ref=e160]: Data de nascimento
+          - textbox "Data de nascimento" [ref=e162]
+        - generic [ref=e163]:
+          - generic [ref=e164]: Sexo
+          - combobox "Sexo" [ref=e165]:
+            - option "Selecione uma opção" [selected]
+            - option "Masculino"
+            - option "Feminino"
+        - button "Cadastrar cliente" [ref=e167]

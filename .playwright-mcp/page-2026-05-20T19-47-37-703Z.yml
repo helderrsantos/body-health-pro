@@ -1,0 +1,21 @@
+- main [ref=e65]:
+  - img
+  - generic [ref=e66]:
+    - generic [ref=e67]:
+      - heading "Body Health Pro" [level=1] [ref=e68]
+      - paragraph [ref=e69]: Entre com sua conta para acessar o painel.
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: Email
+        - textbox "Email" [ref=e73]:
+          - /placeholder: email@exemplo.com
+      - generic [ref=e74]:
+        - generic [ref=e75]: Senha
+        - textbox "Senha" [ref=e76]:
+          - /placeholder: "********"
+      - generic [ref=e77]:
+        - button "Entrar" [ref=e78]
+        - button "Continuar com Google" [ref=e79]
+    - paragraph [ref=e80]:
+      - generic [ref=e81]: Não tem conta?
+      - button "Crie uma conta" [ref=e82] [cursor=pointer]

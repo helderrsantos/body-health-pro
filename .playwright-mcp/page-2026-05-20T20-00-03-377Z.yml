@@ -1,0 +1,272 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e188]:
+    - img
+    - generic [ref=e189]:
+      - generic [ref=e190]:
+        - button "← Voltar para historico" [ref=e191]
+        - generic [ref=e192]:
+          - heading "Dashboard Comparativo" [level=1] [ref=e193]
+          - paragraph [ref=e194]: Cliente Screenshot QA • ate 4 avaliacoes
+      - generic [ref=e198]:
+        - paragraph [ref=e199]: Visao executiva do cliente
+        - heading "Evolucao corporal em linha do tempo com foco em composicao e medidas" [level=2] [ref=e200]
+        - generic [ref=e201]:
+          - generic [ref=e202]: 20/05/2026
+          - generic [ref=e203]: 21/05/2026
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - generic [ref=e207]:
+              - paragraph [ref=e208]: Score premium
+              - heading "Indice de evolucao" [level=3] [ref=e209]
+            - img [ref=e210]
+          - generic [ref=e213]:
+            - generic [ref=e214]:
+              - img [ref=e215]
+              - generic [ref=e218]: "64"
+            - generic [ref=e219]:
+              - paragraph [ref=e220]: Em progresso
+              - paragraph [ref=e221]: Baseado em gordura, massa magra, cintura e consistencia.
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e224]:
+              - paragraph [ref=e225]: Plano estrategico
+              - heading "Metas de composicao" [level=3] [ref=e226]
+            - img [ref=e227]
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - paragraph [ref=e234]: Reducao de gordura corporal
+                - generic [ref=e235]: 73%
+              - generic [ref=e238]:
+                - generic [ref=e239]: "Atual: 33.79 %"
+                - generic [ref=e240]: "Meta: 33.32 %"
+            - generic [ref=e241]:
+              - generic [ref=e242]:
+                - paragraph [ref=e243]: Ganho de massa magra
+                - generic [ref=e244]: 0%
+              - generic [ref=e246]:
+                - generic [ref=e247]: "Atual: 51.78 kg"
+                - generic [ref=e248]: "Meta: 53.37 kg"
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - paragraph [ref=e251]: Periodo analisado
+          - paragraph [ref=e252]: 1 dias
+          - paragraph [ref=e253]: 2 avaliacoes
+        - generic [ref=e254]:
+          - paragraph [ref=e255]: Delta gordura
+          - paragraph [ref=e256]: "-1.28 %"
+          - paragraph [ref=e257]: 35.07 % -> 33.79 %
+        - generic [ref=e258]:
+          - paragraph [ref=e259]: Delta massa magra
+          - paragraph [ref=e260]: "-0.04 kg"
+          - paragraph [ref=e261]: 51.82 kg -> 51.78 kg
+        - generic [ref=e262]:
+          - paragraph [ref=e263]: Delta cintura
+          - paragraph [ref=e264]: "-"
+          - paragraph [ref=e265]: "- -> -"
+        - generic [ref=e266]:
+          - paragraph [ref=e267]: Delta abdomen
+          - paragraph [ref=e268]: "-"
+          - paragraph [ref=e269]: "- -> -"
+      - generic [ref=e270]:
+        - generic [ref=e271]:
+          - heading "Composicao corporal no tempo" [level=2] [ref=e273]
+          - generic [ref=e277]:
+            - list [ref=e279]:
+              - listitem [ref=e280]:
+                - img "Gordura % legend icon" [ref=e281]
+                - text: Gordura %
+              - listitem [ref=e283]:
+                - img "Massa Gordura (kg) legend icon" [ref=e284]
+                - text: Massa Gordura (kg)
+              - listitem [ref=e286]:
+                - img "Massa Magra (kg) legend icon" [ref=e287]
+                - text: Massa Magra (kg)
+              - listitem [ref=e289]:
+                - img "Peso (kg) legend icon" [ref=e290]
+                - text: Peso (kg)
+            - application [ref=e292]:
+              - generic [ref=e341]:
+                - generic [ref=e342]:
+                  - generic [ref=e344]: 20/05/2026
+                  - generic [ref=e346]: 21/05/2026
+                - generic [ref=e347]:
+                  - generic [ref=e349]: "0"
+                  - generic [ref=e351]: "20"
+                  - generic [ref=e353]: "40"
+                  - generic [ref=e355]: "60"
+                  - generic [ref=e357]: "80"
+        - generic [ref=e358]:
+          - heading "Pontos criticos" [level=2] [ref=e360]
+          - generic [ref=e362]:
+            - img [ref=e363]
+            - text: Sem alertas relevantes na janela selecionada.
+      - generic [ref=e369]:
+        - generic [ref=e370]:
+          - heading "Grafico das medidas (cm)" [level=2] [ref=e372]
+          - generic [ref=e376]:
+            - list [ref=e378]:
+              - listitem [ref=e379]:
+                - img "Abdomen (cm) legend icon" [ref=e380]
+                - text: Abdomen (cm)
+              - listitem [ref=e382]:
+                - img "Cintura (cm) legend icon" [ref=e383]
+                - text: Cintura (cm)
+              - listitem [ref=e385]:
+                - img "Ombro (cm) legend icon" [ref=e386]
+                - text: Ombro (cm)
+              - listitem [ref=e388]:
+                - img "Quadril (cm) legend icon" [ref=e389]
+                - text: Quadril (cm)
+              - listitem [ref=e391]:
+                - img "Torax (cm) legend icon" [ref=e392]
+                - text: Torax (cm)
+            - application [ref=e394]:
+              - generic [ref=e404]:
+                - generic [ref=e406]: 20/05/2026
+                - generic [ref=e408]: 21/05/2026
+        - generic [ref=e409]:
+          - heading "Primeira vs ultima avaliacao" [level=2] [ref=e411]
+          - generic [ref=e415]:
+            - list [ref=e417]:
+              - listitem [ref=e418]:
+                - img "Primeira legend icon" [ref=e419]
+                - text: Primeira
+              - listitem [ref=e421]:
+                - img "Ultima legend icon" [ref=e422]
+                - text: Ultima
+            - application [ref=e424]:
+              - generic [ref=e467]:
+                - generic [ref=e468]:
+                  - generic [ref=e470]: Gordura %
+                  - generic [ref=e472]: Massa Gordura
+                  - generic [ref=e474]: Peso
+                  - generic [ref=e476]: Cintura
+                  - generic [ref=e478]: Abdomen
+                - generic [ref=e479]:
+                  - generic [ref=e481]: "0"
+                  - generic [ref=e483]: "20"
+                  - generic [ref=e485]: "40"
+                  - generic [ref=e487]: "60"
+                  - generic [ref=e489]: "80"
+      - generic [ref=e490]:
+        - heading "Matriz comparativa completa" [level=2] [ref=e492]
+        - table [ref=e495]:
+          - rowgroup [ref=e496]:
+            - row "Indicador 20/05/2026 21/05/2026 Delta total Status" [ref=e497]:
+              - columnheader "Indicador" [ref=e498]
+              - columnheader "20/05/2026" [ref=e499]
+              - columnheader "21/05/2026" [ref=e500]
+              - columnheader "Delta total" [ref=e501]
+              - columnheader "Status" [ref=e502]
+          - rowgroup [ref=e503]:
+            - row "Percentual de gordura 35.07 % 33.79 % -1.28 % Melhora" [ref=e504]:
+              - cell "Percentual de gordura" [ref=e505]
+              - cell "35.07 %" [ref=e506]
+              - cell "33.79 %" [ref=e507]
+              - cell "-1.28 %" [ref=e508]
+              - cell "Melhora" [ref=e509]:
+                - generic [ref=e510]:
+                  - img [ref=e511]
+                  - text: Melhora
+            - row "Massa magra 51.82 kg 51.78 kg -0.04 kg Atencao" [ref=e513]:
+              - cell "Massa magra" [ref=e514]
+              - cell "51.82 kg" [ref=e515]
+              - cell "51.78 kg" [ref=e516]
+              - cell "-0.04 kg" [ref=e517]
+              - cell "Atencao" [ref=e518]:
+                - generic [ref=e519]:
+                  - img [ref=e520]
+                  - text: Atencao
+            - row "Massa gordura 27.98 kg 26.42 kg -1.56 kg Melhora" [ref=e522]:
+              - cell "Massa gordura" [ref=e523]
+              - cell "27.98 kg" [ref=e524]
+              - cell "26.42 kg" [ref=e525]
+              - cell "-1.56 kg" [ref=e526]
+              - cell "Melhora" [ref=e527]:
+                - generic [ref=e528]:
+                  - img [ref=e529]
+                  - text: Melhora
+            - row "Peso 79.80 kg 78.20 kg -1.60 kg Atencao" [ref=e531]:
+              - cell "Peso" [ref=e532]
+              - cell "79.80 kg" [ref=e533]
+              - cell "78.20 kg" [ref=e534]
+              - cell "-1.60 kg" [ref=e535]
+              - cell "Atencao" [ref=e536]:
+                - generic [ref=e537]:
+                  - img [ref=e538]
+                  - text: Atencao
+            - row "Cintura - - - Estavel" [ref=e540]:
+              - cell "Cintura" [ref=e541]
+              - cell "-" [ref=e542]
+              - cell "-" [ref=e543]
+              - cell "-" [ref=e544]
+              - cell "Estavel" [ref=e545]:
+                - generic [ref=e546]:
+                  - img [ref=e547]
+                  - text: Estavel
+            - row "Abdomen - - - Estavel" [ref=e551]:
+              - cell "Abdomen" [ref=e552]
+              - cell "-" [ref=e553]
+              - cell "-" [ref=e554]
+              - cell "-" [ref=e555]
+              - cell "Estavel" [ref=e556]:
+                - generic [ref=e557]:
+                  - img [ref=e558]
+                  - text: Estavel
+            - row "Quadril - - - Estavel" [ref=e562]:
+              - cell "Quadril" [ref=e563]
+              - cell "-" [ref=e564]
+              - cell "-" [ref=e565]
+              - cell "-" [ref=e566]
+              - cell "Estavel" [ref=e567]:
+                - generic [ref=e568]:
+                  - img [ref=e569]
+                  - text: Estavel
+            - row "Torax - - - Estavel" [ref=e573]:
+              - cell "Torax" [ref=e574]
+              - cell "-" [ref=e575]
+              - cell "-" [ref=e576]
+              - cell "-" [ref=e577]
+              - cell "Estavel" [ref=e578]:
+                - generic [ref=e579]:
+                  - img [ref=e580]
+                  - text: Estavel
+            - row "Ombro - - - Estavel" [ref=e584]:
+              - cell "Ombro" [ref=e585]
+              - cell "-" [ref=e586]
+              - cell "-" [ref=e587]
+              - cell "-" [ref=e588]
+              - cell "Estavel" [ref=e589]:
+                - generic [ref=e590]:
+                  - img [ref=e591]
+                  - text: Estavel
+            - row "Triceps 14.10 mm 12.80 mm -1.30 mm Melhora" [ref=e595]:
+              - cell "Triceps" [ref=e596]
+              - cell "14.10 mm" [ref=e597]
+              - cell "12.80 mm" [ref=e598]
+              - cell "-1.30 mm" [ref=e599]
+              - cell "Melhora" [ref=e600]:
+                - generic [ref=e601]:
+                  - img [ref=e602]
+                  - text: Melhora
+            - row "Subescapular 16.80 mm 15.40 mm -1.40 mm Melhora" [ref=e604]:
+              - cell "Subescapular" [ref=e605]
+              - cell "16.80 mm" [ref=e606]
+              - cell "15.40 mm" [ref=e607]
+              - cell "-1.40 mm" [ref=e608]
+              - cell "Melhora" [ref=e609]:
+                - generic [ref=e610]:
+                  - img [ref=e611]
+                  - text: Melhora
+            - row "Abdominal 19.00 mm 17.40 mm -1.60 mm Melhora" [ref=e613]:
+              - cell "Abdominal" [ref=e614]
+              - cell "19.00 mm" [ref=e615]
+              - cell "17.40 mm" [ref=e616]
+              - cell "-1.60 mm" [ref=e617]
+              - cell "Melhora" [ref=e618]:
+                - generic [ref=e619]:
+                  - img [ref=e620]
+                  - text: Melhora
+  - generic [ref=e622]: "%"

@@ -49,35 +49,12 @@ export async function signInWithGoogle() {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'https://body-health-pro-admin.vercel.app/auth/callback',
+      redirectTo: `${globalThis.location.origin}/auth/callback`,
     },
   })
 
   if (error) {
     throw new Error(error.message)
-  }
-}
-
-export async function exchangeCodeForSession() {
-  // Verificar se há erro no callback
-  const urlParams = new URL(globalThis.location.href).searchParams
-  const errorParam = urlParams.get('error')
-  const errorDescription = urlParams.get('error_description')
-
-  if (errorParam) {
-    throw new Error(`Erro OAuth: ${errorParam}. ${errorDescription || ''}`)
-  }
-
-  // Deixar o Supabase processar automaticamente o PKCE flow
-  // O code_verifier e code já estão no localStorage/URL
-  const { data, error } = await supabase.auth.getSession()
-
-  if (error) {
-    throw new Error(error.message)
-  }
-
-  if (!data.session) {
-    throw new Error('Nenhuma sessão ativa encontrada. Tente fazer login novamente.')
   }
 }
 

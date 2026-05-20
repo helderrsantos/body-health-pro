@@ -1,0 +1,35 @@
+- main [ref=e21]:
+  - img
+  - generic [ref=e22]:
+    - generic [ref=e23]:
+      - heading "Olá Helder Santos, seja bem-vindo ao Body Health Pro" [level=1] [ref=e24]
+      - paragraph [ref=e25]: Gerenciar clientes e suas avaliações de composição corporal.
+      - navigation "Menu principal do usuario" [ref=e26]:
+        - button "Dados" [ref=e27]:
+          - img
+          - text: Dados
+        - button "Sair" [ref=e28]:
+          - img
+          - text: Sair
+    - generic [ref=e29]:
+      - button "Cadastrar Novo Cliente Adicionar um novo cliente ao sistema →" [ref=e30] [cursor=pointer]:
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - img [ref=e34]
+            - generic [ref=e35]:
+              - heading "Cadastrar Novo Cliente" [level=2] [ref=e36]
+              - paragraph [ref=e37]: Adicionar um novo cliente ao sistema
+          - generic [ref=e38]: →
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - img [ref=e42]
+          - generic [ref=e47]:
+            - heading "Lista de Clientes" [level=2] [ref=e48]
+            - paragraph [ref=e49]: Ver e gerenciar todos os clientes cadastrados
+        - region "Clientes Cadastrados" [ref=e50]:
+          - heading "Clientes Cadastrados" [level=2] [ref=e51]
+          - generic [ref=e52]:
+            - textbox "Buscar por nome" [ref=e53]
+            - button "Buscar" [ref=e54]
+            - button "Limpar busca" [ref=e55]
+          - paragraph [ref=e56]: Carregando clientes...
