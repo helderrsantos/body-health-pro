@@ -64,9 +64,9 @@ const LABELS_MEDIDAS: Record<
   string
 > = {
   ombro: 'Ombro',
-  torax: 'Torax',
+  torax: 'Tórax',
   cintura: 'Cintura',
-  abdomen: 'Abdomen',
+  abdomen: 'Abdômen',
   quadril: 'Quadril',
   coxaDireita: 'Coxa D',
   coxaEsquerda: 'Coxa E',
@@ -74,8 +74,8 @@ const LABELS_MEDIDAS: Record<
   panturrilhaEsquerda: 'Panturrilha E',
   bracoDireito: 'Braço D',
   bracoEsquerdo: 'Braço E',
-  antebracoDireito: 'Antebraco D',
-  antebracoEsquerdo: 'Antebraco E',
+  antebracoDireito: 'Antebraço D',
+  antebracoEsquerdo: 'Antebraço E',
   punhoDireito: 'Punho D',
   punhoEsquerdo: 'Punho E',
 }
@@ -115,12 +115,16 @@ const PLACEHOLDER_MEDIDAS: Record<
   punhoEsquerdo: 'cm',
 }
 
+function toOptionalString(value?: number) {
+  return value == null ? '' : value.toString()
+}
+
 export function BodyCompositionCalculator({
   clienteId,
   clienteSexo,
   editingAvaliacao,
   onAvaliacaoSaved,
-}: BodyCompositionCalculatorProps) {
+}: Readonly<BodyCompositionCalculatorProps>) {
   const [resultado, setResultado] = useState<ResultadoComposicaoCorporal | null>(null)
   const [isSavingAvaliacao, setIsSavingAvaliacao] = useState(false)
   const { profile } = useAuth()
@@ -169,10 +173,6 @@ export function BodyCompositionCalculator({
       punhoEsquerdo: '',
     },
   })
-
-  function toOptionalString(value?: number) {
-    return value == null ? '' : value.toString()
-  }
 
   useEffect(() => {
     if (editingAvaliacao) {
@@ -271,7 +271,7 @@ export function BodyCompositionCalculator({
           suprailiaca: values.suprailiaca,
           coxa: values.coxa,
           altura: values.altura,
-          sexo: (clienteSexo || 'masculino') as 'masculino' | 'feminino',
+          sexo: clienteSexo || 'masculino',
           percentualGordura: Number.parseFloat(novoResultado.percentualGordura),
           massaMagraKg: Number.parseFloat(novoResultado.massaMagraKg),
           massaGorduraKg: Number.parseFloat(novoResultado.massaGordaKg),
@@ -377,7 +377,6 @@ export function BodyCompositionCalculator({
           <div className="space-y-3">
             <h3 className="text-sm font-semibold text-[#d8ffe8]">Medidas (opcional)</h3>
             <div className="grid grid-cols-1 gap-3">
-              {/* Campos simples */}
               {(['ombro', 'torax', 'cintura', 'abdomen', 'quadril'] as const).map((campo) => (
                 <NumberInputField<
                   FormularioComposicaoCorporalValores,
@@ -392,10 +391,8 @@ export function BodyCompositionCalculator({
                 />
               ))}
               
-              {/* Campos pares (lado-a-lado) */}
               <div className="space-y-2 pt-2">
-                {/* Coxa */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="flex gap-1 sm:grid-cols-2">
                   <NumberInputField<
                     FormularioComposicaoCorporalValores,
                     undefined,
@@ -418,8 +415,7 @@ export function BodyCompositionCalculator({
                   />
                 </div>
 
-                {/* Panturrilha */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="flex gap-1 sm:grid-cols-2">
                   <NumberInputField<
                     FormularioComposicaoCorporalValores,
                     undefined,
@@ -442,8 +438,7 @@ export function BodyCompositionCalculator({
                   />
                 </div>
 
-                {/* Braço */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="flex gap-1 sm:grid-cols-2">
                   <NumberInputField<
                     FormularioComposicaoCorporalValores,
                     undefined,
@@ -466,8 +461,7 @@ export function BodyCompositionCalculator({
                   />
                 </div>
 
-                {/* Antebraço */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="flex gap-1 sm:grid-cols-2">
                   <NumberInputField<
                     FormularioComposicaoCorporalValores,
                     undefined,
@@ -490,8 +484,7 @@ export function BodyCompositionCalculator({
                   />
                 </div>
 
-                {/* Punho */}
-                <div className="grid grid-cols-2 gap-1">
+                <div className="flex gap-1 sm:grid-cols-2">
                   <NumberInputField<
                     FormularioComposicaoCorporalValores,
                     undefined,

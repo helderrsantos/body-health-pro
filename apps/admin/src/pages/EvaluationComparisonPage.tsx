@@ -20,11 +20,6 @@ import { supabase } from '@/lib/supabase'
 import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
 import { formatDateBR } from '@/utils/date'
 
-interface ClientDetail {
-  id: number
-  nome: string
-}
-
 type Trend = 'up' | 'down' | 'neutral'
 
 interface MetricRow {
@@ -101,7 +96,7 @@ function getTrendText(trend: Trend, improveWhen: Trend): { text: string; classNa
 
   const isImprovement = trend === improveWhen
   return {
-    text: isImprovement ? 'Melhora' : 'Atencao',
+    text: isImprovement ? 'Melhora' : 'Atenção',
     className: isImprovement ? 'text-[#a9ff2e]' : 'text-[#ff9a9a]',
   }
 }
@@ -136,7 +131,7 @@ export function EvaluationComparisonPage() {
         .single()
 
       if (error) throw error
-      return data as ClientDetail
+      return data
     },
     enabled: !!numericClientId,
   })
@@ -166,7 +161,7 @@ export function EvaluationComparisonPage() {
 
     return [
       {
-        title: 'Periodo analisado',
+        title: 'Período analisado',
         value: `${daysBetween} dias`,
         helper: `${ordered.length} avaliacoes`,
       },
@@ -186,7 +181,7 @@ export function EvaluationComparisonPage() {
         helper: `${formatValue(first.cintura, 'cm', 1)} -> ${formatValue(last.cintura, 'cm', 1)}`,
       },
       {
-        title: 'Delta abdomen',
+        title: 'Delta abdômen',
         value: formatDelta(first.abdomen, last.abdomen, 'cm', 1),
         helper: `${formatValue(first.abdomen, 'cm', 1)} -> ${formatValue(last.abdomen, 'cm', 1)}`,
       },
@@ -227,7 +222,7 @@ export function EvaluationComparisonPage() {
       { metric: 'Massa Gordura', primeira: first.massaGorduraKg, ultima: last.massaGorduraKg },
       { metric: 'Peso', primeira: first.peso, ultima: last.peso },
       { metric: 'Cintura', primeira: first.cintura ?? 0, ultima: last.cintura ?? 0 },
-      { metric: 'Abdomen', primeira: first.abdomen ?? 0, ultima: last.abdomen ?? 0 },
+      { metric: 'Abdômen', primeira: first.abdomen ?? 0, ultima: last.abdomen ?? 0 },
     ]
   }, [first, last])
 
@@ -275,7 +270,7 @@ export function EvaluationComparisonPage() {
         : 0
 
     goals.push({
-      label: 'Reducao de gordura corporal',
+      label: 'Redução de gordura corporal',
       currentText: formatValue(last.percentualGordura, '%', 2),
       targetText: `${gorduraTarget.toFixed(2)} %`,
       progress: clamp(gorduraProgress, 0, 100),
@@ -302,7 +297,7 @@ export function EvaluationComparisonPage() {
           : 0
 
       goals.push({
-        label: 'Reducao de cintura',
+        label: 'Redução de cintura',
         currentText: formatValue(last.cintura, 'cm', 1),
         targetText: `${cinturaTarget.toFixed(1)} cm`,
         progress: clamp(cinturaProgress, 0, 100),
@@ -321,10 +316,10 @@ export function EvaluationComparisonPage() {
       const next = ordered[i]
 
       if (next.percentualGordura - prev.percentualGordura > 1) {
-        alerts.add('Percentual de gordura subiu mais de 1 ponto em uma janela de avaliacao.')
+        alerts.add('Percentual de gordura subiu mais de 1 ponto em uma janela de avaliação.')
       }
       if (prev.massaMagraKg - next.massaMagraKg > 0.7) {
-        alerts.add('Massa magra caiu acima de 0.7kg entre avaliacoes consecutivas.')
+        alerts.add('Massa magra caiu acima de 0.7kg entre avaliações consecutivas.')
       }
       if (next.cintura != null && prev.cintura != null && next.cintura - prev.cintura >= 2) {
         alerts.add('Cintura aumentou 2cm ou mais em pelo menos um intervalo.')
@@ -372,7 +367,7 @@ export function EvaluationComparisonPage() {
         values: ordered.map((item) => item.cintura),
       },
       {
-        label: 'Abdomen',
+        label: 'Abdômen',
         unit: 'cm',
         improveWhen: 'down',
         values: ordered.map((item) => item.abdomen),
@@ -384,7 +379,7 @@ export function EvaluationComparisonPage() {
         values: ordered.map((item) => item.quadril),
       },
       {
-        label: 'Torax',
+        label: 'Tórax',
         unit: 'cm',
         improveWhen: 'up',
         values: ordered.map((item) => item.torax),
@@ -396,7 +391,7 @@ export function EvaluationComparisonPage() {
         values: ordered.map((item) => item.ombro),
       },
       {
-        label: 'Triceps',
+        label: 'Tríceps',
         unit: 'mm',
         improveWhen: 'down',
         values: ordered.map((item) => item.triceps),
@@ -434,13 +429,13 @@ export function EvaluationComparisonPage() {
             onClick={() => navigate(`/admin/cliente/${numericClientId}`)}
             className="text-[#a9ff2e] h-10"
           >
-            ← Voltar para historico
+            ← Voltar para histórico
           </Button>
           <div className="text-right">
             <h1 className="font-bebas font-medium tracking-tight text-2xl sm:text-3xl text-[#e9ffca]">
               Dashboard Comparativo
             </h1>
-            <p className="text-xs text-gray-300">{cliente?.nome ?? 'Cliente'} • ate 4 avaliacoes</p>
+            <p className="text-xs text-gray-300">{cliente?.nome ?? 'Cliente'} • até 4 avaliações</p>
           </div>
         </div>
 
@@ -448,9 +443,9 @@ export function EvaluationComparisonPage() {
           <CardContent className="p-0">
             <div className="bg-[linear-gradient(120deg,rgba(169,255,46,0.15),rgba(70,255,215,0.08),rgba(255,255,255,0.01))] p-5 sm:p-6">
               <div className="flex flex-col gap-3">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#a9ff2e]">Visao executiva do cliente</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#a9ff2e]">Visão executiva do cliente</p>
                 <h2 className="font-bebas text-2xl sm:text-3xl text-[#efffd2] leading-tight">
-                  Evolucao corporal em linha do tempo com foco em composicao e medidas
+                  Evolução corporal em linha do tempo com foco em composição e medidas
                 </h2>
                 <div className="flex flex-wrap gap-2">
                   {ordered.map((item) => (
@@ -488,7 +483,7 @@ export function EvaluationComparisonPage() {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-[11px] uppercase tracking-[0.2em] text-[#d8ffe8]">Score premium</p>
-                    <h3 className="font-bebas text-xl text-[#f7ffd9]">Indice de evolucao</h3>
+                    <h3 className="font-bebas text-xl text-[#f7ffd9]">Índice de evolução</h3>
                   </div>
                   <Sparkles className="h-5 w-5 text-[#a9ff2e]" />
                 </div>
@@ -514,7 +509,7 @@ export function EvaluationComparisonPage() {
                   </div>
                   <div>
                     <p className="text-lg font-semibold text-[#d8ffe8]">{scoreLabel}</p>
-                    <p className="text-xs text-gray-300">Baseado em gordura, massa magra, cintura e consistencia.</p>
+                    <p className="text-xs text-gray-300">Baseado em gordura, massa magra, cintura e consistência.</p>
                   </div>
                 </div>
               </Card>
@@ -522,8 +517,8 @@ export function EvaluationComparisonPage() {
               <Card className="xl:col-span-2 p-4 sm:p-5 border-[rgba(92,227,255,0.3)] bg-[linear-gradient(135deg,rgba(92,227,255,0.1),rgba(18,40,55,0.25),rgba(255,255,255,0.02))]">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-[11px] uppercase tracking-[0.2em] text-[#b5eaff]">Plano estrategico</p>
-                    <h3 className="font-bebas text-xl text-[#e2f7ff]">Metas de composicao</h3>
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-[#b5eaff]">Plano estratégico</p>
+                    <h3 className="font-bebas text-xl text-[#e2f7ff]">Metas de composição</h3>
                   </div>
                   <Target className="h-5 w-5 text-[#8edfff]" />
                 </div>
@@ -550,7 +545,7 @@ export function EvaluationComparisonPage() {
               </Card>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
               {kpiCards.map((card) => (
                 <Card key={card.title} className="p-4 bg-[linear-gradient(180deg,rgba(169,255,46,0.08),rgba(255,255,255,0.02))] border-[rgba(169,255,46,0.25)] shadow-[0_0_0_1px_rgba(169,255,46,0.08),0_12px_30px_rgba(0,0,0,0.3)]">
                   <p className="text-xs text-gray-300 uppercase tracking-wide">{card.title}</p>
@@ -563,7 +558,7 @@ export function EvaluationComparisonPage() {
             <div className="grid grid-cols-1 xl:grid-cols-5 gap-3">
               <Card className="xl:col-span-3">
                 <CardHeader className="pb-2">
-                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Composicao corporal no tempo</h2>
+                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Composição corporal no tempo</h2>
                 </CardHeader>
                 <CardContent>
                   <div style={{ height: '320px' }}>
@@ -586,7 +581,7 @@ export function EvaluationComparisonPage() {
 
               <Card className="xl:col-span-2 border-[rgba(255,120,120,0.3)]">
                 <CardHeader className="pb-2">
-                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Pontos criticos</h2>
+                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Pontos críticos</h2>
                 </CardHeader>
                 <CardContent>
                   {criticalPoints.length === 0 ? (
@@ -614,7 +609,7 @@ export function EvaluationComparisonPage() {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
               <Card>
                 <CardHeader className="pb-2">
-                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Grafico das medidas (cm)</h2>
+                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Gráfico das medidas (cm)</h2>
                 </CardHeader>
                 <CardContent>
                   {measureChartData.length === 0 ? (
@@ -629,9 +624,9 @@ export function EvaluationComparisonPage() {
                           <Tooltip />
                           <Legend />
                           <Bar dataKey="cintura" name="Cintura (cm)" fill="#4dff9d" radius={[6, 6, 0, 0]} />
-                          <Bar dataKey="abdomen" name="Abdomen (cm)" fill="#45d2ff" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="abdomen" name="Abdômen (cm)" fill="#45d2ff" radius={[6, 6, 0, 0]} />
                           <Bar dataKey="quadril" name="Quadril (cm)" fill="#ffc76b" radius={[6, 6, 0, 0]} />
-                          <Bar dataKey="torax" name="Torax (cm)" fill="#f398ff" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="torax" name="Tórax (cm)" fill="#f398ff" radius={[6, 6, 0, 0]} />
                           <Bar dataKey="ombro" name="Ombro (cm)" fill="#9ad6ff" radius={[6, 6, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
@@ -642,7 +637,7 @@ export function EvaluationComparisonPage() {
 
               <Card>
                 <CardHeader className="pb-2">
-                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Primeira vs ultima avaliacao</h2>
+                  <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8]">Primeira vs última avaliação</h2>
                 </CardHeader>
                 <CardContent>
                   <div style={{ height: '320px' }}>
@@ -654,7 +649,7 @@ export function EvaluationComparisonPage() {
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="primeira" name="Primeira" fill="#5ce3ff" radius={[8, 8, 0, 0]} />
-                        <Bar dataKey="ultima" name="Ultima" fill="#a9ff2e" radius={[8, 8, 0, 0]} />
+                        <Bar dataKey="ultima" name="Última" fill="#a9ff2e" radius={[8, 8, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

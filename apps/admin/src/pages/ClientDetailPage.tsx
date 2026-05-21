@@ -1,24 +1,16 @@
+import { BodyCompositionCalculator } from '@/components/BodyCompositionCalculator'
+import { EditClient } from '@/components/EditClient'
+import { EvaluationHistory } from '@/components/EvaluationHistory'
+import { BackgroundLightning } from '@/components/home/BackgroundLightning'
+import { Button } from '@/components/ui/button'
+import { useAvaliacoes } from '@/hooks/useAvaliacoes'
+import { supabase } from '@/lib/supabase'
+import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
+import { formatDateBR } from '@/utils/date'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { supabase } from '@/lib/supabase'
-import { BackgroundLightning } from '@/components/home/BackgroundLightning'
-import { BodyCompositionCalculator } from '@/components/BodyCompositionCalculator'
-import { EvaluationHistory } from '@/components/EvaluationHistory'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { formatDateBR } from '@/utils/date'
-import { useAvaliacoes } from '@/hooks/useAvaliacoes'
-import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
 
-interface ClientDetail {
-  id: number
-  nome: string
-  data_nascimento: string
-  sexo: 'masculino' | 'feminino'
-  telefone?: string
-  email?: string
-}
 
 export function ClientDetailPage() {
   const { clienteId } = useParams<{ clienteId: string }>()
@@ -48,7 +40,7 @@ export function ClientDetailPage() {
         .single()
 
       if (error) throw error
-      return data as ClientDetail
+      return data
     },
     enabled: !!numericClientId,
   })
@@ -67,9 +59,9 @@ export function ClientDetailPage() {
     const { error } = await supabase
       .from('clientes')
       .update({
-        nome: formData.nome.trim(),
-        data_nascimento: formData.dataNascimento,
-        sexo: formData.sexo,
+        nome: formData.nome.trim() || cliente?.nome,
+        data_nascimento: formData.dataNascimento || cliente?.data_nascimento,
+        sexo: formData.sexo || cliente?.sexo,
       })
       .eq('id', numericClientId)
 
@@ -130,7 +122,6 @@ export function ClientDetailPage() {
     <div className="relative min-h-screen bg-gradient-to-br from-[#0a0e0a] via-[#0f1410] to-[#0a0e0a] p-3 sm:p-4 md:p-6 overflow-hidden">
       <BackgroundLightning />
       <div className="max-w-2xl mx-auto relative z-10">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
           <Button variant="ghost" onClick={() => navigate('/admin')} className="text-[#a9ff2e] flex justify-start h-10">
             ← Voltar
@@ -141,108 +132,23 @@ export function ClientDetailPage() {
             </h1>
             <p className="text-xs text-gray-400 mt-1">Nascimento: {formatDateBR(cliente?.data_nascimento)}</p>
           </div>
-          <div className="w-12 hidden sm:block" /> {/* Spacer for alignment */}
+          <div className="w-12 hidden sm:block" />
         </div>
 
-        {/* Client Info */}
-        <div className="bg-[rgba(9,16,12,0.86)] rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6 border border-[rgba(169,255,46,0.2)]">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 mb-3">
-            <h2 className="m-0 font-bebas font-medium tracking-tight text-lg sm:text-xl text-[#d8ffe8]">
-              Dados do Cliente
-            </h2>
-            {isEditing ? null : (
-              <Button type="button" variant="outline" size="sm" onClick={() => setIsEditing(true)} className='h-10'>
-                Editar Dados
-              </Button>
-            )}
-          </div>
+        <EditClient
+          cliente={cliente || null}
+          isEditing={isEditing}
+          formData={formData}
+          saveError={saveError}
+          saveMessage={saveMessage}
+          isSaving={isSaving}
+          setIsEditing={setIsEditing}
+          setFormData={setFormData}
+          setSaveError={setSaveError}
+          setSaveMessage={setSaveMessage}
+          handleSaveClient={handleSaveClient}
+        />
 
-          {isEditing ? (
-            <div className="space-y-3">
-              <Input
-                type="text"
-                value={formData.nome || cliente?.nome || ''}
-                onChange={(event) => setFormData((prev) => ({ ...prev, nome: event.target.value }))}
-                placeholder="Nome completo"
-              />
-              <Input
-                type="date"
-                value={formData.dataNascimento || cliente?.data_nascimento || ''}
-                onChange={(event) => setFormData((prev) => ({ ...prev, dataNascimento: event.target.value }))}
-              />
-              <select
-                className="w-full rounded-xl border border-[rgba(169,255,46,0.2)] bg-[rgba(9,16,12,0.86)] px-3 py-2 text-sm text-[#d8ffe8]"
-                value={formData.sexo || cliente?.sexo || 'masculino'}
-                onChange={(event) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    sexo: event.target.value as 'masculino' | 'feminino',
-                  }))
-                }
-              >
-                <option value="masculino">Masculino</option>
-                <option value="feminino">Feminino</option>
-              </select>
-
-              {saveError ? <small className="text-red-500 text-xs">{saveError}</small> : null}
-
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  onClick={() => void handleSaveClient()}
-                  isLoading={isSaving}
-                  loadingText="Salvando..."
-                  showLoadingText
-                  className='h-10'
-                >
-                  Salvar
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                   className='h-10'
-                  onClick={() => {
-                    setIsEditing(false)
-                    setSaveError(null)
-                    setSaveMessage(null)
-                    setFormData({
-                      nome: '',
-                      dataNascimento: '',
-                      sexo: 'masculino',
-                    })
-                  }}
-                >
-                  Cancelar
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2 text-xs sm:text-sm text-gray-300">
-              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Nome:</span>
-                <span className="text-[#d8ffe8]">{cliente?.nome}</span>
-              </div>
-              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Nascimento:</span>
-                <span className="text-[#d8ffe8]">{formatDateBR(cliente?.data_nascimento)}</span>
-              </div>
-              <div className="flex sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                <span>Sexo:</span>
-                <span className="text-[#d8ffe8]">{cliente?.sexo}</span>
-              </div>
-              {cliente?.telefone && (
-                <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-2">
-                  <span>Telefone:</span>
-                  <span className="text-[#d8ffe8]">{cliente.telefone}</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {saveMessage ? <small className="text-[#a9ff2e] text-xs mt-2 block">{saveMessage}</small> : null}
-        </div>
-
-        {/* Evaluation History */}
         {avaliacoes && avaliacoes.length > 0 && (
           <div className="mb-6">
             <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8] mb-4">
@@ -259,7 +165,6 @@ export function ClientDetailPage() {
           </div>
         )}
 
-        {/* Body Composition Calculator */}
         <div className="bg-[rgba(9,16,12,0.86)] rounded-2xl p-6 border border-[rgba(169,255,46,0.2)]" data-calculator-section>
           <h2 className="font-bebas font-medium tracking-tight text-xl text-[#d8ffe8] mb-4">
             {editingAvaliacao ? 'Editar Avaliação' : 'Nova Avaliação'}

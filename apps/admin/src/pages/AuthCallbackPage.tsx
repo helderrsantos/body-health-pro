@@ -21,22 +21,64 @@ export function AuthCallbackPage() {
   useEffect(() => {
     if (new URLSearchParams(globalThis.location.search).get('error')) return
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return
+    let cancelled = false
+    let finished = false
+
+    const finishFlow = async (userId?: string) => {
+      if (finished || cancelled) return
+      finished = true
+
       try {
-        if (session?.user?.id) {
-          await ensureProfileExists(session.user.id)
+        if (!userId) {
+          throw new Error('Nao foi possivel concluir o login com Google. Tente novamente.')
         }
+
+        await ensureProfileExists(userId)
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Erro ao processar login.'
         setError(message)
         console.error('Callback error:', err)
       } finally {
-        setIsDone(true)
+        if (!cancelled) {
+          setIsDone(true)
+        }
       }
+    }
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') return
+      void finishFlow(session?.user?.id)
     })
 
-    return () => subscription.unsubscribe()
+    const pollSession = async () => {
+      for (let attempt = 0; attempt < 20; attempt += 1) {
+        if (cancelled || finished) return
+
+        const { data, error: sessionError } = await supabase.auth.getSession()
+        if (sessionError) {
+          await finishFlow()
+          return
+        }
+
+        if (data.session?.user?.id) {
+          await finishFlow(data.session.user.id)
+          return
+        }
+
+        await new Promise((resolve) => {
+          globalThis.setTimeout(resolve, 150)
+        })
+      }
+
+      await finishFlow()
+    }
+
+    void pollSession()
+
+    return () => {
+      cancelled = true
+      subscription.unsubscribe()
+    }
   }, [])
 
   if (!isDone) {
