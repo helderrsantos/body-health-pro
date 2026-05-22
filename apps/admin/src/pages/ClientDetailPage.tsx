@@ -10,6 +10,7 @@ import { formatDateBR } from '@/utils/date'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 
 export function ClientDetailPage() {
@@ -85,7 +86,7 @@ export function ClientDetailPage() {
       await deleteAvaliacaoMutation(avaliacaoId)
     } catch (error) {
       console.error('Erro ao deletar avaliação:', error)
-      alert('Erro ao deletar avaliação. Tente novamente.')
+      toast.error('Erro ao deletar avaliação. Tente novamente.')
     } finally {
       setDeletingAvaliacaoId(null)
     }

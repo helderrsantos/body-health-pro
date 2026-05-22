@@ -13,6 +13,7 @@ import type {
   ResultadoComposicaoCorporal,
 } from '@/types/composicaoCorporal'
 import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
+import { toast } from "sonner"
 
 interface BodyCompositionCalculatorProps {
   clienteId?: number | null
@@ -242,15 +243,15 @@ export function BodyCompositionCalculator({
     const percentualGorduraNum = Number.parseFloat(novoResultado.percentualGordura)
 
     if (!Number.isFinite(massaMagraNum) || massaMagraNum > 9999.99) {
-      alert(`Erro: Massa magra calculada (${massaMagraNum}) é inválida. Verifique os dados inseridos (especialmente altura e peso).`)
+      toast.error(`Erro: Massa magra calculada (${massaMagraNum}) é inválida. Verifique os dados inseridos (especialmente altura e peso).`)
       return
     }
     if (!Number.isFinite(massaGorduraNum) || massaGorduraNum > 9999.99) {
-      alert(`Erro: Massa de gordura calculada (${massaGorduraNum}) é inválida. Verifique os dados inseridos.`)
+      toast.error(`Erro: Massa de gordura calculada (${massaGorduraNum}) é inválida. Verifique os dados inseridos.`)
       return
     }
     if (!Number.isFinite(percentualGorduraNum) || percentualGorduraNum > 999.99) {
-      alert(`Erro: Percentual de gordura calculado (${percentualGorduraNum}%) é inválido. Verifique os dados inseridos.`)
+      toast.error(`Erro: Percentual de gordura calculado (${percentualGorduraNum}%) é inválido. Verifique os dados inseridos.`)
       return
     }
 
@@ -316,7 +317,7 @@ export function BodyCompositionCalculator({
         onAvaliacaoSaved?.()
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Erro ao salvar avaliação. Tente novamente.'
-        alert(errorMessage)
+        toast.error(errorMessage)
       } finally {
         setIsSavingAvaliacao(false)
       }

@@ -4,20 +4,7 @@ import { Input } from '@/components/ui/input'
 import { useClientsList } from '@/hooks/useClientsList'
 import { useAvaliacoes } from '@/hooks/useAvaliacoes'
 import type { ClientsListProps } from '@/types/client'
-
-function formatDateBR(dateString: string): string {
-  if (!dateString) return ''
-  try {
-    const date = new Date(dateString + 'T00:00:00')
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  } catch {
-    return dateString
-  }
-}
-
+import { formatDateBR } from '@/utils/date'
 interface ClientItemProps {
   clientId: number
   nome: string
@@ -73,6 +60,20 @@ function ClientCardItem({
       </div>
 
       <div className="flex justify-end gap-2 mt-1">
+        <Button
+          type="button"
+          variant="outline"
+          className="h-10"
+          onClick={(e) => {
+            e.stopPropagation()
+            onDelete()
+          }}
+          disabled={isDeleting}
+          isLoading={isDeleting}
+          showLoadingText={false}
+        >
+          Editar
+        </Button>
         <Button
           type="button"
           variant="destructive"
