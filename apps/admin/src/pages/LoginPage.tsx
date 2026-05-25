@@ -10,7 +10,7 @@ type AuthMode = 'login' | 'signup'
 type SubmitEventLike = { preventDefault: () => void }
 
 export function LoginPage() {
-  const { signIn, signInGoogle, isAuthenticated, isLoading } = useAuth()
+  const { signIn, signInGoogle, isAuthenticated } = useAuth()
   const [mode, setMode] = useState<AuthMode>('login')
 
   const [email, setEmail] = useState('')
@@ -153,7 +153,9 @@ export function LoginPage() {
                   disabled={isSubmitting}
                   className="w-full h-10"
                 >
-                  Continuar com Google
+                  <div>
+                    <img src="/public/icons8-google-logo-48.png" alt="Google" className="inline-block w-5 h-5 mr-4 -mt-1" /> Continuar com Google
+                  </div>
                 </Button>
               </div>
             </form>
