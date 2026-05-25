@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deleteClientById, listClients } from '@/services/clients/clients.service'
+import { deleteClientById, listClients, updateClientById } from '@/services/clients/clients.service'
+import type { UpdateClientData } from '@/services/clients/clients.service'
 import type { ClientRow, ClientsListResult } from '@/types/client'
 
 const PAGE_SIZE = 5
@@ -16,6 +17,7 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [deletingId, setDeletingId] = useState<number | null>(null)
+  const [editingClient, setEditingClient] = useState<ClientRow | null>(null)
 
   const clientsQueryKey = ['clients', page, query, refreshToken] as const
 
@@ -33,6 +35,34 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
   })
 
   const totalPages = Math.max(1, Math.ceil((clientsQuery.data?.count ?? 0) / PAGE_SIZE))
+
+  const updateMutation = useMutation<
+    number,
+    Error,
+    { id: number; data: UpdateClientData },
+    { previous?: ClientsListResult }
+  >({
+    mutationFn: ({ id, data }) => updateClientById(id, data),
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries({ queryKey: clientsQueryKey })
+      const previous = queryClient.getQueryData<ClientsListResult>(clientsQueryKey)
+      if (previous) {
+        queryClient.setQueryData<ClientsListResult>(clientsQueryKey, {
+          ...previous,
+          rows: previous.rows.map((row) => (row.id === id ? { ...row, ...data } : row)),
+        })
+      }
+      return { previous }
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(clientsQueryKey, context.previous)
+      }
+    },
+    onSettled: () => {
+      void queryClient.invalidateQueries({ queryKey: ['clients'] })
+    },
+  })
 
   const deleteMutation = useMutation<
     number,
@@ -86,6 +116,20 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
     setPage((value) => Math.min(totalPages, value + 1))
   }
 
+  function handleEditOpen(client: ClientRow) {
+    setEditingClient(client)
+  }
+
+  function handleEditClose() {
+    setEditingClient(null)
+  }
+
+  async function handleEditSave(data: UpdateClientData) {
+    if (!editingClient) return
+    await updateMutation.mutateAsync({ id: editingClient.id, data })
+    setEditingClient(null)
+  }
+
   function handleDelete(client: ClientRow) {
     const confirmation = globalThis.confirm(
       `Deseja realmente deletar o cliente '${client.nome}'? Esta ação não pode ser desfeita.`,
@@ -117,6 +161,11 @@ export function useClientsList({ refreshToken }: Readonly<UseClientsListParams>)
     deleteError: deleteMutation.error?.message ?? null,
     isDeleting: deleteMutation.isPending,
     deletingId,
+    editingClient,
+    isSavingEdit: updateMutation.isPending,
+    handleEditOpen,
+    handleEditClose,
+    handleEditSave,
     handleSearch,
     handleClearSearch,
     handlePreviousPage,

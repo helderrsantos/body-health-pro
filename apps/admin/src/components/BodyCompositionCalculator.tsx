@@ -539,9 +539,6 @@ export function BodyCompositionCalculator({
           <Button
             type="submit"
             disabled={isSubmitting || isSavingAvaliacao}
-            isLoading={isSavingAvaliacao}
-            loadingText="Salvando..."
-            showLoadingText
             className='h-10'
           >
             Calcular e Salvar

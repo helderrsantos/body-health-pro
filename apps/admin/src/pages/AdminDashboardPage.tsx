@@ -24,9 +24,7 @@ export function AdminDashboardPage() {
           <HomeUserMenu onOpenData={() => navigate('/admin/account')} onLogout={logout} />
         </header>
 
-        {/* Action Cards */}
         <div className="grid gap-4 mb-8">
-          {/* New Client Card */}
           <button
             onClick={() => navigate('/admin/clients/new')}
             className="w-full p-6 bg-[rgba(9,16,12,0.86)] rounded-2xl border border-[rgba(169,255,46,0.2)] hover:border-[rgba(169,255,46,0.5)] hover:bg-[rgba(9,16,12,0.95)] transition-all duration-300 cursor-pointer group text-left"
@@ -51,7 +49,6 @@ export function AdminDashboardPage() {
             </div>
           </button>
 
-          {/* Clients List Card */}
           <div className="w-full p-6 bg-[rgba(9,16,12,0.86)] rounded-2xl border border-[rgba(169,255,46,0.2)]">
             <div className="flex items-center gap-4 mb-6">
               <div className="p-3 bg-[rgba(169,255,46,0.1)] rounded-xl">

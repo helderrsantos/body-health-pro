@@ -8,6 +8,7 @@ import { PasswordSettingsForm } from '@/components/account/PasswordSettingsForm'
 import { ProfileSettingsForm } from '@/components/account/ProfileSettingsForm'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useAuth } from '@/hooks/useAuth'
 import type { ProfileSettingsValues } from '@/schemas/accountSettingsSchema'
 import {
@@ -72,10 +73,42 @@ export function AccountDataPage() {
     if (accessQuery.isLoading) {
       return (
         <Card>
-          <CardContent className="py-6 text-sm text-gray-400">Carregando dados de acesso...</CardContent>
+          {/* CardHeader: flex-col items-start gap-1 border-b — title text-lg + description text-xs */}
+          <CardHeader className="flex-col items-start gap-1 border-b border-[rgba(169,255,46,0.14)]">
+            <Skeleton className="h-6 w-36" />
+            <Skeleton className="h-3 w-4/5 max-w-xs mt-1" />
+          </CardHeader>
+          <CardContent className="space-y-4 pt-5">
+            {/* E-mail de acesso — label text-xs uppercase + value text-sm font-semibold */}
+            <div className="space-y-1">
+              <Skeleton className="h-3 w-32" />
+              <Skeleton className="h-4 w-52 mt-0.5" />
+            </div>
+            {/* Provedores ativos — label text-xs uppercase + value text-sm */}
+            <div className="space-y-1">
+              <Skeleton className="h-3 w-28" />
+              <Skeleton className="h-4 w-28 mt-0.5" />
+            </div>
+            {/* grid gap-3 sm:grid-cols-2 — 3 itens de data */}
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1">
+                <Skeleton className="h-3 w-28" />
+                <Skeleton className="h-4 w-20 mt-0.5" />
+              </div>
+              <div className="space-y-1">
+                <Skeleton className="h-3 w-24" />
+                <Skeleton className="h-4 w-20 mt-0.5" />
+              </div>
+              <div className="space-y-1">
+                <Skeleton className="h-3 w-36" />
+                <Skeleton className="h-4 w-20 mt-0.5" />
+              </div>
+            </div>
+          </CardContent>
         </Card>
       )
     }
+
     if (accessData) {
       return (
         <AccessDataCard

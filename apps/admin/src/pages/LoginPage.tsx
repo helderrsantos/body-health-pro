@@ -45,10 +45,6 @@ export function LoginPage() {
     }
   }
 
-  if (isLoading) {
-    return <p>Carregando...</p>
-  }
-
   async function handleLoginSubmit(event: SubmitEventLike) {
     event.preventDefault()
     setError(null)
@@ -145,9 +141,7 @@ export function LoginPage() {
               <div className="col-span-2 flex flex-col gap-4 sm:gap-4 mt-2">
                 <Button
                   type="submit"
-                  isLoading={isSubmitting}
-                  loadingText="Entrando..."
-                  showLoadingText
+                  disabled={isSubmitting}
                   className="w-full h-10"
                 >
                   Entrar
@@ -156,9 +150,7 @@ export function LoginPage() {
                   type="button"
                   variant="outline"
                   onClick={() => void handleGoogleSignIn()}
-                  isLoading={isSubmitting}
-                  loadingText="Redirecionando..."
-                  showLoadingText
+                  disabled={isSubmitting}
                   className="w-full h-10"
                 >
                   Continuar com Google
@@ -252,9 +244,7 @@ export function LoginPage() {
               <div className="col-span-2 flex flex-col gap-3 mt-2">
                 <Button
                   type="submit"
-                  isLoading={isSubmitting}
-                  loadingText="Criando..."
-                  showLoadingText
+                  disabled={isSubmitting}
                   className="w-full h-10"
                 >
                   Criar Conta

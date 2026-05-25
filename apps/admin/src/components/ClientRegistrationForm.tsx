@@ -67,9 +67,7 @@ export function ClientRegistrationForm({ onClientCreated }: Readonly<ClientRegis
         <div className="flex gap-3 mt-6">
           <Button
             type="submit"
-            isLoading={isSubmitting || isCreating}
-            loadingText="Salvando..."
-            showLoadingText
+            disabled={isSubmitting || isCreating}
             className="h-10 flex-1"
           >
             Cadastrar cliente

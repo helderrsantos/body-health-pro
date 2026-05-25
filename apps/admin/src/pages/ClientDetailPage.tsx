@@ -1,36 +1,26 @@
 import { BodyCompositionCalculator } from '@/components/BodyCompositionCalculator'
-import { EditClient } from '@/components/EditClient'
 import { EvaluationHistory } from '@/components/EvaluationHistory'
 import { BackgroundLightning } from '@/components/home/BackgroundLightning'
 import { Button } from '@/components/ui/button'
+
 import { useAvaliacoes } from '@/hooks/useAvaliacoes'
 import { supabase } from '@/lib/supabase'
 import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
 import { formatDateBR } from '@/utils/date'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
-
+import { ClientDetailSkeleton } from './ClientDetailSkeleton'
 
 export function ClientDetailPage() {
   const { clienteId } = useParams<{ clienteId: string }>()
-  const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const numericClientId = clienteId ? Number.parseInt(clienteId, 10) : null
-  const [isEditing, setIsEditing] = useState(searchParams.get('edit') === '1')
-  const [isSaving, setIsSaving] = useState(false)
-  const [saveError, setSaveError] = useState<string | null>(null)
-  const [saveMessage, setSaveMessage] = useState<string | null>(null)
-  const [formData, setFormData] = useState({
-    nome: '',
-    dataNascimento: '',
-    sexo: 'masculino' as 'masculino' | 'feminino',
-  })
   const [editingAvaliacao, setEditingAvaliacao] = useState<Avaliacao | null>(null)
   const [deletingAvaliacaoId, setDeletingAvaliacaoId] = useState<number | null>(null)
 
-  const { data: cliente, isLoading, refetch } = useQuery({
+  const { data: cliente, isLoading } = useQuery({
     queryKey: ['cliente', numericClientId],
     queryFn: async () => {
       if (!numericClientId) return null
@@ -46,37 +36,14 @@ export function ClientDetailPage() {
     enabled: !!numericClientId,
   })
 
-  const { avaliacoes, deleteAvaliacao: deleteAvaliacaoMutation, isDeleting } = useAvaliacoes({
+  const {
+    avaliacoes,
+    deleteAvaliacao: deleteAvaliacaoMutation,
+    isDeleting,
+    isLoading: isLoadingAvaliacoes,
+  } = useAvaliacoes({
     clienteId: numericClientId ?? undefined,
   })
-
-  async function handleSaveClient() {
-    if (!numericClientId) return
-
-    setIsSaving(true)
-    setSaveError(null)
-    setSaveMessage(null)
-
-    const { error } = await supabase
-      .from('clientes')
-      .update({
-        nome: formData.nome.trim() || cliente?.nome,
-        data_nascimento: formData.dataNascimento || cliente?.data_nascimento,
-        sexo: formData.sexo || cliente?.sexo,
-      })
-      .eq('id', numericClientId)
-
-    setIsSaving(false)
-
-    if (error) {
-      setSaveError('Não foi possível atualizar os dados do cliente.')
-      return
-    }
-
-    await refetch()
-    setSaveMessage('Dados atualizados com sucesso.')
-    setIsEditing(false)
-  }
 
   async function handleDeleteAvaliacao(avaliacaoId: number) {
     if (!confirm('Tem certeza que deseja deletar esta avaliação?')) return
@@ -111,12 +78,8 @@ export function ClientDetailPage() {
     )
   }
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-[#d8ffe8]">Carregando cliente...</p>
-      </div>
-    )
+  if (isLoading || isLoadingAvaliacoes) {
+    return <ClientDetailSkeleton />
   }
 
   return (
@@ -135,20 +98,6 @@ export function ClientDetailPage() {
           </div>
           <div className="w-12 hidden sm:block" />
         </div>
-
-        <EditClient
-          cliente={cliente || null}
-          isEditing={isEditing}
-          formData={formData}
-          saveError={saveError}
-          saveMessage={saveMessage}
-          isSaving={isSaving}
-          setIsEditing={setIsEditing}
-          setFormData={setFormData}
-          setSaveError={setSaveError}
-          setSaveMessage={setSaveMessage}
-          handleSaveClient={handleSaveClient}
-        />
 
         {avaliacoes && avaliacoes.length > 0 && (
           <div className="mb-6">

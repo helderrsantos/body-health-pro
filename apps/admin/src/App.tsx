@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { RequireAuth } from '@/components/auth/RequireAuth'
 import { RequireRole } from '@/components/auth/RequireRole'
+import { PageSkeleton } from '@/components/PageSkeleton'
 import { AdminDashboardPage } from '@/pages/AdminDashboardPage'
 import { AuthCallbackPage } from '@/pages/AuthCallbackPage'
 import { LoginPage } from '@/pages/LoginPage'
@@ -40,7 +41,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <Suspense fallback={<p>Carregando...</p>}>
+              <Suspense fallback={<PageSkeleton />}>
                 <ClientRegistrationPage />
               </Suspense>
             </RequireRole>
@@ -52,7 +53,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <Suspense fallback={<p>Carregando...</p>}>
+              <Suspense fallback={<PageSkeleton />}>
                 <AccountDataPage />
               </Suspense>
             </RequireRole>
@@ -64,7 +65,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <Suspense fallback={<p>Carregando...</p>}>
+              <Suspense fallback={<PageSkeleton />}>
                 <ClientDetailPage />
               </Suspense>
             </RequireRole>
@@ -76,7 +77,7 @@ function App() {
         element={
           <RequireAuth>
             <RequireRole role="admin">
-              <Suspense fallback={<p>Carregando comparativo...</p>}>
+              <Suspense fallback={<PageSkeleton />}>
                 <EvaluationComparisonPage />
               </Suspense>
             </RequireRole>

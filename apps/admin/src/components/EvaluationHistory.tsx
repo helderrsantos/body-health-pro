@@ -988,8 +988,6 @@ export function EvaluationHistory({
                       variant="destructive"
                       onClick={() => onDelete(avaliacao.id)}
                       disabled={isDeleting && deletingId === avaliacao.id}
-                      isLoading={isDeleting && deletingId === avaliacao.id}
-                      showLoadingText={false}
                       className="h-10"
                     >
                       <Trash2 className="w-4 h-4" />

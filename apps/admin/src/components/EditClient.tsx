@@ -90,9 +90,7 @@ export function EditClient({
                 <Button
                   type="button"
                   onClick={() => void handleSaveClient()}
-                  isLoading={isSaving}
-                  loadingText="Salvando..."
-                  showLoadingText
+                  disabled={isSaving}
                   className='h-10'
                 >
                   Salvar

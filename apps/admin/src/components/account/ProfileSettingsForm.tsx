@@ -63,10 +63,8 @@ export function ProfileSettingsForm({
 
       <Button
         type="submit"
-        isLoading={isSubmitting}
-        loadingText="Salvando perfil..."
         className="h-10"
-        disabled={!isDirty && !isSubmitting}
+        disabled={!isDirty || isSubmitting}
       >
         Salvar perfil
       </Button>

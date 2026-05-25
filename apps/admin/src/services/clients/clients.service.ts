@@ -82,6 +82,29 @@ export async function createClient(values: Readonly<ClientRegistrationFormValues
   }
 }
 
+export interface UpdateClientData {
+  nome: string
+  data_nascimento: string
+  sexo: 'masculino' | 'feminino'
+}
+
+export async function updateClientById(clientId: number, data: Readonly<UpdateClientData>) {
+  const { error } = await supabase
+    .from(CLIENTS_ROUTES.table)
+    .update({
+      nome: data.nome,
+      data_nascimento: data.data_nascimento,
+      sexo: data.sexo,
+    })
+    .eq('id', clientId)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return clientId
+}
+
 export async function deleteClientById(clientId: number) {
   const { data, error } = await supabase
     .from(CLIENTS_ROUTES.table)

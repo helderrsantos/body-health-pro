@@ -66,10 +66,8 @@ export function PasswordSettingsForm({
 
       <Button
         type="submit"
-        isLoading={isSubmitting}
-        loadingText="Atualizando senha..."
         className="h-10"
-        disabled={!isDirty && !isSubmitting}
+        disabled={!isDirty || isSubmitting}
       >
         Alterar senha
       </Button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { ensureProfileExists } from '@/services/auth/auth.service'
+import { PageSkeleton } from '@/components/PageSkeleton'
 
 export function AuthCallbackPage() {
   const [error, setError] = useState<string | null>(() => {
@@ -82,7 +83,7 @@ export function AuthCallbackPage() {
   }, [])
 
   if (!isDone) {
-    return <p>Finalizando login com Google...</p>
+    return <PageSkeleton />
   }
 
   if (error) {
