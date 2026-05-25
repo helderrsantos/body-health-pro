@@ -1,5 +1,9 @@
 node_modules
 
+# Test coverage output
+coverage/
+*.lcov
+
 # Environment files (all apps/packages)
 .env
 .env.*

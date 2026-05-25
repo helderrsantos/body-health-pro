@@ -10,6 +10,8 @@
     "dev:client": "npm run dev -w client",
     "dev:site": "npm run dev -w site",
     "build": "npm -w admin run build && node -e \"const fs = require('fs'); fs.cpSync('apps/admin/dist', 'dist', { recursive: true, force: true });\"",
+    "test": "npm run test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\""
