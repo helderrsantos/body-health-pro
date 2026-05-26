@@ -7,15 +7,15 @@ export const profileSettingsSchema = z.object({
     .string()
     .transform((value) => value.trim())
     .refine((value) => value.length >= 3, 'Nome deve ter pelo menos 3 caracteres.'),
-  email: z.email('Informe um e-mail valido.').transform((value) => value.trim().toLowerCase()),
+  email: z.email('Informe um e-mail válido.').transform((value) => value.trim().toLowerCase()),
 })
 
 export const passwordSettingsSchema = z
   .object({
     newPassword: z
       .string()
-      .min(10, 'A senha deve ter pelo menos 10 caracteres.')
-      .max(72, 'A senha deve ter no maximo 72 caracteres.')
+      .min(6, 'A senha deve ter pelo menos 6 caracteres.')
+      .max(10, 'A senha deve ter no máximo 10 caracteres.')
       .refine(
         (value) => strongPasswordRegex.test(value),
         'Use letra maiuscula, minuscula, numero e caractere especial.',
