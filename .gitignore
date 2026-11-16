@@ -1,5 +1,11 @@
 node_modules
 
+# Build output
+dist/
+
+# Tooling / MCP session artifacts
+.playwright-mcp/
+
 # Test coverage output
 coverage/
 *.lcov

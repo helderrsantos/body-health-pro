@@ -129,37 +129,19 @@ Esse projeto não foi criado como exercício ou tutorial, mas como uma solução
 
 ## Arquitetura
 
-O projeto utiliza uma arquitetura baseada em monorepo para compartilhamento de domínio, componentes e validações entre múltiplas aplicações.
+O projeto utiliza uma estrutura de monorepo (npm workspaces) que isola as regras de negócio e o acesso a dados em pacotes compartilhados, mantendo o aplicativo administrativo como consumidor desses pacotes. A estrutura está preparada para receber novos apps (ex.: área do cliente, landing page) reusando o mesmo domínio.
 
 ```text
 body-health-pro/
 ├── apps/
-│   ├── admin/
-│   │   └── Dashboard para profissionais
-│   │
-│   ├── client/
-│   │   └── Área do cliente
-│   │
-│   └── site/
-│       └── Landing page institucional
+│   └── admin/            # Dashboard para profissionais (app em produção)
 │
 ├── packages/
-│   ├── core/
-│   │   └── Regras de negócio
-│   │
-│   ├── auth/
-│   │   └── Autenticação
-│   │
-│   ├── validation/
-│   │   └── Schemas Zod
-│   │
-│   ├── database/
-│   │   └── Tipos e scripts SQL
-│   │
-│   └── ui/
-│       └── Componentes compartilhados
+│   ├── core/             # Regras de negócio (composição corporal, BMI, schemas)
+│   └── database/         # Cliente Supabase e tipos de dados
 │
-└── package.json
+├── supabase/             # Edge functions e configuração do backend (BaaS)
+└── package.json          # npm workspaces
 ```
 
 ---
@@ -253,13 +235,12 @@ Evidencia visual do cliente com indicadores atualizados nos cards/lista:
 
 ## Métricas do Projeto
 
-* 3 aplicações independentes
-* 5 pacotes compartilhados
-* Deploy em produção
+* App administrativo em produção
+* Pacotes compartilhados de domínio (core) e dados (database)
 * Multiusuário
 * Controle de acesso por perfil
-* Banco de dados PostgreSQL
-* Arquitetura monorepo
+* Banco de dados PostgreSQL (Supabase)
+* Arquitetura monorepo (npm workspaces)
 
 ---
 
