@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChevronDown, Edit2, Trash2, FileText, BarChart3 } from 'lucide-react'
 import jsPDF from 'jspdf'
-import 'jspdf-autotable'
+import { autoTable } from 'jspdf-autotable'
 import { Chart, registerables } from 'chart.js'
 import { Button } from '@/components/ui/button'
 import { CheckboxComponent } from '@/components/ui/checkbox'
@@ -10,9 +10,8 @@ import type { Avaliacao } from '@/services/avaliacoes/avaliacoes.service'
 
 Chart.register(...registerables)
 
-/** Extended jsPDF type with autoTable plugin methods and properties */
+/** jsPDF augmented with the autoTable result property (finalY of the last table). */
 type jsPDFWithAutoTable = jsPDF & {
-  autoTable: (options: Record<string, unknown>) => void
   lastAutoTable: { finalY: number }
 }
 
@@ -215,7 +214,7 @@ async function renderSingleEvaluationSummary(doc: jsPDFWithAutoTable, avaliacao:
   doc.text('DADOS PRINCIPAIS', margin, yPosition)
   yPosition += 6
 
-  doc.autoTable({
+  autoTable(doc, {
     head: [['Métrica', 'Valor', 'Métrica', 'Valor']],
     body: [
       ['Peso', `${avaliacao.peso.toFixed(2)} kg`, 'Altura', avaliacao.altura ? `${avaliacao.altura.toFixed(1)} cm` : 'N/A'],
@@ -239,7 +238,7 @@ async function renderSingleEvaluationSummary(doc: jsPDFWithAutoTable, avaliacao:
   doc.text('DOBRAS CUT�NEAS (mm)', margin, yPosition)
   yPosition += 6
 
-  doc.autoTable({
+  autoTable(doc, {
     head: [['Local', 'Valor', 'Local', 'Valor', 'Local', 'Valor']],
     body: [
       ['Peitoral', avaliacao.peitoral.toFixed(1), 'Axilar Média', avaliacao.axilarMedia.toFixed(1), 'Suprailíaca', avaliacao.suprailiaca.toFixed(1)],
@@ -291,7 +290,7 @@ async function renderSingleEvaluationSummary(doc: jsPDFWithAutoTable, avaliacao:
         ])
       }
 
-      doc.autoTable({
+      autoTable(doc, {
         head: [['Medida', 'Valor', 'Medida', 'Valor']],
         body: tableDataSimples,
         startY: yPosition,
@@ -309,7 +308,7 @@ async function renderSingleEvaluationSummary(doc: jsPDFWithAutoTable, avaliacao:
     if (medidasPares.length > 0) {
       const tableDataPares = medidasPares.map((row) => [row[0], row[1], row[2]])
 
-      doc.autoTable({
+      autoTable(doc, {
         head: [['Medida', 'Direita', 'Esquerda']],
         body: tableDataPares,
         startY: yPosition,
@@ -548,7 +547,7 @@ async function renderComparativePdf(
       avaliacao.altura ? (avaliacao.peso / ((avaliacao.altura / 100) ** 2)).toFixed(2) : 'N/A',
     ])
 
-    doc.autoTable({
+    autoTable(doc, {
       head: [['Data', 'Peso (kg)', 'Gordura %', 'M. Magra (kg)', 'M. Gorda (kg)', 'Altura (cm)', 'IMC']],
       body: tableData,
       startY: yPosition,
@@ -593,7 +592,7 @@ async function renderComparativePdf(
       avaliacao.triceps.toFixed(1),
     ])
 
-    doc.autoTable({
+    autoTable(doc, {
       head: [['Data', 'Peitoral', 'Abdominal', 'Coxa', 'Axilar', 'Subesc.', 'Suprailíaca', 'Tríceps']],
       body: dobraTableData,
       startY: yPosition,
