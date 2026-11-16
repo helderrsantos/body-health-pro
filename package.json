@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npm run dev -w admin",
     "dev:admin": "npm run dev -w admin",
-    "build": "npm -w admin run build",
+    "build": "npm -w admin run build && node -e \"require('fs').cpSync('apps/admin/dist', 'dist', { recursive: true, force: true })\"",
     "test": "npm run test --workspaces --if-present",
     "test:coverage": "npm run test:coverage --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
